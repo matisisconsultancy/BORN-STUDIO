@@ -1,72 +1,59 @@
 # BORN Studio — Identidad de marca
 
-Sitio estático de identidad de marca para **BORN Studio**, un *Full Service
-Apparel Development Studio*. Primera traducción visual del brief estratégico
-cerrado por Matisis Consultancy (Julio 2026).
+Landing page / brand book de **BORN Studio**, un *Full Service Apparel Development Studio*.
 
 > **Sketched. Stitched. BORN.** — *From idea to life.*
 
-## Principio de diseño
+`index.html` es una **página estática autónoma** (todas las fuentes van embebidas como
+data-URI; CSS y JS en línea). No necesita build ni dependencias: se puede abrir
+directamente o servir desde cualquier hosting estático.
 
-El encargo pedía una página **visualmente tan impactante que el logotipo se
-vuelva un factor secundario**. La marca la carga el sistema, no el logo: el
-master claim funciona como héroe tipográfico y la palabra **BORN** se repite
-como elemento gráfico central en cada sección.
+## El concepto
 
-La dirección visual es una mezcla de las rutas *editorial-de-moda* y *casa de
-moda emergente* del brief. Se evitan deliberadamente las dos anti-referencias:
-la estética fría de agencia de branding (grid mínimo, sans fría, mucho blanco)
-y la estética literal de fábrica textil (azules corporativos, retículas
-industriales).
+El logotipo **es** el proceso. Cada letra de **BORN** vive una fase del oficio:
 
-## Sistema visual
+| Estado | Letra | Lenguaje |
+|---|---|---|
+| **Sketched** | B | contorno a lápiz |
+| **Stitched** | O | pespunte / hilo |
+| **Inked** | R | sólido |
+| **BORN** | N | nace en color |
 
-| Elemento | Decisión |
-|---|---|
-| **Tipografía display / cuerpo** | Fraunces (serif variable, editorial y cálida, *con criterio*) |
-| **Tipografía técnica** | IBM Plex Mono — labels, specs y registro *tech-pack* |
-| **Paleta** | Papel/hueso cálido, tinta cálida casi negra, un solo acento fuerte: el **rojo hilo** (`#D1442A`) |
-| **Motivo** | Pespunte (*running stitch*) — línea punteada roja que subraya BORN y marca el progreso de scroll |
-| **Ritmo** | Secciones en papel alternadas con secciones invertidas (journey y sello) para dar cadencia de revista |
+El boceto empieza en blanco y negro y **cobra vida con color** — de ahí la paleta:
+grafito monocromo → **rojo Valentino**. En el hero, el wordmark se anima al cargar
+recorriendo los cuatro estados hasta asentarse en la firma.
 
-Todos los atributos del brief se leen al primer vistazo: **editorial**,
-**artesanal sin ser rústico**, **bilingüe con precisión** (inglés para los
-artefactos de marca, español para la prosa), **con temperatura** y **con
-criterio**.
+## Sistema
 
-## Contenido
+- **Tipografía:** Didot (código Vogue) para el wordmark; Bodoni Moda en display,
+  Cormorant en subtítulos, Jost en cuerpo, Space Mono para el registro técnico.
+- **Color:** marfil `#F2EEE6`, tinta `#1B1720`, grafitos, y **Rojo Valentino
+  `#C4122E` (Pantone 3546 C)**.
+- **Isotipo:** la **B** de cuatro estados (animada) para favicon, avatar y sello.
+- **Sistema por fases:** cada fase del servicio comunica en su estado (sketch /
+  stitch / born).
 
-La página recorre la arquitectura de marca del brief:
+El documento recorre 14 capítulos: la marca, origen, posicionamiento, esencia,
+arquitectura verbal, voz, **logotipo** (lockups e isotipo), **color**,
+**tipografía**, sistema por fases, aplicaciones, journey, el sello y guardrails.
 
-1. **Hero** — master claim + promesa
-2. **La esencia** — el insight fundacional (estudio de fábrica que hace diseño)
-3. **El oficio en tres tiempos** — Sketched · Stitched · BORN
-4. **Los tres filtros** — viabilidad técnica · optimización de costos · usabilidad real
-5. **El journey** — Fase 01 / 02 / 03, modular, estilo tech-pack
-6. **Quién habla** — arquetipo Creator + Caregiver y atributos de tono
-7. **El sello** — sistema léxico (*…to be BORN*)
-
-## Estructura
-
-```
-.
-├── index.html          # Página completa (una sola vista)
-├── css/styles.css      # Sistema visual y tokens de diseño
-├── js/main.js          # Reveal on scroll, hero y progreso (sin dependencias)
-└── assets/favicon.svg
-```
-
-## Desarrollo
-
-Es un sitio estático puro. Cualquier servidor de archivos sirve:
+## Uso
 
 ```bash
-python3 -m http.server 8000
-# → http://localhost:8000
+# abrir directamente
+open index.html
+# o servir en local
+python3 -m http.server 8000    # → http://localhost:8000
 ```
 
-Las fuentes se cargan desde Google Fonts con una pila de fallback serif/mono,
-de modo que el layout se sostiene aunque la red falle.
+Para publicar: sube `index.html` a cualquier hosting estático (GitHub Pages,
+Netlify, Vercel…). Al ser un único archivo autónomo, no hay pasos de build.
+
+### Notas de licencia
+- La tipografía del wordmark usa **GFS Didot** (revival libre de Didot); la de
+  Vogue es un Didot propietario. Si se dispone del archivo licenciado, se sustituye 1:1.
+- El **Rojo Valentino** se aproxima con el hex de pantalla de Pantone 3546 C; para
+  impresión, usar el valor Pantone directo.
 
 ---
 
