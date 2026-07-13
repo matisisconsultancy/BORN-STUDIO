@@ -25,8 +25,9 @@ recorriendo los cuatro estados hasta asentarse en la firma.
 
 ## Sistema
 
-- **Tipografía:** Didot (código Vogue) para el wordmark; Bodoni Moda en display,
-  Cormorant en subtítulos, Jost en cuerpo, Space Mono para el registro técnico.
+- **Tipografía:** tres familias — **Bodoni Moda** (display y subtítulos, Didone),
+  **Jost** (cuerpo) y **Space Mono** (registro técnico); más **Didot** (código Vogue)
+  reservado al wordmark.
 - **Color:** marfil `#F2EEE6`, tinta `#1B1720`, grafitos, y **Rojo Valentino
   `#C4122E` (Pantone 3546 C)**.
 - **Isotipo:** la **B** de cuatro estados (animada) para favicon, avatar y sello.
