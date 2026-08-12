@@ -173,8 +173,13 @@ html=html.replace(anchor, BLOCK+anchor,1)
 open(IDX,"w",encoding="utf-8").write(html)
 
 # ---- emit artifact body form ---------------------------------------------
+# NOTE: the exploration iframe srcdoc embeds all of logos.html, which contains
+# its OWN literal </style> and </body>. The head <style> is the FIRST style and
+# closes before the srcdoc (non-greedy is correct). The real </body> is the LAST
+# one in the file, so the body match MUST be greedy or it truncates the doc
+# (dropping the footer and the reveal script -> a blank-looking page).
 style=re.search(r'(<style>.*?</style>)',html,re.S).group(1)
-body=re.search(r'<body>(.*?)</body>',html,re.S).group(1)
+body=re.search(r'<body>(.*)</body>',html,re.S).group(1)   # greedy: last </body>
 art="<title>BORN Studio &mdash; Brand Book</title>\n"+style+"\n"+body
 open("tools/_work/artifact.html","w",encoding="utf-8").write(art)
 
