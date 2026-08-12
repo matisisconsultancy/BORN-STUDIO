@@ -83,7 +83,8 @@ FAVICON=("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewB
 CSS = ROOT + r"""
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;transition:background-color .9s var(--ease)}
+body.red-zone{background:var(--red)}
 img,svg,video{display:block;max-width:100%}
 a{color:inherit}
 .wrap{max-width:1140px;margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem)}
@@ -204,16 +205,20 @@ html.js:not(.reduce) .rv:not(.in){opacity:0;transform:translateY(24px)}
 .seal{background:var(--red);color:var(--paper);border-radius:16px;padding:clamp(2rem,6vw,3.6rem);text-align:center;margin-top:clamp(2.6rem,6vw,4rem)}
 .seal h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.05}
 .seal p{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-top:.9rem;opacity:.85}
-/* footer — the page transforms to red as you reach it (idea -> life) */
-.foot{position:relative;color:var(--paper);text-align:center;overflow:hidden;border:0;width:100%;min-height:90vh;
+/* footer — the whole page background transitions to red as you reach it */
+.foot{position:relative;color:var(--paper);text-align:center;overflow:hidden;border:0;width:100%;min-height:96vh;background:transparent;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3rem;
-  padding:clamp(3rem,10vw,7rem) clamp(1.25rem,6vw,3rem);
-  background:linear-gradient(to bottom,var(--paper) 0%,var(--red) 26%,var(--red) 100%)}
+  padding:clamp(3rem,10vw,7rem) clamp(1.25rem,6vw,3rem)}
 .foot .fkick{font-family:var(--mono);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,238,230,.72)}
 .foot .fm{width:min(460px,76%);margin:0 auto}
 .foot .fm svg{width:100%;height:auto}
-.foot .fdot{width:clamp(30px,6vw,56px);height:clamp(30px,6vw,56px);border-radius:50%;background:var(--paper);margin:.3rem auto 0;animation:beat 2.4s var(--ease) infinite}
+.foot .fdot{width:clamp(30px,6vw,56px);height:clamp(30px,6vw,56px);border-radius:50%;background:var(--paper);margin:.3rem auto 0}
+.foot.lit .fdot{animation:beat 2.4s var(--ease) infinite}
 .foot .fcredit{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:rgba(242,238,230,.82);line-height:1.95;margin-top:.5rem}
+/* footer content fades in once the red background has settled */
+html.js:not(.reduce) .foot>*{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+html.js:not(.reduce) .foot.lit>*{opacity:1;transform:none}
+.foot.lit .fm{transition-delay:.1s}.foot.lit .fdot{transition-delay:.22s}.foot.lit .fcredit{transition-delay:.32s}
 @media(prefers-reduced-motion:reduce){.foot .fdot{animation:none}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;padding:.6rem 1rem;border-radius:8px;pointer-events:none;transition:.3s;z-index:60}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -687,12 +692,13 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
    if(reduce||seen){pl.classList.add('hide');}else{playPreload();try{sessionStorage.setItem('born_seen','1');}catch(e){}}}
  var replayBtn=document.getElementById('replayBtn');
  if(replayBtn)replayBtn.addEventListener('click',function(){if(pl){pl.classList.remove('hide');playPreload();}});
- // ---- the page turns red as the footer fills the screen ----
+ // ---- the whole page background transitions to red as you reach the footer ----
  var foot=document.querySelector('.foot');
  if(foot&&'IntersectionObserver' in window){
    new IntersectionObserver(function(es){es.forEach(function(e){
-     document.body.classList.toggle('red-zone',e.intersectionRatio>=.34);});},
-     {threshold:[0,.34,.7]}).observe(foot);}
+     document.body.classList.toggle('red-zone',e.isIntersecting);   // bg + chrome turn red (leads)
+     foot.classList.toggle('lit',e.intersectionRatio>=.5);          // content fades in on the red
+   });},{rootMargin:'0px 0px 14% 0px',threshold:[0,.5]}).observe(foot);}
  var RVSEL='.kicker,.h1,.h2,.lede,.prose,.card,.spec,.stage,.stagex,.sw,.ki,.phase,.fullred,.dl-grid,.motion,.animbox';
  var io=(!reduce&&'IntersectionObserver' in window)?new IntersectionObserver(function(es){
    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
