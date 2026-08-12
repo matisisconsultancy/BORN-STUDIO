@@ -234,6 +234,56 @@ a{color:inherit}
 .p-st{stroke:var(--ink);stroke-linejoin:round}
 .p-ink{fill:var(--ink)}
 .p-bo{fill:var(--red)}
+/* ================= impact & interaction — Rojo Valentino ================= */
+html{overflow-x:hidden}
+/* active tab + hover go red */
+.tab:hover{color:var(--red)}
+.tab[aria-selected=true],.tab[aria-selected=true]:hover{background:var(--red);color:var(--paper)}
+/* red cursor companion (desktop pointers only) */
+.rdot{position:fixed;top:0;left:0;width:11px;height:11px;border-radius:50%;background:var(--red);
+  pointer-events:none;z-index:95;opacity:0;transition:opacity .3s,width .25s var(--ease),height .25s var(--ease),background .25s}
+.rdot.big{width:44px;height:44px;background:rgba(196,18,46,.16);border:1.5px solid var(--red)}
+@media (hover:none),(pointer:coarse){.rdot{display:none}}
+/* red curtain page transition */
+.curtain{position:fixed;inset:0;z-index:120;background:var(--red);transform:translateX(-100%);
+  pointer-events:none;display:flex;align-items:center;justify-content:center;will-change:transform}
+.curtain.show{pointer-events:auto}
+.curtain .cmark{width:min(340px,64vw);opacity:0;transition:opacity .28s ease}
+.curtain.show .cmark{opacity:1}
+@media(prefers-reduced-motion:reduce){.curtain{display:none!important}}
+/* hero red glow + replay affordance */
+.hero{position:relative;cursor:default}
+.hero::before{content:"";position:absolute;left:50%;top:52%;width:min(720px,92%);height:clamp(220px,40vw,420px);
+  transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,rgba(196,18,46,.16),transparent 68%);
+  pointer-events:none;z-index:-1;animation:glow 6s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.6}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.hero::before{animation:none}}
+/* full-bleed red manifesto band */
+.fullred{position:relative;background:var(--red);color:var(--paper);text-align:center;overflow:hidden;
+  margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+  padding:clamp(3.4rem,10vw,7rem) clamp(1.25rem,6vw,3rem);margin-top:clamp(2.8rem,7vw,4.5rem)}
+.fullred .fr-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;opacity:.8;margin-bottom:1rem}
+.fullred h2{font-family:var(--serif);font-weight:900;font-size:clamp(2.4rem,9vw,6rem);line-height:.94;letter-spacing:-.02em;text-wrap:balance}
+.fullred h2 .op{color:rgba(242,238,230,.42)}
+.fullred .bigdot{width:clamp(38px,7vw,74px);height:clamp(38px,7vw,74px);border-radius:50%;background:var(--paper);margin:1.6rem auto 0;animation:beat 2.4s var(--ease) infinite}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+.fullred p.fr-s{font-family:var(--mono);font-size:clamp(.68rem,1.6vw,.86rem);letter-spacing:.18em;text-transform:uppercase;margin-top:1.4rem;opacity:.85}
+@media(prefers-reduced-motion:reduce){.fullred .bigdot{animation:none}}
+/* interactive stage explorer */
+.stagex{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper-2);margin-top:1.4rem}
+.stagex__disp{display:grid;place-items:center;padding:clamp(2rem,7vw,4.6rem);min-height:clamp(150px,28vw,300px);background:var(--paper);position:relative}
+.stagex__disp .sx{grid-area:1/1;width:min(640px,88%);opacity:0;transform:scale(.98);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.stagex__disp .sx.on{opacity:1;transform:none}
+.stagex__disp .sx svg{width:100%;height:auto}
+.stagex__chips{display:flex;flex-wrap:wrap;gap:.55rem;padding:1rem clamp(1rem,3vw,1.6rem);border-top:1px solid var(--line);align-items:center}
+.chip{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:.55rem 1.05rem;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--red);color:var(--red)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip__auto{margin-left:auto;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--g3)}
+/* red accents on cards / specs */
+.card:hover{border-color:rgba(196,18,46,.45)}
+.spec:hover .meta{color:var(--red)}
+.lede .r,.hero .claim .r{color:var(--red)}
 """
 
 # ------------------------------------------------------------------ helpers --
@@ -315,6 +365,13 @@ brand = f"""
    </div>
    <p class="muted" style="margin-top:1.1rem">Tone &middot; Direct &middot; Warm &middot; Editorial &middot; Bilingual &middot; Precise &middot; With judgment</p>
  </div>
+
+ <div class="fullred">
+   <p class="fr-k">The promise</p>
+   <h2>From idea<br>to <span class="op">life</span><span style="color:var(--paper)">.</span></h2>
+   <div class="bigdot"></div>
+   <p class="fr-s">The client hands over an idea &middot; BORN hands back life</p>
+ </div>
 </section>"""
 
 # ------------------------------------------------------------------ LOGO ------
@@ -337,13 +394,22 @@ logo = f"""
  </div>
 
  <div class="sec sec--line">
-   <p class="eyebrow">The mark by stage</p>
-   <p class="prose" style="margin-bottom:1.4rem">The wordmark lives each phase of the craft. Use the matching stage for the matching moment of the project &mdash; sketched for the brief, stitched for development, inked and BORN for production.</p>
-   <div class="grid g4">
-     <div>{stage(SVG['state_sketch'])}{capt('Sketched','Brief','Pencil construction outline.')}</div>
-     <div>{stage(SVG['state_stitch'])}{capt('Stitched','Development','Topstitch hatch.')}</div>
-     <div>{stage(SVG['state_ink'])}{capt('Inked','Pre-production','Solid, defined.')}</div>
-     <div>{stage(SVG['state_born'])}{capt('BORN','Production','Alive, in color.')}</div>
+   <p class="eyebrow">The mark by stage &mdash; tap to explore</p>
+   <p class="prose" style="margin-bottom:1.4rem">The wordmark lives each phase of the craft. Tap a state and watch it transform &mdash; sketched for the brief, stitched for development, inked and BORN for production.</p>
+   <div class="stagex">
+     <div class="stagex__disp">
+       <div class="sx" data-s="sketch">{SVG['state_sketch']}</div>
+       <div class="sx" data-s="stitch">{SVG['state_stitch']}</div>
+       <div class="sx" data-s="ink">{SVG['state_ink']}</div>
+       <div class="sx" data-s="born">{SVG['state_born']}</div>
+     </div>
+     <div class="stagex__chips">
+       <button class="chip" data-s="sketch">Sketched</button>
+       <button class="chip" data-s="stitch">Stitched</button>
+       <button class="chip" data-s="ink">Inked</button>
+       <button class="chip" data-s="born">BORN</button>
+       <span class="chip__auto" data-auto>Auto &#9654;</span>
+     </div>
    </div>
  </div>
 
@@ -453,9 +519,11 @@ apps = f"""
    </div>
  </div>
 
- <div class="seal">
-   <h2>Everything is made to be BORN</h2>
-   <p>Sketched to be BORN &middot; Stitched to be BORN &middot; Made to be BORN</p>
+ <div class="fullred">
+   <p class="fr-k">The seal</p>
+   <h2>Everything is made<br>to be <span class="op">B</span>OR<span class="op">N</span></h2>
+   <div class="bigdot"></div>
+   <p class="fr-s">Sketched to be BORN &middot; Stitched to be BORN &middot; Made to be BORN</p>
  </div>
 </section>"""
 
@@ -530,14 +598,40 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
    explOpen(f);});
  function explOpen(f){try{var b=new Blob([f.getAttribute('srcdoc')],{type:'text/html'});var u=URL.createObjectURL(b);
    if(!window.open(u,'_blank')){location.href=u;}setTimeout(function(){URL.revokeObjectURL(u);},60000);}catch(e){}}
- // ---- tabs ----
+ // ---- tabs + red curtain transition ----
  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
  var panels=[].slice.call(document.querySelectorAll('.panel'));
+ var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ var curtain=document.querySelector('.curtain');
  function show(k){tabs.forEach(function(t){t.setAttribute('aria-selected',t.dataset.tab===k?'true':'false');});
    panels.forEach(function(p){p.classList.toggle('active',p.id==='p-'+k);});window.scrollTo(0,0);
    if(history.replaceState)history.replaceState(null,'','#'+k);}
- document.body.addEventListener('click',function(e){var el=e.target.closest('[data-tab]');if(!el)return;e.preventDefault();show(el.dataset.tab);});
+ function go(k){var cur=document.querySelector('.panel.active');
+   if(reduce||!curtain||(cur&&cur.id==='p-'+k)){show(k);return;}
+   curtain.style.transition='none';curtain.style.transform='translateX(-100%)';curtain.classList.add('show');
+   requestAnimationFrame(function(){curtain.style.transition='transform .42s cubic-bezier(.76,0,.24,1)';curtain.style.transform='translateX(0)';
+     setTimeout(function(){show(k);curtain.style.transform='translateX(100%)';
+       setTimeout(function(){curtain.style.transition='none';curtain.style.transform='translateX(-100%)';curtain.classList.remove('show');},440);},410);});}
+ document.body.addEventListener('click',function(e){var el=e.target.closest('[data-tab]');if(!el)return;e.preventDefault();go(el.dataset.tab);});
  var start=(location.hash||'').replace('#','');if(start&&document.getElementById('p-'+start))show(start);
+ // ---- interactive stage explorer ----
+ document.querySelectorAll('.stagex').forEach(function(sx){
+   var slides=[].slice.call(sx.querySelectorAll('.sx')),chips=[].slice.call(sx.querySelectorAll('.chip[data-s]'));
+   var auto=sx.querySelector('[data-auto]'),order=['sketch','stitch','ink','born'],i=0,timer=null;
+   function set(s){slides.forEach(function(sl){sl.classList.toggle('on',sl.getAttribute('data-s')===s);});
+     chips.forEach(function(c){c.setAttribute('aria-pressed',c.getAttribute('data-s')===s?'true':'false');});i=order.indexOf(s);}
+   function stop(){if(timer){clearInterval(timer);timer=null;if(auto)auto.style.display='none';}}
+   chips.forEach(function(c){c.addEventListener('click',function(){stop();set(c.getAttribute('data-s'));});});
+   set('sketch');timer=setInterval(function(){i=(i+1)%order.length;set(order[i]);},1700);});
+ // ---- red cursor companion (fine pointers) ----
+ var rdot=document.querySelector('.rdot');
+ if(rdot&&matchMedia('(hover:hover) and (pointer:fine)').matches){
+   var tx=innerWidth/2,ty=innerHeight/2,rx=tx,ry=ty;
+   addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;rdot.style.opacity='.9';});
+   addEventListener('mouseout',function(e){if(!e.relatedTarget)rdot.style.opacity='0';});
+   document.addEventListener('mouseover',function(e){rdot.classList.toggle('big',!!e.target.closest('a,button,.card,.sw,.chip,.stage,.ki'));});
+   (function loop(){rx+=(tx-rx)*.2;ry+=(ty-ry)*.2;rdot.style.left=rx+'px';rdot.style.top=ry+'px';rdot.style.transform='translate(-50%,-50%)';requestAnimationFrame(loop);})();
+ }
  // ---- copy hex ----
  var toast=document.querySelector('.toast');
  function tst(m){if(!toast)return;toast.textContent=m;toast.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){toast.classList.remove('on');},1400);}
@@ -548,8 +642,9 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
  addEventListener('scroll',function(){var d=document.documentElement,s=d.scrollHeight-d.clientHeight;bar.style.width=(s>0?(d.scrollTop/s*100):0)+'%';},{passive:true});
 })();</script>"""
 
+CURTAIN = '<div class="curtain" aria-hidden="true"><div class="cmark">'+SVG['wm_solo_onred']+'</div></div><div class="rdot" aria-hidden="true"></div>'
 body = (DEFS + header + '<main class="wrap">'+brand+logo+color+typo+apps+desc+expl+'</main>'
-        + footer + '<div class="toast" role="status"></div>' + JS)
+        + footer + '<div class="toast" role="status"></div>' + CURTAIN + JS)
 head = "<style>\n"+FONTS+"\n"+CSS+"\n</style>"
 
 artifact = "<title>BORN Studio &mdash; Brand Book</title>\n"+head+"\n"+body
