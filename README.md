@@ -34,9 +34,46 @@ recorriendo los cuatro estados hasta asentarse en la firma.
 - **Sistema por fases:** cada fase del servicio comunica en su estado (sketch /
   stitch / born).
 
-El documento recorre 14 capítulos: la marca, origen, posicionamiento, esencia,
+El documento recorre 17 capítulos: la marca, origen, posicionamiento, esencia,
 arquitectura verbal, voz, **logotipo** (lockups e isotipo), **color**,
-**tipografía**, sistema por fases, aplicaciones, journey, el sello y guardrails.
+**tipografía**, sistema por fases, aplicaciones, journey, el sello, guardrails,
+**logo final**, **kit de descarga** y el tablero de **exploración**.
+
+## Logo final (la decisión)
+
+La marca se resuelve en la **doble exposición**: la palabra **BORN** en negro con su
+**proceso-fantasma** (el boceto de construcción) detrás, cerrada con el **punto rojo** —
+lo único que nace en color. El sistema:
+
+- **Lockup principal** — `BORN` + punto + *From idea to life*, con el boceto detrás.
+- **Variantes** — sin slogan, `BORN` solo (reducida), y eco rojo (líneas del proceso en rojo) con/sin slogan.
+- **Isotipo** — la **B** en tres registros: **negativo** (principal, el más *catchy*),
+  **construcción** (sketch, para tech packs y etapas de desarrollo) y **doble exposición** (alterno).
+- **Firmas en movimiento** — *Ensamblaje* (el boceto se dibuja y se ensambla) y *Barrida*
+  (el sketch se imprime letra a letra y cae el punto rojo).
+
+## Kit de descarga (`assets/logos/`)
+
+Todos los archivos viven embebidos en el brandbook (descarga con un clic) **y** como
+archivos sueltos en `assets/logos/`:
+
+- **Logos e isotipos** — PNG de alta resolución (2700–4800 px), fondo transparente.
+- **Animaciones** — `MP4` (H.264, universal) y `WebM` (VP9), loop de 1600×600, con póster.
+
+### Pipeline reproducible (`tools/`)
+
+Los assets se derivan del artefacto aprobado (`logos.html`), sin dependencias de build permanentes:
+
+```bash
+python3 tools/extract_logos.py   # extrae SVGs/estilos elegidos -> tools/_work/
+node    tools/render_png.cjs      # SVGs -> PNG alta resolución (Chromium)
+node    tools/record_anim.cjs     # anima -> frames deterministas (Chromium)
+# frames -> MP4/WebM/póster con el ffmpeg de imageio-ffmpeg
+python3 tools/build_kit.py        # inyecta 'Logo final' + 'Kit de descarga' en index.html
+```
+
+Requiere Chromium (Playwright), `pillow` e `imageio-ffmpeg`. `tools/_work/` es intermedio
+regenerable (no versionado).
 
 ## Uso
 
