@@ -306,6 +306,28 @@ html{overflow-x:hidden}
 .card:hover{border-color:rgba(196,18,46,.45)}
 .spec:hover .meta{color:var(--red)}
 .lede .r,.hero .claim .r{color:var(--red)}
+/* ===== preloader: the process becomes a finished product (idea -> life) ===== */
+#preload{position:fixed;inset:0;z-index:200;background:var(--paper);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.5rem;overflow:hidden;
+  transition:transform .85s cubic-bezier(.76,0,.24,1)}
+#preload.hide{display:none}
+#preload.done{transform:translateY(-102%)}
+.pl-mark{position:relative;width:min(560px,82vw);display:grid;place-items:center;z-index:1}
+.pl-s{grid-area:1/1;width:100%;opacity:0;transform:scale(.985);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.pl-s.on{opacity:1;transform:none}
+.pl-s svg{width:100%;height:auto}
+.pl-cap{font-family:var(--mono);font-size:clamp(.62rem,1.5vw,.76rem);letter-spacing:.34em;text-transform:uppercase;color:var(--g3);z-index:1;transition:color .45s}
+.pl-flood{position:absolute;top:50%;left:54%;width:24px;height:24px;border-radius:50%;background:var(--red);
+  transform:translate(-50%,-50%) scale(0);z-index:0}
+#preload.flood .pl-flood{transform:translate(-50%,-50%) scale(170);transition:transform .9s cubic-bezier(.65,0,.35,1)}
+#preload.flood .pl-cap{color:var(--paper)}
+@media(prefers-reduced-motion:reduce){#preload{display:none}}
+/* hero replay control */
+.replaybtn{margin-top:1.7rem;font-family:var(--mono);font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink);background:none;border:1px solid var(--line);border-radius:24px;padding:.62rem 1.25rem;cursor:pointer;
+  transition:background .25s,color .25s,border-color .25s,transform .12s var(--ease)}
+.replaybtn:hover{background:var(--red);color:var(--paper);border-color:var(--red)}
+.replaybtn:active{transform:scale(.96)}
 """
 
 # ------------------------------------------------------------------ helpers --
@@ -324,6 +346,7 @@ brand = f"""
    <p class="claim">Sketched. Stitched. <span class="r">BORN.</span></p>
    <p class="tag">From idea to life</p>
    <p class="hint">The mark builds itself &mdash; sketch, then ink, then the red dot is born</p>
+   <button class="replaybtn" id="replayBtn" type="button">&#9654;&nbsp;&nbsp;Watch it come to life</button>
  </div>
 
  <div class="sec sec--line">
@@ -624,6 +647,22 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
  // ---- progressive-enhancement flags + staggered scroll-reveal ----
  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
  var root=document.documentElement; root.classList.add('js'); if(reduce)root.classList.add('reduce');
+ // ---- preloader: Sketched -> Stitched -> Inked -> BORN, then a red flood (idea -> life) ----
+ var pl=document.getElementById('preload'),plNames=['Sketched','Stitched','Inked','BORN'];
+ function playPreload(){if(!pl)return;var slides=[].slice.call(pl.querySelectorAll('.pl-s')),cap=pl.querySelector('.pl-cap');
+   if(pl._t)pl._t.forEach(clearTimeout);pl._t=[];pl.classList.remove('hide','done','flood');
+   function s(i){slides.forEach(function(x){x.classList.toggle('on',+x.getAttribute('data-i')===i);});}
+   s(0);cap.textContent=plNames[0];
+   pl._t.push(setTimeout(function(){s(1);cap.textContent=plNames[1];},520));
+   pl._t.push(setTimeout(function(){s(2);cap.textContent=plNames[2];},1040));
+   pl._t.push(setTimeout(function(){s(3);cap.textContent=plNames[3];},1560));
+   pl._t.push(setTimeout(function(){pl.classList.add('flood');s(4);cap.textContent='From idea to life';},2200));
+   pl._t.push(setTimeout(function(){pl.classList.add('done');},3050));
+   pl._t.push(setTimeout(function(){pl.classList.add('hide');},3950));}
+ if(pl){var seen;try{seen=sessionStorage.getItem('born_seen');}catch(e){}
+   if(reduce||seen){pl.classList.add('hide');}else{playPreload();try{sessionStorage.setItem('born_seen','1');}catch(e){}}}
+ var replayBtn=document.getElementById('replayBtn');
+ if(replayBtn)replayBtn.addEventListener('click',function(){if(pl){pl.classList.remove('hide');playPreload();}});
  var RVSEL='.kicker,.h1,.h2,.lede,.prose,.card,.spec,.stage,.stagex,.sw,.ki,.phase,.fullred,.dl-grid,.motion,.animbox';
  var io=(!reduce&&'IntersectionObserver' in window)?new IntersectionObserver(function(es){
    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
@@ -679,7 +718,14 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
 })();</script>"""
 
 OVERLAYS = '<div class="sweepline" aria-hidden="true"></div><div class="rdot" aria-hidden="true"></div>'
-body = (DEFS + header + '<main class="wrap">'+brand+logo+color+typo+apps+desc+expl+'</main>'
+PRELOAD = ('<div id="preload" aria-hidden="true"><div class="pl-mark">'
+  '<div class="pl-s" data-i="0">'+SVG['state_sketch']+'</div>'
+  '<div class="pl-s" data-i="1">'+SVG['state_stitch']+'</div>'
+  '<div class="pl-s" data-i="2">'+SVG['state_ink']+'</div>'
+  '<div class="pl-s" data-i="3">'+SVG['state_born']+'</div>'
+  '<div class="pl-s pl-cream" data-i="4">'+SVG['wm_solo_onred']+'</div>'
+  '</div><div class="pl-cap">Sketched</div><div class="pl-flood"></div></div>')
+body = (PRELOAD + DEFS + header + '<main class="wrap">'+brand+logo+color+typo+apps+desc+expl+'</main>'
         + footer + '<div class="toast" role="status"></div>' + OVERLAYS + JS)
 head = "<style>\n"+FONTS+"\n"+CSS+"\n</style>"
 
