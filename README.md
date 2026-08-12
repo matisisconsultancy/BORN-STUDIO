@@ -8,6 +8,10 @@ Landing page / brand book de **BORN Studio**, un *Full Service Apparel Developme
 data-URI; CSS y JS en línea). No necesita build ni dependencias: se puede abrir
 directamente o servir desde cualquier hosting estático.
 
+Está organizada en **pestañas**: **Marca · Logo · Color · Tipografía · Aplicaciones ·
+Descargas**. El logo final (doble exposición) se aplica de forma consistente en el
+header, el footer y el favicon.
+
 ## El concepto
 
 El logotipo **es** el proceso. Cada letra de **BORN** vive una fase del oficio:
@@ -69,11 +73,12 @@ python3 tools/extract_logos.py   # extrae SVGs/estilos elegidos -> tools/_work/
 node    tools/render_png.cjs      # SVGs -> PNG alta resolución (Chromium)
 node    tools/record_anim.cjs     # anima -> frames deterministas (Chromium)
 # frames -> MP4/WebM/póster con el ffmpeg de imageio-ffmpeg
-python3 tools/build_kit.py        # inyecta 'Logo final' + 'Kit de descarga' en index.html
+python3 tools/build_book.py       # arma el brandbook con pestañas -> index.html
 ```
 
-Requiere Chromium (Playwright), `pillow` e `imageio-ffmpeg`. `tools/_work/` es intermedio
-regenerable (no versionado).
+`build_book.py` reúne fuentes, tokens, texto y los assets finales en una sola página
+con pestañas y descargas por enlace directo. Requiere Chromium (Playwright), `pillow` e
+`imageio-ffmpeg`. `tools/_work/` es intermedio regenerable (no versionado).
 
 ## Uso
 
