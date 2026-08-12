@@ -148,8 +148,10 @@ a{color:inherit}
 .ki__f{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g3)}
 .dls{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto}
 .dl{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);
-  background:var(--ink);border-radius:6px;padding:.55rem .85rem;text-decoration:none;transition:background .2s}
+  background:var(--ink);border-radius:6px;padding:.55rem .85rem;text-decoration:none;transition:background .2s,color .2s;cursor:pointer}
 .dl:hover{background:var(--red)}
+.dl--ghost{background:transparent;color:var(--g2);border:1px solid var(--line)}
+.dl--ghost:hover{background:var(--paper-3);color:var(--ink)}
 .note{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;color:var(--g3);line-height:1.6;margin-top:1.5rem}
 /* footer */
 .foot{border-top:1px solid var(--line);padding:clamp(2.4rem,6vw,4rem) 0;text-align:center}
@@ -376,12 +378,14 @@ def ki_png(key,title):
     elif key in REDBG: bg=' style="background:var(--red)"'
     return (f'<div class="ki"><div class="ki__p"{bg}><img alt="{title}" data-src="{key}"></div>'
       f'<div class="ki__m"><b>{title}</b><span class="ki__f">PNG &middot; transparente</span>'
-      f'<div class="dls"><a class="dl" href="{PNG[key]}" download="{DL[key]}">PNG</a></div></div></div>')
+      f'<div class="dls"><a class="dl" href="{PNG[key]}" download="{DL[key]}">Descargar PNG</a>'
+      f'<a class="dl dl--ghost" data-open="1" title="Abrir en pesta&ntilde;a nueva">Abrir</a></div></div></div>')
 def ki_vid(pref,title,dlm,dlw):
-    return (f'<div class="ki"><div class="ki__p"><video data-v="{pref}" muted loop playsinline preload="none"></video></div>'
+    return (f'<div class="ki"><div class="ki__p"><video data-v="{pref}" autoplay muted loop playsinline preload="metadata"></video></div>'
       f'<div class="ki__m"><b>{title}</b><span class="ki__f">Video &middot; 1600&times;600 &middot; loop</span>'
       f'<div class="dls"><a class="dl" data-dl="{pref}_mp4" download="{dlm}">MP4</a>'
-      f'<a class="dl" data-dl="{pref}_webm" download="{dlw}">WebM</a></div></div></div>')
+      f'<a class="dl" data-dl="{pref}_webm" download="{dlw}">WebM</a>'
+      f'<a class="dl dl--ghost" data-open="1" title="Abrir en pesta&ntilde;a nueva">Abrir</a></div></div></div>')
 DL={"wm_principal":"BORN-logo-principal.png","wm_sin_slogan":"BORN-logo-sin-slogan.png",
   "wm_solo":"BORN-logo-solo.png","wm_ecorojo_slogan":"BORN-logo-eco-rojo-slogan.png",
   "wm_ecorojo":"BORN-logo-eco-rojo.png","ic_negativo":"BORN-icono-negativo.png",
@@ -404,9 +408,9 @@ desc = f"""
 <section class="panel" id="p-desc" role="tabpanel" aria-labelledby="t-desc">
  <p class="kicker">Descargas</p>
  <h1 class="h1">Kit de marca</h1>
- <p class="lede" style="margin-top:1rem">Todos los archivos, listos para el equipo. Un clic descarga cada pieza &mdash; vive dentro de este documento.</p>
+ <p class="lede" style="margin-top:1rem">Todos los archivos, listos para el equipo. <b>Descargar</b> guarda la pieza en tu carpeta de Descargas; si tu navegador la bloquea, <b>Abrir</b> la muestra en una pesta&ntilde;a nueva para guardarla a mano.</p>
  <div class="sec"><div class="kit">{kit_items}</div>
- <p class="note">PNG de alta resoluci&oacute;n (2700&ndash;4800&nbsp;px), fondo transparente &mdash; sirven sobre cualquier color. Animaciones en MP4 (universal) y WebM. Para imprenta o bordado podemos exportar vectorial (SVG/PDF) desde estos mismos archivos.</p></div>
+ <p class="note">Las descargas van a la carpeta <b>Descargas</b> de tu dispositivo. PNG de alta resoluci&oacute;n (2700&ndash;4800&nbsp;px), fondo transparente &mdash; sirven sobre cualquier color. Animaciones en MP4 (universal) y WebM. Para imprenta o bordado podemos exportar vectorial (SVG/PDF) desde estos mismos archivos.</p></div>
 </section>"""
 
 # ---------------------------------------------------------------- EXPLORACION -
@@ -454,6 +458,25 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
    v.load(); var pr=v.play&&v.play(); if(pr&&pr.catch)pr.catch(function(){});
  });
  document.querySelectorAll('a[data-dl]').forEach(function(a){var u=V[a.getAttribute('data-dl')]; if(u)a.setAttribute('href',u);});
+ // ---- robust downloads: data-URI -> Blob object URL (avoids sandbox/size limits on data: links) ----
+ function toBlob(uri){var c=uri.split(','),m=(c[0].match(/:(.*?);/)||[])[1]||'application/octet-stream';
+   var b=atob(c[1]),n=b.length,u=new Uint8Array(n);while(n--)u[n]=b.charCodeAt(n);return new Blob([u],{type:m});}
+ function saveAs(uri,name){try{var url=URL.createObjectURL(toBlob(uri));var a=document.createElement('a');
+   a.href=url;a.download=name||'download';a.rel='noopener';document.body.appendChild(a);a.click();
+   setTimeout(function(){URL.revokeObjectURL(url);a.remove();},4000);return true;}catch(e){return false;}}
+ function openTab(uri){try{var url=URL.createObjectURL(toBlob(uri));var w=window.open(url,'_blank','noopener');
+   if(!w){var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
+   setTimeout(function(){URL.revokeObjectURL(url);},60000);return true;}catch(e){return false;}}
+ function uriFor(a){var u=a.getAttribute('href')||(a.getAttribute('data-dl')?V[a.getAttribute('data-dl')]:'');
+   if(u)return u; var sib=a.parentNode.querySelector('a.dl:not(.dl--ghost)');
+   return sib?(sib.getAttribute('href')||V[sib.getAttribute('data-dl')]||''):'';}
+ function nameFor(a){var n=a.getAttribute('download'); if(n)return n;
+   var sib=a.parentNode.querySelector('a.dl:not(.dl--ghost)'); return sib?sib.getAttribute('download'):'download';}
+ document.querySelectorAll('a.dl').forEach(function(a){a.addEventListener('click',function(e){
+   var uri=uriFor(a); if(!uri)return; e.preventDefault();
+   if(a.hasAttribute('data-open')){openTab(uri);return;}
+   if(!saveAs(uri,nameFor(a))) openTab(uri);
+ });});
  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
  var panels=[].slice.call(document.querySelectorAll('.panel'));
  function show(k){
