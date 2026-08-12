@@ -26,6 +26,33 @@ VID = {"ens_mp4":datauri(f"{A}/an_ensamblaje.mp4","video/mp4"),"ens_webm":dataur
        "bar_mp4":datauri(f"{A}/an_barrida.mp4","video/mp4"),"bar_webm":datauri(f"{A}/an_barrida.webm","video/webm")}
 EXPL_ESC = rd("logos.html").replace("&","&amp;").replace('"',"&quot;")
 
+# ---- pre-build the whole-kit ZIP and embed it as a data URI, so the "Download
+#      everything" button is a NATIVE <a download> (most compatible; works where
+#      JS-synthesised downloads are blocked by the artifact sandbox) -----------
+import io, zipfile
+def _build_zip():
+    groups={
+     "01-logos":[("wm_principal","BORN-logo-primary"),("wm_sin_slogan","BORN-logo-no-tagline"),
+       ("wm_solo","BORN-wordmark"),("wm_ecorojo_slogan","BORN-logo-red-echo-tagline"),("wm_ecorojo","BORN-logo-red-echo")],
+     "02-negatives":[("wm_principal_neg","BORN-logo-primary-negative"),("wm_solo_neg","BORN-wordmark-negative"),
+       ("wm_principal_onred","BORN-logo-primary-on-red"),("wm_solo_onred","BORN-wordmark-on-red")],
+     "03-stages":[("state_sketch","BORN-stage-sketched"),("state_stitch","BORN-stage-stitched"),
+       ("state_ink","BORN-stage-inked"),("state_born","BORN-stage-born")],
+     "04-icons":[("ic_negativo","BORN-icon-negative"),("ic_construccion","BORN-icon-construction"),
+       ("ic_doble","BORN-icon-double-exposure"),("ic_doble_red","BORN-icon-red")],
+    }
+    buf=io.BytesIO()
+    with zipfile.ZipFile(buf,"w",zipfile.ZIP_DEFLATED) as z:
+        for folder,items in groups.items():
+            for src,dst in items:
+                if os.path.exists(f"{A}/{src}.png"): z.write(f"{A}/{src}.png", f"{folder}/{dst}.png")
+                if os.path.exists(f"{S}/{src}.svg"): z.writestr(f"06-vector-svg/{dst}.svg", rd(f"{S}/{src}.svg"))
+        for src,dst in [("an_ensamblaje","BORN-assembly"),("an_barrida","BORN-sweep")]:
+            for ext in ["mp4","webm"]: z.write(f"{A}/{src}.{ext}", f"05-animations/{dst}.{ext}")
+        z.writestr("README.txt","BORN Studio - Brand Kit. Every stage logo carries the red dot.\nFrom idea to life.\n")
+    return "data:application/zip;base64,"+base64.b64encode(buf.getvalue()).decode("ascii")
+ZIP_URI=_build_zip()
+
 # download registry: key -> (nice filename, human title)
 KIT=[
  ("wm_principal","BORN-logo-primary.png","Primary logo"),
@@ -453,7 +480,7 @@ desc = f"""
  <p class="kicker">Downloads</p>
  <h1 class="h1">Brand kit</h1>
  <p class="lede" style="margin-top:1rem">Every file, ready for the team. <b>Download</b> saves the piece to your device; if your browser blocks it, <b>Open</b> shows it in a new tab to save by hand.</p>
- <div class="sec"><div class="dls" style="margin-bottom:.4rem"><a class="dl dl--big" id="dlall">&#8681; Download everything (ZIP)</a></div>
+ <div class="sec"><div class="dls" style="margin-bottom:.4rem"><a class="dl dl--big" href="{ZIP_URI}" download="BORN-Studio-Kit.zip">&#8681; Download everything (ZIP)</a></div>
  <div class="kit">{kit_items}</div>
  <p class="note">Files go to your device's <b>Downloads</b> folder. High-resolution PNG (2700&ndash;4800&nbsp;px), transparent background. Animations as MP4 (universal) and WebM. Vector SVG/PDF for print and embroidery can be exported from these same files.</p></div>
 </section>"""
@@ -481,51 +508,16 @@ footer = f"""
 VMAP={"ens_mp4":VID['ens_mp4'],"ens_webm":VID['ens_webm'],"bar_mp4":VID['bar_mp4'],"bar_webm":VID['bar_webm']}
 JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
  document.querySelectorAll('a[data-dl]').forEach(function(a){var u=V[a.getAttribute('data-dl')]; if(u)a.setAttribute('href',u);});
- // ---- downloads: data-URI -> Blob object URL (works around sandbox/size limits) ----
+ // Primary Download buttons are native <a download> anchors (most compatible).
+ // The ghost "Open" buttons view the asset in a new tab as a fallback where the
+ // sandbox blocks downloads.
  function toBlob(uri){var c=uri.split(','),m=(c[0].match(/:(.*?);/)||[])[1]||'application/octet-stream';
    var b=atob(c[1]),n=b.length,u=new Uint8Array(n);while(n--)u[n]=b.charCodeAt(n);return new Blob([u],{type:m});}
- function saveBlob(blob,name){try{var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=name;
-   document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(url);a.remove();},4000);return true;}catch(e){return false;}}
- // deliver a blob robustly: open in a new tab first (a .zip tab auto-downloads,
- // and this works where a.download is sandbox-blocked); fall back to a.download.
- function deliverBlob(blob,name){var url=URL.createObjectURL(blob);var w=null;
-   try{w=window.open(url,'_blank');}catch(e){}
-   if(!w){try{var a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();}catch(e2){location.href=url;}}
-   setTimeout(function(){URL.revokeObjectURL(url);},60000);}
- function saveAs(uri,name){try{return saveBlob(toBlob(uri),name);}catch(e){return false;}}
- function openTab(uri){try{var url=URL.createObjectURL(toBlob(uri));var w=window.open(url,'_blank');
-   if(!w){var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
-   setTimeout(function(){URL.revokeObjectURL(url);},60000);return true;}catch(e){return false;}}
- function uriFor(a){var u=a.getAttribute('href')||(a.getAttribute('data-dl')?V[a.getAttribute('data-dl')]:'');
-   if(u)return u;var s=a.parentNode.querySelector('a.dl:not(.dl--ghost)');return s?(s.getAttribute('href')||V[s.getAttribute('data-dl')]||''):'';}
- function nameFor(a){var n=a.getAttribute('download');if(n)return n;var s=a.parentNode.querySelector('a.dl:not(.dl--ghost)');return s?s.getAttribute('download'):'download';}
- document.querySelectorAll('a.dl').forEach(function(a){if(a.id==='dlall')return;a.addEventListener('click',function(e){
-   var uri=uriFor(a);if(!uri)return;e.preventDefault();
-   if(a.hasAttribute('data-open')){openTab(uri);return;}
-   if(!saveAs(uri,nameFor(a)))openTab(uri);});});
- // ---- client-side store-only ZIP of the whole kit ----
- function crc32(u){var c,t=crc32.t;if(!t){t=crc32.t=[];for(var n=0;n<256;n++){c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c;}}
-   c=-1;for(var i=0;i<u.length;i++)c=(c>>>8)^t[(c^u[i])&255];return(c^-1)>>>0;}
- function zip(files){var parts=[],cd=[],off=0;var enc=new TextEncoder();
-   function u16(n){return[n&255,(n>>8)&255];}function u32(n){return[n&255,(n>>8)&255,(n>>16)&255,(n>>>24)&255];}
-   files.forEach(function(f){var name=enc.encode(f.name),data=f.data,crc=crc32(data);
-     var lh=[].concat(u32(0x04034b50),u16(20),u16(0),u16(0),u16(0),u16(0),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0));
-     parts.push(new Uint8Array(lh),name,data);
-     cd.push([].concat(u32(0x02014b50),u16(20),u16(20),u16(0),u16(0),u16(0),u16(0),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(off)));
-     cd[cd.length-1]._name=name; off+=lh.length+name.length+data.length;});
-   var cdBytes=[],cdStart=off;cd.forEach(function(h){cdBytes.push(new Uint8Array(h));cdBytes.push(h._name);off+=h.length+h._name.length;});
-   var end=[].concat(u32(0x06054b50),u16(0),u16(0),u16(files.length),u16(files.length),u32(off-cdStart),u32(cdStart),u16(0));
-   return new Blob(parts.concat(cdBytes,[new Uint8Array(end)]),{type:'application/zip'});}
- var dlall=document.getElementById('dlall');
- if(dlall)dlall.addEventListener('click',function(e){e.preventDefault();
-   var out=[],seen={};
-   document.querySelectorAll('#p-desc a.dl:not(.dl--ghost)').forEach(function(a){
-     var uri=a.getAttribute('href')||V[a.getAttribute('data-dl')],name=a.getAttribute('download');
-     if(!uri||!name||seen[name])return;seen[name]=1;
-     var c=uri.split(',');var b=atob(c[1]),n=b.length,arr=new Uint8Array(n);while(n--)arr[n]=b.charCodeAt(n);
-     out.push({name:name,data:arr});});
-   deliverBlob(zip(out),'BORN-Studio-Kit.zip');
- });
+ function openTab(uri){try{var url=URL.createObjectURL(toBlob(uri));if(!window.open(url,'_blank'))location.href=url;
+   setTimeout(function(){URL.revokeObjectURL(url);},60000);}catch(e){}}
+ document.querySelectorAll('a.dl--ghost[data-open]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();
+   var s=a.parentNode.querySelector('a.dl:not(.dl--ghost)');var uri=s?(s.getAttribute('href')||V[s.getAttribute('data-dl')]):'';
+   if(uri)openTab(uri);});});
  // open the exploration board full screen (Fullscreen API; fallback: new tab)
  var explFull=document.getElementById('explFull');
  if(explFull)explFull.addEventListener('click',function(e){e.preventDefault();
