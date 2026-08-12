@@ -20,3 +20,8 @@ out={
 for k,v in out.items():
     open(f"{W}/{k}.svg","w",encoding="utf-8").write(v)
     print("wrote",k)
+
+# red icon variant (double-exposure B recolored to Rojo Valentino) for the BORN stage
+_red=open(f"{W}/ic_doble.svg",encoding="utf-8").read().replace("#1B1720","#C4122E")
+open(f"{W}/ic_doble_red.svg","w",encoding="utf-8").write(_red)
+print("wrote ic_doble_red")
