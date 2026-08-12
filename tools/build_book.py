@@ -463,8 +463,8 @@ expl = ('<section class="panel" id="p-expl" role="tabpanel" aria-labelledby="t-e
  '<p class="kicker">Appendix &middot; development</p><h1 class="h1">Logo exploration</h1>'
  '<p class="lede" style="margin-top:1rem">The full lab behind the decision: every route we worked &mdash; double and triple exposure, continuous field, ligatures, progression, signatures, animations and icons. Working material, not the final brand.</p>'
  '<div class="sec"><div class="expl-bar"><b>Exploration board &middot; BORN</b>'
- '<a href="logos.html" target="_blank" rel="noopener">Open full screen &rarr;</a></div>'
- '<iframe class="expl-frame" title="BORN logo exploration" loading="lazy" srcdoc="'+EXPL_ESC+'"></iframe></div></section>')
+ '<a id="explFull" href="#">Open full screen &rarr;</a></div>'
+ '<iframe class="expl-frame" title="BORN logo exploration" loading="lazy" allow="fullscreen" allowfullscreen srcdoc="'+EXPL_ESC+'"></iframe></div></section>')
 
 # ------------------------------------------------------------------ shell -----
 TABS=[("brand","Brand"),("logo","Logo"),("color","Color"),("type","Typography"),("apps","Applications"),("desc","Downloads"),("expl","Exploration")]
@@ -486,6 +486,12 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
    var b=atob(c[1]),n=b.length,u=new Uint8Array(n);while(n--)u[n]=b.charCodeAt(n);return new Blob([u],{type:m});}
  function saveBlob(blob,name){try{var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=name;
    document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(url);a.remove();},4000);return true;}catch(e){return false;}}
+ // deliver a blob robustly: open in a new tab first (a .zip tab auto-downloads,
+ // and this works where a.download is sandbox-blocked); fall back to a.download.
+ function deliverBlob(blob,name){var url=URL.createObjectURL(blob);var w=null;
+   try{w=window.open(url,'_blank');}catch(e){}
+   if(!w){try{var a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();}catch(e2){location.href=url;}}
+   setTimeout(function(){URL.revokeObjectURL(url);},60000);}
  function saveAs(uri,name){try{return saveBlob(toBlob(uri),name);}catch(e){return false;}}
  function openTab(uri){try{var url=URL.createObjectURL(toBlob(uri));var w=window.open(url,'_blank');
    if(!w){var a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();}
@@ -518,8 +524,17 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
      if(!uri||!name||seen[name])return;seen[name]=1;
      var c=uri.split(',');var b=atob(c[1]),n=b.length,arr=new Uint8Array(n);while(n--)arr[n]=b.charCodeAt(n);
      out.push({name:name,data:arr});});
-   saveBlob(zip(out),'BORN-Studio-Kit.zip');
+   deliverBlob(zip(out),'BORN-Studio-Kit.zip');
  });
+ // open the exploration board full screen (Fullscreen API; fallback: new tab)
+ var explFull=document.getElementById('explFull');
+ if(explFull)explFull.addEventListener('click',function(e){e.preventDefault();
+   var f=document.querySelector('.expl-frame');if(!f)return;
+   var req=f.requestFullscreen||f.webkitRequestFullscreen||f.mozRequestFullScreen||f.msRequestFullscreen;
+   if(req){try{var pr=req.call(f);if(pr&&pr.catch)pr.catch(function(){explOpen(f);});return;}catch(err){}}
+   explOpen(f);});
+ function explOpen(f){try{var b=new Blob([f.getAttribute('srcdoc')],{type:'text/html'});var u=URL.createObjectURL(b);
+   if(!window.open(u,'_blank')){location.href=u;}setTimeout(function(){URL.revokeObjectURL(u);},60000);}catch(e){}}
  // ---- tabs ----
  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
  var panels=[].slice.call(document.querySelectorAll('.panel'));
