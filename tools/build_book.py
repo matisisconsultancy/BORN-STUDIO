@@ -64,10 +64,9 @@ a{color:inherit}
 /* top bar */
 .top{position:sticky;top:0;z-index:50;background:rgba(242,238,230,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .top__in{display:flex;align-items:center;gap:1.2rem;max-width:1140px;margin:0 auto;padding:.65rem clamp(1.25rem,5vw,3rem);flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;flex:0 0 auto}
-.brand .mark{width:34px;height:34px}.brand .mark svg{width:100%;height:100%}
-.brand b{font-family:var(--word);font-weight:400;font-size:1.18rem;letter-spacing:.02em;line-height:1}
-.brand span{font-family:var(--mono);font-size:.53rem;letter-spacing:.26em;text-transform:uppercase;color:var(--g3);display:block;margin-top:2px}
+.brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
+.brand svg{height:30px;width:auto;max-width:none;display:block}
+.brand:hover{opacity:.75;transition:opacity .2s}
 .tabs{display:flex;gap:.15rem;margin-left:auto;flex-wrap:wrap}
 .tab{font-family:var(--mono);font-size:.67rem;letter-spacing:.13em;text-transform:uppercase;color:var(--g2);background:none;border:0;cursor:pointer;padding:.55rem .8rem;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
 .tab:hover{color:var(--ink);background:var(--paper-2)}
@@ -472,7 +471,7 @@ TABS=[("brand","Brand"),("logo","Logo"),("color","Color"),("type","Typography"),
 tabbtns="".join(f'<button class="tab" role="tab" id="t-{k}" aria-controls="p-{k}" aria-selected="{"true" if i==0 else "false"}" data-tab="{k}">{lab}</button>' for i,(k,lab) in enumerate(TABS))
 header = f"""
 <header class="top"><div class="top__in">
- <a class="brand" href="#" data-tab="brand" aria-label="BORN Studio"><span class="mark">{SVG['ic_negativo']}</span><span><b>BORN</b><span>Studio</span></span></a>
+ <a class="brand" href="#" data-tab="brand" aria-label="BORN Studio">{SVG['wm_solo']}</a>
  <nav class="tabs" role="tablist" aria-label="Sections">{tabbtns}</nav>
 </div><div class="bar" id="bar"></div></header>"""
 footer = f"""
