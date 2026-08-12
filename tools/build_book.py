@@ -167,9 +167,12 @@ a{color:inherit}
 .sw__m b{font-family:var(--serif6);font-weight:600;font-size:.96rem;display:block}
 .sw__m span{font-family:var(--mono);font-size:.66rem;color:var(--g3);letter-spacing:.05em}
 /* type specimens */
-.spec{border-top:1px solid var(--line);padding:1.35rem 0;display:grid;gap:.3rem}
+.spec{border-top:1px solid var(--line);padding:1.35rem 0;display:grid;gap:.5rem}
+.spec-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .spec .meta{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g3)}
 .spec .samp{color:var(--ink);line-height:1.1}
+.fontdl{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);background:var(--ink);border-radius:6px;padding:.45rem .8rem;text-decoration:none;white-space:nowrap;transition:background .2s}
+.fontdl:hover{background:var(--red)}
 /* downloads */
 .kit{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));margin-top:1.6rem}
 .ki{display:flex;flex-direction:column;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .2s}
@@ -409,14 +412,14 @@ typo = f"""
 <section class="panel" id="p-type" role="tabpanel" aria-labelledby="t-type">
  <p class="kicker">Typography</p>
  <h1 class="h1">One Didot, three companions</h1>
- <p class="lede" style="margin-top:1rem">The wordmark is set in <b>Didot</b> &mdash; the typeface of Vogue. The system rests on three families.</p>
+ <p class="lede" style="margin-top:1rem">The wordmark is set in <b>Didot</b> &mdash; the typeface of Vogue. The system rests on three families. All four are free, open-source (SIL Open Font License) &mdash; download each family below.</p>
  <div class="sec">
-   <div class="spec"><span class="meta">Wordmark &middot; Didot (GFS Didot)</span><div class="samp" style="font-family:var(--word);font-size:clamp(2.4rem,7vw,4.5rem)">BORN.</div></div>
-   <div class="spec"><span class="meta">Display &middot; Bodoni Moda 900</span><div class="samp" style="font-family:var(--serif);font-weight:900;font-size:clamp(1.8rem,5vw,3rem)">Sketched. Stitched. BORN.</div></div>
-   <div class="spec"><span class="meta">Subhead &middot; Bodoni Moda 600</span><div class="samp" style="font-family:var(--serif6);font-weight:600;font-size:clamp(1.3rem,3vw,1.9rem)">Full Service Apparel Development</div></div>
-   <div class="spec"><span class="meta">Body &middot; Jost 400</span><div class="samp" style="font-family:var(--sans);font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.5">The studio where a fashion idea matures until it becomes a manufacturable product.</div></div>
-   <div class="spec"><span class="meta">Technical &middot; Space Mono 400</span><div class="samp" style="font-family:var(--mono);font-size:clamp(.8rem,1.6vw,1rem);letter-spacing:.05em">PHASE 01 &middot; SKETCHED &middot; TECH PACK v1 &middot; 1&ndash;3 WEEKS</div></div>
+   <div class="spec"><div class="spec-head"><span class="meta">Wordmark &middot; GFS Didot</span><a class="fontdl" href="https://fonts.google.com/download?family=GFS%20Didot" target="_blank" rel="noopener">&#8595; Download family</a></div><div class="samp" style="font-family:var(--word);font-size:clamp(2.4rem,7vw,4.5rem)">BORN.</div></div>
+   <div class="spec"><div class="spec-head"><span class="meta">Display &amp; Subhead &middot; Bodoni Moda</span><a class="fontdl" href="https://fonts.google.com/download?family=Bodoni%20Moda" target="_blank" rel="noopener">&#8595; Download family</a></div><div class="samp" style="font-family:var(--serif);font-weight:900;font-size:clamp(1.8rem,5vw,3rem)">Sketched. Stitched. BORN.</div><div class="samp" style="font-family:var(--serif6);font-weight:600;font-size:clamp(1.2rem,2.6vw,1.7rem);margin-top:.3rem">Full Service Apparel Development</div></div>
+   <div class="spec"><div class="spec-head"><span class="meta">Body &middot; Jost</span><a class="fontdl" href="https://fonts.google.com/download?family=Jost" target="_blank" rel="noopener">&#8595; Download family</a></div><div class="samp" style="font-family:var(--sans);font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.5">The studio where a fashion idea matures until it becomes a manufacturable product.</div></div>
+   <div class="spec"><div class="spec-head"><span class="meta">Technical &middot; Space Mono</span><a class="fontdl" href="https://fonts.google.com/download?family=Space%20Mono" target="_blank" rel="noopener">&#8595; Download family</a></div><div class="samp" style="font-family:var(--mono);font-size:clamp(.8rem,1.6vw,1rem);letter-spacing:.05em">PHASE 01 &middot; SKETCHED &middot; TECH PACK v1 &middot; 1&ndash;3 WEEKS</div></div>
  </div>
+ <p class="note">Fonts open in Google Fonts to download the complete family. <b>GFS Didot</b> is the free revival used here; Vogue's Didot is proprietary &mdash; if the licensed file is available, it substitutes 1:1.</p>
 </section>"""
 
 # ------------------------------------------------------------------ APPS ------
