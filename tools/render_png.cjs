@@ -6,8 +6,9 @@ const defs  = fs.readFileSync(WORK+'/defs.svg','utf8');
 
 // key -> CSS render width in px (viewBox scales losslessly; DSF multiplies)
 const STATIC = [
-  ['wm_principal',1600],['wm_sin_slogan',1600],
-  ['wm_ecorojo_slogan',1600],['wm_ecorojo',1600],['wm_base',1600],
+  ['wm_principal',1600],['wm_sin_slogan',1600],['wm_solo',1600],
+  ['wm_ecorojo_slogan',1600],['wm_ecorojo',1600],
+  ['wm_principal_neg',1600],['wm_principal_onred',1600],['wm_solo_neg',1600],['wm_solo_onred',1600],
   ['ic_negativo',900],['ic_construccion',900],['ic_doble',900],
 ];
 const DSF = 3;

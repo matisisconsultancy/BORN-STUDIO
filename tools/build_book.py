@@ -16,8 +16,12 @@ FONTS = rd(f"{W}/fonts.css")
 ROOT  = rd(f"{W}/root.css")
 SVG   = {k: rd(f"{W}/{k}.svg") for k in
          ["wm_principal","wm_sin_slogan","wm_solo","wm_ecorojo_slogan","wm_ecorojo",
-          "ic_negativo","ic_construccion","ic_doble"]}
+          "ic_negativo","ic_construccion","ic_doble",
+          "wm_principal_neg","wm_principal_onred","wm_solo_neg","wm_solo_onred"]}
 PNG   = {k: datauri(f"{A}/{k}.png","image/png") for k in SVG}
+# exploration board (development) — embedded in a secondary tab, escaped for srcdoc
+EXPL_RAW = rd("logos.html")
+EXPL_ESC = EXPL_RAW.replace("&","&amp;").replace('"',"&quot;")
 VID   = {
   "ens_mp4":datauri(f"{A}/an_ensamblaje.mp4","video/mp4"),
   "ens_webm":datauri(f"{A}/an_ensamblaje.webm","video/webm"),
@@ -102,6 +106,18 @@ a{color:inherit}
 .stage svg{width:100%;height:auto}
 .stage--sq{aspect-ratio:1/1;max-width:none}
 .stage--sq svg{width:70%}
+.stage--dark{background:var(--ink);border-color:transparent}
+.stage--red{background:var(--red);border-color:transparent}
+.bgnote{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g3);margin-top:.5rem}
+.expl-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  background:var(--ink);color:var(--paper);border-radius:12px 12px 0 0;padding:.75rem 1.1rem;margin-top:1.4rem}
+.expl-bar b{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:400}
+.expl-bar a{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--paper);text-decoration:none;
+  border:1px solid rgba(242,238,230,.4);padding:.35rem .75rem;border-radius:6px}
+.expl-bar a:hover{background:var(--paper);color:var(--ink)}
+.expl-frame{width:100%;height:80vh;min-height:540px;border:1px solid var(--line);border-top:0;
+  border-radius:0 0 12px 12px;background:#fff;display:block}
+@media(max-width:620px){.expl-frame{height:72vh;min-height:440px}.expl-bar a{display:none}}
 .capt{margin-top:.7rem}
 .capt b{font-family:var(--serif6);font-weight:600;font-size:1.02rem;display:block}
 .capt span{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g3)}
@@ -269,6 +285,21 @@ logo = f"""
  </div>
 
  <div class="sec sec--line">
+   <p class="eyebrow">Negativos y fondos de color</p>
+   <p class="prose" style="margin-bottom:1.4rem">El logo funciona sobre papel, sobre tinta y sobre el rojo. En negativo, la palabra pasa a marfil; el punto se mantiene rojo sobre oscuro y pasa a tinta sobre rojo para conservar el contraste.</p>
+   <div class="grid g3">
+     <div><div class="stage">{SVG['wm_principal']}</div><p class="bgnote">Positivo &middot; sobre papel</p></div>
+     <div><div class="stage stage--dark">{SVG['wm_principal_neg']}</div><p class="bgnote">Negativo &middot; sobre tinta</p></div>
+     <div><div class="stage stage--red">{SVG['wm_principal_onred']}</div><p class="bgnote">Sobre rojo Valentino</p></div>
+   </div>
+   <div class="grid g3" style="margin-top:1.2rem">
+     <div><div class="stage stage--sq">{SVG['ic_negativo']}</div><p class="bgnote">Isotipo negativo</p></div>
+     <div><div class="stage stage--dark">{SVG['wm_solo_neg']}</div><p class="bgnote">BORN solo &middot; negativo</p></div>
+     <div><div class="stage stage--red">{SVG['wm_solo_onred']}</div><p class="bgnote">BORN solo &middot; sobre rojo</p></div>
+   </div>
+ </div>
+
+ <div class="sec sec--line">
    <p class="eyebrow">Usos incorrectos</p>
    <ul class="list list--no" style="max-width:60ch">
      <li>No deformar ni cambiar las proporciones</li>
@@ -340,7 +371,10 @@ apps = f"""
 
 # ---------------------------------------------------------------- DESCARGAS ---
 def ki_png(key,title):
-    return (f'<div class="ki"><div class="ki__p"><img alt="{title}" data-src="{key}"></div>'
+    bg=""
+    if key in DARKBG: bg=' style="background:var(--ink)"'
+    elif key in REDBG: bg=' style="background:var(--red)"'
+    return (f'<div class="ki"><div class="ki__p"{bg}><img alt="{title}" data-src="{key}"></div>'
       f'<div class="ki__m"><b>{title}</b><span class="ki__f">PNG &middot; transparente</span>'
       f'<div class="dls"><a class="dl" href="{PNG[key]}" download="{DL[key]}">PNG</a></div></div></div>')
 def ki_vid(pref,title,dlm,dlw):
@@ -351,12 +385,19 @@ def ki_vid(pref,title,dlm,dlw):
 DL={"wm_principal":"BORN-logo-principal.png","wm_sin_slogan":"BORN-logo-sin-slogan.png",
   "wm_solo":"BORN-logo-solo.png","wm_ecorojo_slogan":"BORN-logo-eco-rojo-slogan.png",
   "wm_ecorojo":"BORN-logo-eco-rojo.png","ic_negativo":"BORN-icono-negativo.png",
-  "ic_construccion":"BORN-icono-construccion.png","ic_doble":"BORN-icono-doble-exposicion.png"}
+  "ic_construccion":"BORN-icono-construccion.png","ic_doble":"BORN-icono-doble-exposicion.png",
+  "wm_principal_neg":"BORN-logo-principal-negativo.png","wm_solo_neg":"BORN-logo-solo-negativo.png",
+  "wm_principal_onred":"BORN-logo-principal-sobre-rojo.png"}
 TITLES={"wm_principal":"Logo principal","wm_sin_slogan":"Logo sin slogan","wm_solo":"BORN solo",
   "wm_ecorojo_slogan":"Eco rojo + slogan","wm_ecorojo":"Eco rojo","ic_negativo":"Icono negativo",
-  "ic_construccion":"Icono construcci&oacute;n","ic_doble":"Icono doble exp."}
+  "ic_construccion":"Icono construcci&oacute;n","ic_doble":"Icono doble exp.",
+  "wm_principal_neg":"Principal negativo","wm_solo_neg":"BORN solo negativo","wm_principal_onred":"Principal sobre rojo"}
+# dark preview background for negative/on-red assets so they are visible in the card
+DARKBG={"wm_principal_neg","wm_solo_neg"}
+REDBG={"wm_principal_onred"}
 kit_items="".join(ki_png(k,TITLES[k]) for k in
-  ["wm_principal","wm_sin_slogan","wm_solo","wm_ecorojo_slogan","wm_ecorojo","ic_negativo","ic_construccion","ic_doble"])
+  ["wm_principal","wm_principal_neg","wm_principal_onred","wm_sin_slogan","wm_solo","wm_solo_neg",
+   "wm_ecorojo_slogan","wm_ecorojo","ic_negativo","ic_construccion","ic_doble"])
 kit_items+=ki_vid("ens","Animaci&oacute;n ensamblaje","BORN-animacion-ensamblaje.mp4","BORN-animacion-ensamblaje.webm")
 kit_items+=ki_vid("bar","Animaci&oacute;n barrida","BORN-animacion-barrida.mp4","BORN-animacion-barrida.webm")
 desc = f"""
@@ -368,8 +409,18 @@ desc = f"""
  <p class="note">PNG de alta resoluci&oacute;n (2700&ndash;4800&nbsp;px), fondo transparente &mdash; sirven sobre cualquier color. Animaciones en MP4 (universal) y WebM. Para imprenta o bordado podemos exportar vectorial (SVG/PDF) desde estos mismos archivos.</p></div>
 </section>"""
 
+# ---------------------------------------------------------------- EXPLORACION -
+expl = ('<section class="panel" id="p-expl" role="tabpanel" aria-labelledby="t-expl">'
+ '<p class="kicker">Anexo &middot; desarrollo</p>'
+ '<h1 class="h1">Exploraci&oacute;n de logotipo</h1>'
+ '<p class="lede" style="margin-top:1rem">El laboratorio completo detr&aacute;s de la decisi&oacute;n: todas las rutas trabajadas &mdash; doble y triple exposici&oacute;n, campo continuo, ligaduras, progresi&oacute;n, firmas, animaciones e iconos. Material de trabajo, no la marca final.</p>'
+ '<div class="sec"><div class="expl-bar"><b>Tablero de exploraci&oacute;n &middot; BORN</b>'
+ '<a href="logos.html" target="_blank" rel="noopener">Abrir en pantalla completa &rarr;</a></div>'
+ '<iframe class="expl-frame" title="Exploraci&oacute;n de logotipo BORN" loading="lazy" srcdoc="'
+ + EXPL_ESC + '"></iframe></div></section>')
+
 # ---------------------------------------------------------------- shell -------
-TABS=[("marca","Marca"),("logo","Logo"),("color","Color"),("tipo","Tipograf&iacute;a"),("apps","Aplicaciones"),("desc","Descargas")]
+TABS=[("marca","Marca"),("logo","Logo"),("color","Color"),("tipo","Tipograf&iacute;a"),("apps","Aplicaciones"),("desc","Descargas"),("expl","Exploraci&oacute;n")]
 tabbtns="".join(
   f'<button class="tab" role="tab" id="t-{k}" aria-controls="p-{k}" aria-selected="{"true" if i==0 else "false"}" data-tab="{k}">{lab}</button>'
   for i,(k,lab) in enumerate(TABS))
@@ -435,7 +486,7 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
 })();</script>"""
 
 body = ("<a class=\"brand\" style=\"display:none\"></a>" + header +
-        '<main class="wrap">' + marca + logo + color + typo + apps + desc + "</main>" +
+        '<main class="wrap">' + marca + logo + color + typo + apps + desc + expl + "</main>" +
         footer + '<div class="toast" role="status"></div>' + JS)
 
 head = ("<style>\n"+FONTS+"\n"+CSS+"\n</style>")

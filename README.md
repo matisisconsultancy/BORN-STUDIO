@@ -70,6 +70,7 @@ Los assets se derivan del artefacto aprobado (`logos.html`), sin dependencias de
 
 ```bash
 python3 tools/extract_logos.py   # extrae SVGs/estilos elegidos -> tools/_work/
+python3 tools/make_negatives.py  # recolorea negativos y versiones sobre color
 node    tools/render_png.cjs      # SVGs -> PNG alta resolución (Chromium)
 node    tools/record_anim.cjs     # anima -> frames deterministas (Chromium)
 # frames -> MP4/WebM/póster con el ffmpeg de imageio-ffmpeg
