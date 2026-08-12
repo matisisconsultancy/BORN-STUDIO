@@ -91,9 +91,11 @@ a{color:inherit}
 /* top bar */
 .top{position:sticky;top:0;z-index:50;background:rgba(242,238,230,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .top__in{display:flex;align-items:center;gap:1.2rem;max-width:1140px;margin:0 auto;padding:.65rem clamp(1.25rem,5vw,3rem);flex-wrap:wrap}
-.brand{display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
-.brand svg{height:30px;width:auto;max-width:none;display:block}
-.brand:hover{opacity:.75;transition:opacity .2s}
+.brand{position:relative;display:flex;align-items:center;text-decoration:none;flex:0 0 auto}
+.brand .bl{display:block;transition:opacity .5s ease}
+.brand .bl svg{height:30px;width:auto;max-width:none;display:block}
+.brand .bl-light{position:absolute;left:0;top:50%;transform:translateY(-50%);opacity:0}
+.brand:hover{opacity:.75}
 .tabs{display:flex;gap:.15rem;margin-left:auto;flex-wrap:wrap}
 .tab{font-family:var(--mono);font-size:.67rem;letter-spacing:.13em;text-transform:uppercase;color:var(--g2);background:none;border:0;cursor:pointer;padding:.55rem .8rem;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
 .tab:hover{color:var(--ink);background:var(--paper-2)}
@@ -202,10 +204,17 @@ html.js:not(.reduce) .rv:not(.in){opacity:0;transform:translateY(24px)}
 .seal{background:var(--red);color:var(--paper);border-radius:16px;padding:clamp(2rem,6vw,3.6rem);text-align:center;margin-top:clamp(2.6rem,6vw,4rem)}
 .seal h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.05}
 .seal p{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-top:.9rem;opacity:.85}
-/* footer */
-.foot{border-top:1px solid var(--line);padding:clamp(2.4rem,6vw,4rem) 0;text-align:center}
-.foot .fm{width:min(320px,64%);margin:0 auto 1.2rem}
-.foot p{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--g3);line-height:1.9}
+/* footer — the page transforms to red as you reach it (idea -> life) */
+.foot{position:relative;color:var(--paper);text-align:center;overflow:hidden;border:0;width:100%;min-height:90vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3rem;
+  padding:clamp(3rem,10vw,7rem) clamp(1.25rem,6vw,3rem);
+  background:linear-gradient(to bottom,var(--paper) 0%,var(--red) 26%,var(--red) 100%)}
+.foot .fkick{font-family:var(--mono);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,238,230,.72)}
+.foot .fm{width:min(460px,76%);margin:0 auto}
+.foot .fm svg{width:100%;height:auto}
+.foot .fdot{width:clamp(30px,6vw,56px);height:clamp(30px,6vw,56px);border-radius:50%;background:var(--paper);margin:.3rem auto 0;animation:beat 2.4s var(--ease) infinite}
+.foot .fcredit{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:rgba(242,238,230,.82);line-height:1.95;margin-top:.5rem}
+@media(prefers-reduced-motion:reduce){.foot .fdot{animation:none}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;padding:.6rem 1rem;border-radius:8px;pointer-events:none;transition:.3s;z-index:60}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 /* mobile hamburger menu */
@@ -306,6 +315,17 @@ html{overflow-x:hidden}
 .card:hover{border-color:rgba(196,18,46,.45)}
 .spec:hover .meta{color:var(--red)}
 .lede .r,.hero .claim .r{color:var(--red)}
+/* the chrome flips to red while the footer fills the screen */
+.top{transition:background .55s ease,border-color .55s ease}
+body.red-zone .top{background:rgba(196,18,46,.92);border-bottom-color:rgba(242,238,230,.22)}
+body.red-zone .bar{background:var(--paper)}
+body.red-zone .tab{color:rgba(242,238,230,.82)}
+body.red-zone .tab:hover{color:var(--paper);background:rgba(242,238,230,.14)}
+body.red-zone .tab[aria-selected=true],body.red-zone .tab[aria-selected=true]:hover{background:var(--paper);color:var(--red)}
+body.red-zone .brand .bl-dark{opacity:0}
+body.red-zone .brand .bl-light{opacity:1}
+body.red-zone .menu-btn span{background:var(--paper)}
+@media(max-width:760px){body.red-zone .tabs{background:rgba(196,18,46,.97)}}
 /* ===== preloader: the process becomes a finished product (idea -> life) ===== */
 #preload{position:fixed;inset:0;z-index:200;background:var(--paper);display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:1.5rem;overflow:hidden;
@@ -614,13 +634,17 @@ TABS=[("brand","Brand"),("logo","Logo"),("color","Color"),("type","Typography"),
 tabbtns="".join(f'<button class="tab" role="tab" id="t-{k}" aria-controls="p-{k}" aria-selected="{"true" if i==0 else "false"}" data-tab="{k}">{lab}</button>' for i,(k,lab) in enumerate(TABS))
 header = f"""
 <header class="top"><div class="top__in">
- <a class="brand" href="#" data-tab="brand" aria-label="BORN Studio">{SVG['wm_solo']}</a>
+ <a class="brand" href="#" data-tab="brand" aria-label="BORN Studio"><span class="bl bl-dark">{SVG['wm_solo']}</span><span class="bl bl-light">{SVG['wm_solo_onred']}</span></a>
  <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
  <nav class="tabs" role="tablist" aria-label="Sections">{tabbtns}</nav>
 </div><div class="bar" id="bar"></div></header>"""
 footer = f"""
-<footer class="foot"><div class="fm">{SVG['wm_solo']}</div>
- <p>BORN Studio &middot; Full Service Apparel Development<br>Brand Book v1.0 &middot; From idea to life<br>Strategy &amp; brand &mdash; Matisis Consultancy</p></footer>"""
+<footer class="foot">
+ <p class="fkick">From idea to life</p>
+ <div class="fm">{SVG['wm_solo_onred']}</div>
+ <div class="fdot"></div>
+ <p class="fcredit">BORN Studio &middot; Full Service Apparel Development<br>Brand Book v1.0<br>Strategy &amp; brand &mdash; Matisis Consultancy</p>
+</footer>"""
 
 VMAP={"ens_mp4":VID['ens_mp4'],"ens_webm":VID['ens_webm'],"bar_mp4":VID['bar_mp4'],"bar_webm":VID['bar_webm']}
 JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
@@ -663,6 +687,12 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
    if(reduce||seen){pl.classList.add('hide');}else{playPreload();try{sessionStorage.setItem('born_seen','1');}catch(e){}}}
  var replayBtn=document.getElementById('replayBtn');
  if(replayBtn)replayBtn.addEventListener('click',function(){if(pl){pl.classList.remove('hide');playPreload();}});
+ // ---- the page turns red as the footer fills the screen ----
+ var foot=document.querySelector('.foot');
+ if(foot&&'IntersectionObserver' in window){
+   new IntersectionObserver(function(es){es.forEach(function(e){
+     document.body.classList.toggle('red-zone',e.intersectionRatio>=.34);});},
+     {threshold:[0,.34,.7]}).observe(foot);}
  var RVSEL='.kicker,.h1,.h2,.lede,.prose,.card,.spec,.stage,.stagex,.sw,.ki,.phase,.fullred,.dl-grid,.motion,.animbox';
  var io=(!reduce&&'IntersectionObserver' in window)?new IntersectionObserver(function(es){
    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
