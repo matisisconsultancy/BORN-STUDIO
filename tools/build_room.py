@@ -35,7 +35,9 @@ FONTS = rd(f"{S}/fonts.css")
 ROOT  = rd(f"{S}/root.css")
 DEFS  = rd(f"{S}/defs.svg")
 SVG   = {k: rd(f"{S}/{k}.svg") for k in
-         ["wm_solo", "wm_solo_neg", "state_sketch", "state_stitch", "state_born"]}
+         ["wm_solo", "wm_solo_neg", "wm_solo_onred",
+          "state_sketch", "state_stitch", "state_born"]}
+import re as _re
 from PIL import Image as _PIL
 _ASSETS = [f for f in sorted(os.listdir(f"{O}/assets")) if f.endswith(".jpg")]
 IMG   = {f[:-4]: datauri(f"{O}/assets/{f}", "image/jpeg") for f in _ASSETS}
@@ -579,8 +581,41 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .dl dt{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--g3)}
 .dl dd{font-family:var(--mono);font-size:.84rem;margin-top:.18rem;font-variant-numeric:tabular-nums}
-.sec{margin-top:clamp(2rem,4vw,3.2rem)}
-.sec--rule{border-top:1px solid var(--hair);padding-top:clamp(1.5rem,3vw,2.2rem)}
+.sec{margin-top:clamp(2rem,4vw,3.2rem);position:relative}
+.sec--rule{padding-top:clamp(1.5rem,3vw,2.2rem)}
+.sec--rule::before{content:'';position:absolute;left:0;right:0;top:0;height:0;opacity:.5;
+  border-top:var(--pw,1px) var(--pline,solid) var(--pcol,var(--hair));
+  transform:scaleX(0);transform-origin:0 50%}
+/* A section head is a head, not a caption: the document numbers its own
+   sections down the left in the colour of the phase it is written in, the
+   name is set in the display face, and whatever followed the middot stays
+   beside it in small type — the qualifier a technical reader needs and the
+   title a scanning reader needs, in one object. It draws itself in once, on
+   the rule it sits on, and then it holds still to be read. */
+.panel{counter-reset:sec}
+.shd{display:flex;align-items:baseline;gap:clamp(.7rem,1.7vw,1.4rem);
+  margin-bottom:clamp(1rem,2vw,1.4rem);counter-increment:sec}
+.shd__n::before{content:counter(sec,decimal-leading-zero)}
+.shd__n{flex:none;font-style:normal;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.1em;color:var(--pink,var(--red));padding-top:.32em;
+  font-variant-numeric:tabular-nums}
+.shd__t{font-family:var(--serif);font-weight:900;color:var(--ink);text-wrap:balance;
+  font-size:clamp(1.15rem,2.1vw,1.55rem);line-height:1.06;letter-spacing:-.015em;
+  max-width:34ch}
+.shd__q{display:block;font-family:var(--sans);font-weight:400;letter-spacing:0;
+  font-size:.83rem;line-height:1.4;color:var(--graphite);margin-top:.4em;max-width:52ch}
+.field--ink .shd__t,.field--red .shd__t{color:var(--paper)}
+html.js .sec--rule::before{transition:transform 1s var(--ease)}
+html.js .sec--rule.in::before{transform:scaleX(1)}
+html.js .shd__n,html.js .shd__t{opacity:0;transform:translate3d(0,10px,0)}
+html.js .sec.in .shd__n{opacity:1;transform:none;
+  transition:opacity .6s var(--ease) .08s,transform .7s var(--ease) .08s}
+html.js .sec.in .shd__t{opacity:1;transform:none;
+  transition:opacity .65s var(--ease) .2s,transform .78s var(--ease) .2s}
+html:not(.js) .sec--rule::before{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){
+  html.js .sec--rule::before{transform:scaleX(1)}
+  html.js .shd__n,html.js .shd__t{opacity:1;transform:none}}
 .eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--g3);margin-bottom:1rem}
 h2.h{font-family:var(--serif);font-weight:900;font-size:clamp(1.3rem,2.5vw,1.8rem);line-height:1.06;
@@ -971,18 +1006,74 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 @media(max-width:620px){.pstrip{flex-wrap:wrap;gap:.45rem .7rem}
   .pstrip .pstrip__t{margin-left:0;width:100%}}
 
-/* ── every document opens on ink and closes in Rojo Valentino ────────────── */
-.docopen{padding-block:clamp(2.6rem,6vw,5rem) clamp(1.6rem,3.5vw,2.6rem)}
-.docopen__in{padding-left:var(--pad);padding-right:var(--pad)}
-.docopen .type{font-family:var(--serif6);font-weight:600;font-size:1.05rem;color:var(--red)}
+/* ── every document opens on ink and closes in Rojo Valentino ──────────────
+   The opener behaves like the cover of the document it belongs to: the phase
+   numeral stands at poster scale behind the title and drifts against the
+   scroll, the title rises out of its own baseline a word at a time, and the
+   reference matter is drawn in under a rule that opens from the left. Nothing
+   moves once it has arrived — the page a client reads is a still page. */
+.docopen{position:relative;overflow:hidden;
+  padding-block:clamp(3rem,7vw,5.6rem) clamp(1.6rem,3.5vw,2.6rem)}
+.docopen__in{position:relative;z-index:1;padding-left:var(--pad);padding-right:var(--pad)}
+.docopen__gh{position:absolute;z-index:0;right:-.04em;top:clamp(1rem,7%,3.5rem);
+  pointer-events:none;user-select:none;text-align:right;
+  transform:translate3d(0,var(--gy,0px),0);
+  opacity:0;transition:opacity 1.1s var(--ease) .15s}
+.docopen__gh b{display:block;font-family:var(--serif);font-weight:900;line-height:.78;
+  font-size:clamp(6.5rem,17vw,14rem);letter-spacing:-.05em;
+  -webkit-text-stroke:2px var(--paper);color:transparent}
+.docopen__gh span{display:block;font-family:var(--serif6);font-weight:600;
+  font-size:clamp(.9rem,1.6vw,1.3rem);opacity:.9;margin-top:.3em;
+  padding-right:clamp(1.2rem,4.5vw,4rem)}
+.docopen.in .docopen__gh{opacity:.28}
+.docopen .type{font-family:var(--serif6);font-weight:600;font-size:1.05rem;color:var(--red);
+  display:flex;align-items:center;gap:.55rem}
+.docopen__tk{display:block;width:8px;height:8px;border-radius:50%;flex:none;
+  background:currentColor;transform:scale(0)}
 .docopen--red .type{color:var(--paper);opacity:.75}
 .docopen h1{font-family:var(--serif);font-weight:900;text-transform:uppercase;
   font-size:clamp(2.1rem,6vw,5rem);line-height:.88;letter-spacing:-.03em;
   margin:.55rem 0 .3rem;max-width:17ch}
+.docopen h1 .wd{display:inline-block;overflow:hidden;vertical-align:bottom;
+  padding-bottom:.1em;margin-bottom:-.1em}
+.docopen h1 .wd i{display:block;font-style:normal}
 .docopen .who{font-size:.95rem;color:rgba(242,238,230,.72)}
+.docopen__rl{height:1px;background:currentColor;opacity:.3;margin-top:clamp(1.4rem,3vw,2.2rem);
+  transform:scaleX(0);transform-origin:0 50%}
 .docopen__b{display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;
-  flex-wrap:wrap;margin-top:clamp(1.6rem,3.5vw,2.6rem);padding-top:1rem;
-  border-top:1px solid rgba(242,238,230,.3)}
+  flex-wrap:wrap;margin-top:1rem;padding-top:0}
+
+/* the arrival, once and only once */
+html.js .docopen h1 .wd i{transform:translate3d(0,105%,0)}
+html.js .docopen.in h1 .wd i{transform:none;transition:transform .9s var(--ease)}
+html.js .docopen.in h1 .wd:nth-child(2) i{transition-delay:.06s}
+html.js .docopen.in h1 .wd:nth-child(3) i{transition-delay:.12s}
+html.js .docopen.in h1 .wd:nth-child(4) i{transition-delay:.18s}
+html.js .docopen.in h1 .wd:nth-child(5) i{transition-delay:.24s}
+html.js .docopen.in h1 .wd:nth-child(n+6) i{transition-delay:.30s}
+html.js .docopen .type,html.js .docopen .who,html.js .docopen__b{
+  opacity:0;transform:translate3d(0,12px,0)}
+html.js .docopen.in .type{opacity:1;transform:none;
+  transition:opacity .7s var(--ease),transform .8s var(--ease)}
+html.js .docopen.in .who{opacity:1;transform:none;
+  transition:opacity .7s var(--ease) .34s,transform .8s var(--ease) .34s}
+html.js .docopen.in .docopen__b{opacity:1;transform:none;
+  transition:opacity .7s var(--ease) .5s,transform .8s var(--ease) .5s}
+html.js .docopen.in .docopen__tk{transform:scale(1);
+  transition:transform .55s cubic-bezier(.2,1.5,.4,1) .1s}
+html.js .docopen.in .docopen__rl{transform:scaleX(1);
+  transition:transform 1.05s var(--ease) .42s}
+html:not(.js) .docopen__tk,html:not(.js) .docopen__rl{transform:none}
+html:not(.js) .docopen__gh{opacity:.28}
+@media(prefers-reduced-motion:reduce){
+  html.js .docopen h1 .wd i,html.js .docopen .type,html.js .docopen .who,
+  html.js .docopen__b{transform:none;opacity:1;transition:none}
+  html.js .docopen__tk{transform:scale(1)}
+  html.js .docopen__rl{transform:scaleX(1)}}
+@media(max-width:760px){
+  .docopen__gh b{-webkit-text-stroke-width:1.4px;font-size:clamp(4.6rem,22vw,8rem)}
+  .docopen__gh span{font-size:.95rem}
+  .docopen.in .docopen__gh{opacity:.22}}
 .docopen__m{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;line-height:2;
   font-variant-numeric:tabular-nums;text-align:right}
 .docopen__m b{font-weight:400;color:var(--paper)}
@@ -990,23 +1081,6 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .docopen .pstrip b,.docopen .pstrip .mk{color:var(--paper)}
 .docopen .pstrip span{color:rgba(242,238,230,.66)}
 .docopen .pstrip__t{display:none}
-
-/* the page turns red at the end, the way the brand book does */
-.closer{background:linear-gradient(180deg,var(--from,var(--paper)) 0,var(--red) 46%);
-  padding-block:clamp(4rem,10vw,8rem) clamp(2.6rem,6vw,4.5rem);color:var(--paper);
-  text-align:center}
-.closer__in{display:flex;flex-direction:column;align-items:center;gap:1.1rem}
-.closer .wm{width:min(300px,58%)}
-.closer .wm svg{width:100%;height:auto}
-.closer .wm .p-ink{fill:var(--paper)}
-.closer .wm .p-bo{fill:var(--paper)}
-.closer h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.5rem,3.6vw,2.6rem);
-  line-height:1.02;letter-spacing:-.02em;color:var(--paper);max-width:20ch;text-wrap:balance}
-.closer p{font-size:.95rem;color:rgba(242,238,230,.82);max-width:52ch}
-.closer .sig{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;
-  color:rgba(242,238,230,.7);margin-top:.8rem;padding-top:.9rem;
-  border-top:1px solid rgba(242,238,230,.32)}
-.closer .dot{width:11px;height:11px;border-radius:50%;background:var(--paper);margin-top:.4rem}
 
 /* the amount due is the loudest number in the document */
 .duefield{padding-block:clamp(2.6rem,6vw,4.4rem)}
@@ -1149,6 +1223,129 @@ html.js .acts__s.on{opacity:1;transform:none;pointer-events:auto}
 .top,.top .nav button,.top .pnow{transition:background-color .35s linear,color .35s linear}
 
 
+/* ── a title wears its own state ─────────────────────────────────────────
+   Sketched is drawn and not filled. Stitched is filled with thread. BORN is
+   solid and in colour. The same three states the mark lives, in the type.
+   The ink these are drawn in is --ts, named on whatever ground they sit on:
+   a stroke or a thread cannot be currentColor, because on these titles the
+   colour itself is what has been taken away. */
+/* the doubled class is deliberate: these have to outrank whatever colours a
+   heading on the ground it happens to be sitting on */
+.t-sketch.t-sketch{-webkit-text-stroke:1.8px var(--ts,var(--ink));color:transparent}
+.t-stitch.t-stitch{background-image:repeating-linear-gradient(45deg,
+    var(--ts,var(--ink)) 0 2.2px,transparent 2.2px 6.4px);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-stroke:.9px var(--ts,var(--ink))}
+/* BORN is solid in whatever colour the ground calls for, so it is left alone */
+.field--ink,.field--red,.acts__s[data-i="1"],.acts__s[data-i="2"]{--ts:var(--paper)}
+.acts__s[data-i="0"],.band{--ts:var(--ink)}
+@media(max-width:760px){.t-sketch.t-sketch{-webkit-text-stroke-width:1.2px}
+  .t-stitch.t-stitch{-webkit-text-stroke-width:.6px;
+    background-image:repeating-linear-gradient(45deg,
+      var(--ts,var(--ink)) 0 1.5px,transparent 1.5px 4.4px)}}
+
+/* the fill sweeps in when its state arrives */
+html.js .acts__s .acts__nm{clip-path:inset(0 102% 0 0)}
+html.js .acts__s.on .acts__nm{clip-path:inset(0 -2% 0 0);
+  transition:clip-path .85s var(--ease) .12s}
+@media(prefers-reduced-motion:reduce){
+  html.js .acts__s .acts__nm,html.js .acts__s.on .acts__nm{clip-path:none;transition:none}}
+
+/* ── the last section: the sentence finishes ──────────────────────────────
+   The closer is not a footer, it is the end of the studio's own sentence, and
+   the scrollbar plays it. Rojo Valentino floods up from the foot of the page
+   and swallows the graph paper; the mark is then drawn, stitched and set
+   solid; and the last thing left standing is the finished logotype with its
+   dot. Hold the scroll anywhere and the sequence holds with you; scroll back
+   up and it runs backwards. Without JavaScript, and in print, the whole thing
+   collapses to the finished mark on red — the still frame the sequence ends on. */
+.closer{position:relative;background:var(--from,var(--paper));color:var(--paper)}
+.closer__track{position:relative}
+html.js .closer__track{height:250vh}
+.closer__stage{position:relative;overflow:hidden;background:var(--from,var(--paper));
+  display:grid;place-items:center;align-content:center;
+  min-height:min(94vh,780px);padding-block:clamp(3rem,9vh,6rem)}
+html.js .closer__stage{position:sticky;top:0;height:100vh;min-height:540px;padding-block:0}
+.closer__flood{position:absolute;inset:0;background:var(--red);
+  transform:translate3d(0,calc((1 - var(--fl,1)) * 101%),0);will-change:transform}
+.closer__grid{position:absolute;inset:0;opacity:calc(1 - var(--fl,1));
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px),
+   linear-gradient(90deg,var(--rule) 1px,transparent 1px);
+  background-size:34px 34px}
+
+/* the three states, and then the mark itself */
+.closer__in{position:relative;z-index:1;display:flex;flex-direction:column;
+  align-items:center;text-align:center;width:100%}
+.closer__wm{position:relative;width:min(430px,74vw)}
+.closer__wm > span{display:block;opacity:0;transform:scale(.98);
+  transition:opacity .5s var(--ease),transform .8s var(--ease)}
+.closer__wm > span:not(:first-child){position:absolute;inset:0}
+.closer__wm > span.on{opacity:1;transform:none}
+.closer__wm svg{width:100%;height:auto;display:block}
+.closer .p-sk,.closer .p-skc{stroke:rgba(242,238,230,.9)}
+.closer .p-st{stroke:var(--paper)}
+.closer .p-bo{fill:var(--paper)}
+.closer .wmdot{transform-box:fill-box;transform-origin:50% 50%;transform:scale(0)}
+.closer__wm > span.on .wmdot{transform:none;
+  transition:transform .62s cubic-bezier(.18,1.55,.35,1) .28s}
+.closer__stg{position:relative;height:2em;width:100%;margin-top:clamp(1rem,2.6vh,1.7rem)}
+.closer__stg span{position:absolute;left:0;right:0;opacity:0;transform:translate3d(0,9px,0);
+  transition:opacity .42s var(--ease),transform .55s var(--ease);
+  font-family:var(--serif6);font-weight:600;font-size:clamp(1rem,2.3vw,1.45rem)}
+.closer__stg span.on{opacity:1;transform:none}
+.closer__stg i{font-style:normal;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;
+  opacity:.62;margin-right:.7rem;vertical-align:.3em}
+
+/* the rail keeps count of where the sequence is */
+.closer__rail{position:absolute;z-index:2;left:clamp(1rem,4vw,3.2rem);top:50%;
+  transform:translateY(-50%);display:flex;flex-direction:column;gap:.95rem;
+  opacity:0;transition:opacity .5s var(--ease)}
+.closer.lit .closer__rail{opacity:1}
+.closer__rail b{display:flex;align-items:center;gap:.55rem;font-weight:400;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;
+  color:rgba(242,238,230,.4);transition:color .45s var(--ease)}
+.closer__rail b::before{content:'';width:24px;height:1px;background:currentColor;flex:none;
+  transform:scaleX(.34);transform-origin:0 50%;transition:transform .55s var(--ease)}
+.closer__rail b.on{color:var(--paper)}
+.closer__rail b.on::before{transform:scaleX(1)}
+
+/* and the words the document signs off with */
+.closer__end{position:absolute;left:0;right:0;bottom:clamp(1.6rem,6vh,4rem);z-index:1;
+  padding-left:var(--pad);padding-right:var(--pad);
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:.85rem;
+  opacity:0;transform:translate3d(0,20px,0);
+  transition:opacity .7s var(--ease),transform .8s var(--ease)}
+.closer.ended .closer__end{opacity:1;transform:none}
+.closer h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.4rem,3.4vw,2.5rem);
+  line-height:1.02;letter-spacing:-.025em;max-width:22ch;text-wrap:balance;color:inherit}
+.closer p{font-size:.95rem;max-width:52ch;opacity:.84;color:inherit}
+.closer .sig{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;opacity:.7;
+  padding-top:.8rem;border-top:1px solid currentColor}
+@media(max-height:760px){
+  .closer__wm{width:min(340px,58vw)}
+  .closer h2{font-size:clamp(1.2rem,2.6vw,1.7rem)}
+  .closer p:not(.sig){display:none}}
+@media(max-width:760px){
+  .closer__rail{display:none}
+  .closer__end{gap:.6rem}
+  html.js .closer__track{height:230vh}}
+/* still frames: no script, reduced motion, print */
+html:not(.js) .closer__flood,html:not(.js) .closer__grid{transform:none}
+html:not(.js) .closer__grid{display:none}
+html:not(.js) .closer__end{opacity:1;transform:none}
+html:not(.js) .closer__rail{display:none}
+@media(prefers-reduced-motion:reduce){
+  html.js .closer__track{height:auto}
+  html.js .closer__stage{position:static;height:auto;min-height:min(94vh,780px);
+    padding-block:clamp(3rem,9vh,6rem);background:var(--red)}
+  html.js .closer__flood,html.js .closer__grid{display:none}
+  html.js .closer__end{position:relative;bottom:auto;opacity:1;transform:none;
+    margin-top:clamp(1.6rem,5vh,3rem)}
+  html.js .closer__rail{display:none}
+  html.js .closer__wm > span{transition:none}
+  html.js .closer .wmdot{transform:none}}
+
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -1247,6 +1444,21 @@ html.js .acts__s.on{opacity:1;transform:none;pointer-events:auto}
   .acts__s,html.js .acts__s{opacity:1!important;transform:none!important;
     position:relative;grid-area:auto;margin-bottom:2rem}
   .acts__tex,.acts__rail,.door__cue,.door__grid,.notch{display:none!important}
+  .sec--rule::before,.docopen__rl,.docopen__tk{transform:none!important}
+  .shd__n,.shd__t{opacity:1!important;transform:none!important}
+  .shd{page-break-after:avoid}
+  .docopen h1 .wd i,.docopen .type,.docopen .who,.docopen__b,.closer__end{
+    opacity:1!important;transform:none!important}
+  .docopen__gh,.closer__rail,.closer__grid,.closer__flood{display:none!important}
+  .closer__track,html.js .closer__track{height:auto!important}
+  .closer__stage,html.js .closer__stage{position:static!important;height:auto!important;
+    min-height:0!important;background:#fff!important;color:#000!important;overflow:visible}
+  .closer__end{position:static!important;margin-top:1.4rem}
+  .closer__wm > span:not(:last-child){display:none}
+  .closer__wm > span:last-child{position:static;opacity:1!important}
+  .closer__wm{width:210px}
+  .closer .p-bo,.closer__wm svg path{fill:#000!important}
+  .closer__stg span:not(.on){display:none}
   .door{min-height:0;page-break-after:always}
   .hero__in{min-height:0}
   .ink{background:#fff;color:#000}
@@ -1368,6 +1580,8 @@ def entry(e):
   {body}{pay}</div>
 </article>"""
 
+TSTATE = {"sketched": "t-sketch", "stitched": "t-stitch", "born": "t-born"}
+
 def band(key):
     r = REGISTERS[key]
     ph = next(p for p in PHASES if p["key"] == key)
@@ -1375,7 +1589,7 @@ def band(key):
             "born": SVG["state_born"]}[key]
     red = ' field--red' if key == 'born' else ''
     return f"""<div class="band{red}"><div class="tex" aria-hidden="true"></div><div class="w band__in">
- <div><p class="n">Phase {r['n']}</p><h2 class="d2">{r['name']}</h2>
+ <div><p class="n">Phase {r['n']}</p><h2 class="d2 {TSTATE[key]}">{r['name']}</h2>
    <p class="ln">{r['line']}</p><div class="lg">{logo}</div></div>
  <div><p class="df">{r['defn']}</p>
    <p class="win">{ph['title']} &middot; {ph['window']}</p></div>
@@ -1437,8 +1651,7 @@ def standfirst():
 </div>{askblock}</div>"""
 
 DOCS = [("range", "The range"), ("logbook", "Logbook"), ("techpack", "Tech pack"),
-        ("fitting", "Fitting"), ("billing", "Billing"), ("handover", "Handover"),
-        ("system", "System")]
+        ("fitting", "Fitting"), ("handover", "Handover"), ("system", "System")]
 
 def top():
     tabs = "".join(
@@ -1492,27 +1705,100 @@ def pstrip(doc):
             f'<span>Phase {r["n"]} &middot; {r["line"]}</span>'
             f'<span class="pstrip__t">{note}</span></div>')
 
+# ════════════════════════════════════════════════════════ section heads ═══
+_EYE = _re.compile(r'<div class="(sec(?: sec--rule)?)">\s*<p class="eyebrow">(.*?)</p>',
+                   _re.S)
+
+def heads(html, key):
+    """Promote a document's own section labels to section heads. The label is
+    written once, in one place, as plain text; the count, the phase colour and
+    the split between name and qualifier are the system's business, not the
+    content's. The count is a CSS counter rather than a number written into
+    the markup, because a tech pack shows one style at a time: a section that
+    is not on screen must not take a number, or the reader watches the count
+    jump when they change style. The section also takes the phase the document
+    is written in, so
+    the rule it opens on is drawn in that phase's own line — dotted while the
+    work is being sketched, stitch-dashed while it is being fitted, solid once
+    it is BORN. Only a label that opens a section is touched; the ones that
+    caption a garment or a spread are left as they are."""
+    def one(m):
+        bits = m.group(2).split("&middot;", 1)
+        q = f'<span class="shd__q">{bits[1].strip()}</span>' if len(bits) > 1 else ""
+        return (f'<div class="{m.group(1)} ph-{key}">'
+                f'<div class="shd"><i class="shd__n" aria-hidden="true"></i>'
+                f'<p class="shd__t">{bits[0].strip()}{q}</p></div>')
+    return _EYE.sub(one, html)
+
 def masthead(doctype, title, meta, doc=None, red=False):
     """Documents open the way the garments do — a full-bleed field, the title at
-    poster scale, and the phase the document belongs to stated in its own line."""
+    poster scale, and the phase the document belongs to stated in its own line.
+    The phase numeral stands behind the title at cover scale and drifts against
+    the scroll; the title arrives a word at a time and then stops. Everything a
+    reader has to read is still by the time they are reading it."""
     rows = "".join(f"<div>{k} <b>{v}</b></div>" for k, v in meta)
     field = "field--red docopen--red" if red else "field--ink"
-    return f"""<div class="docopen bleed {field}"><div class="doc docopen__in">
- <p class="type">{doctype}</p>
- <h1>{title}</h1>
+    ghost = ""
+    if doc:
+        r = REGISTERS[DOC_PHASE[doc][0]]
+        ghost = (f'<div class="docopen__gh" aria-hidden="true">'
+                 f'<b>{r["n"]}</b><span>{r["name"]}</span></div>')
+    words = " ".join(f'<span class="wd"><i>{w}</i></span>' for w in title.split(" "))
+    return f"""<div class="docopen bleed {field}" data-open>{ghost}<div class="doc docopen__in">
+ <p class="type"><i class="docopen__tk"></i>{doctype}</p>
+ <h1>{words}</h1>
  <p class="who">{PROJECT['client_long']} &middot; {PROJECT['capsule']} &middot; {PROJECT['drop']}</p>
+ <div class="docopen__rl"></div>
  <div class="docopen__b">{pstrip(doc) if doc else '<span></span>'}
   <div class="docopen__m">{rows}</div></div>
 </div></div>"""
 
+ON = ' class="on"'   # f-strings cannot hold a backslash, so the quotes live here
+
+# The finished logotype, set for a red ground, with the dot on a handle of its
+# own so it can be made to land at the end of the sequence.
+FINAL_WM = SVG["wm_solo_onred"].replace(
+    '<path fill="#1B1720"', '<g class="wmdot"><path fill="#1B1720"', 1)
+assert FINAL_WM.count('<g class="wmdot">') == 1
+FINAL_WM = FINAL_WM.replace("/></svg>", "/></g></svg>", 1)
+# on red the hatch has to be cut in paper, not in ink
+STITCH_WM = SVG["state_stitch"].replace("url(#hatch)", "url(#hatch-d)")
+
 def closer(line, note, frm="var(--paper)"):
-    """The page turns Rojo Valentino at the end. Every panel closes on it."""
-    return f"""<div class="closer bleed" style="--from:{frm}"><div class="doc closer__in">
- <div class="wm">{SVG['wm_solo']}</div>
- <h2>{line}</h2>
- <p>{note}</p>
- <p class="sig">{PROJECT['studio_long']} &middot; {PROJECT['ref']} &middot; From idea to life</p>
-</div></div>"""
+    """The end of a document is the end of the studio's sentence, and the
+    scrollbar reads it out: Rojo Valentino floods up over the graph paper, the
+    mark is drawn, then stitched, then set solid, and the last thing standing is
+    the finished logotype — BORN, with its dot landing on the end of it. Hold
+    the scroll and the sequence holds; scroll back and it runs backwards."""
+    stages = [("01", "Sketched"), ("02", "Stitched"), ("03", "BORN"),
+              ("", "From idea to life")]
+    rail = "".join(f"<b data-r=\"{i}\">{n or '&mdash;'}</b>"
+                   for i, (n, _) in enumerate(stages))
+    names = "".join(
+        f'<span data-s="{i}"{ON if i == 3 else ""}>'
+        f'{f"<i>{n}</i>" if n else ""}{t}</span>'
+        for i, (n, t) in enumerate(stages))
+    return f"""<div class="closer bleed" data-closer style="--from:{frm}">
+ <div class="closer__track"><div class="closer__stage">
+  <div class="closer__flood" aria-hidden="true"></div>
+  <div class="closer__grid" aria-hidden="true"></div>
+  <div class="closer__rail" aria-hidden="true">{rail}</div>
+  <div class="closer__in">
+   <div class="closer__wm" aria-label="Sketched, stitched, BORN.">
+    <span data-i="0">{SVG['state_sketch']}</span>
+    <span data-i="1">{STITCH_WM}</span>
+    <span data-i="2">{SVG['state_born']}</span>
+    <span data-i="3" class="on">{FINAL_WM}</span>
+   </div>
+   <p class="closer__stg">{names}</p>
+  </div>
+  <div class="closer__end">
+   <h2>{line}</h2>
+   <p>{note}</p>
+   <p class="sig">{PROJECT['studio_long']} &middot; {PROJECT['ref']}</p>
+  </div>
+ </div></div>
+</div>"""
 
 def sheetfoot(extra=""):
     return (f'<div class="dfoot"><span>{PROJECT["studio_long"]}</span>'
@@ -2181,7 +2467,7 @@ def process():
         logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
                 "born": SVG["state_born"]}[key]
         slides += f"""<div class="acts__s{' on' if i == 0 else ''}" data-i="{i}" data-phase="{key}">
- <div><p class="acts__n">{r['n']}</p><h3 class="acts__nm">{r['name']}</h3>
+ <div><p class="acts__n">{r['n']}</p><h3 class="acts__nm {TSTATE[key]}">{r['name']}</h3>
   <p class="acts__ln">{r['line']}</p><div class="acts__lg">{logo}</div></div>
  <div><p class="acts__body">{work}</p>
   <p class="acts__f">{mk(state)}<span>{where}</span><span class="wk">{span}</span></p></div>
@@ -2221,7 +2507,7 @@ def range_panel():
         for c, nm, h, _ in COLORWAYS)
     spreads = "".join(spread(st, n) for n, st in enumerate(STYLES, 1))
     return f"""<section class="panel active" id="p-range" role="tabpanel" aria-labelledby="t-range">
-{door()}
+{door()}{process()}
  <div class="cover bleed field--ink"><div class="cover__in">
   <div class="cover__t">
    <p class="m m--r">{PROJECT['studio_long']}</p>
@@ -2246,9 +2532,7 @@ def range_panel():
   <div class="toc__h"><div>{GRAIN}<h2 class="d3">The range</h2></div><p class="m">Six styles &middot; {PROJECT['drop']}</p></div>
   {toc}
  </div>
-
-</div>{process()}<div class="w">
- </div>{spreads}
+{spreads}
 
  <div class="ink"><div class="w">
   <p class="m m--r">Colour</p>
@@ -2282,7 +2566,7 @@ JS = r"""<script>
     });
     if(!found)return;
     history.replaceState(null,'','#'+key);
-    setTimeout(function(){readPhase();settle();},40);
+    setTimeout(function(){readPhase();settle();paintReveal();paintFlood();},40);
     if(!keep)window.scrollTo(0,0);
   }
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.doc);});});
@@ -2534,7 +2818,52 @@ JS = r"""<script>
     rails.forEach(function(sp,i){sp.classList.toggle('on',i===idx);});
   }
 
-  // ── the page turns Rojo Valentino as the closer arrives ──────────────────
+  // ── the last section floods, and the mark finishes the sentence ──────────
+  // The scrollbar is the transport. Progress through the closer's track drives
+  // the flood first, then the three states in order, and the finished logotype
+  // last, with the dot landing on it. Nothing here runs on a timer, so it can
+  // be held, reversed, or read at whatever pace the client scrolls at.
+  var closers=$$('[data-closer]'),REDUCED=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function paintFlood(){
+    closers.forEach(function(c){
+      var tr=c.firstElementChild;if(!tr)return;
+      var r=tr.getBoundingClientRect();
+      if(r.bottom<-300||r.top>innerHeight+300)return;
+      var run=tr.offsetHeight-innerHeight,f;
+      if(REDUCED||run<80){f=Math.min(1,Math.max(0,(innerHeight-r.top)/(innerHeight*.72)));}
+      else{f=Math.min(1,Math.max(0,-r.top/run));}
+      c.style.setProperty('--f',f.toFixed(3));
+      c.style.setProperty('--fl',Math.min(1,f/.16).toFixed(3));
+      c.classList.toggle('flooded',f>.12);
+      c.classList.toggle('seen',f>.02);
+      c.classList.toggle('lit',f>.20&&f<.90);
+      c.classList.toggle('ended',f>.80);
+      var k=f<.18?-1:(f<.37?0:(f<.55?1:(f<.70?2:3)));
+      $$('.closer__wm > span',c).forEach(function(sp,i){sp.classList.toggle('on',i===k);});
+      $$('.closer__stg span',c).forEach(function(sp,i){sp.classList.toggle('on',i===k);});
+      $$('.closer__rail b',c).forEach(function(b,i){b.classList.toggle('on',i<=k);});
+    });
+  }
+
+  // ── openers and section heads arrive as you reach them ───────────────────
+  // Once each, and only in the panel on screen: a head that has arrived stays
+  // arrived, so nothing re-animates under a reader who scrolls back up.
+  function paintReveal(){
+    var host=$('.panel.active');if(!host)return;
+    var els=host.querySelectorAll('.docopen:not(.in),.sec:not(.in)');
+    for(var i=0;i<els.length;i++){
+      var r=els[i].getBoundingClientRect();
+      if(r.top<innerHeight*.92&&r.bottom>-40)els[i].classList.add('in');
+    }
+    var op=host.querySelector('.docopen');
+    if(op){
+      var g=op.querySelector('.docopen__gh');
+      if(g)g.style.setProperty('--gy',
+        Math.round(Math.max(-90,Math.min(90,-op.getBoundingClientRect().top*.13)))+'px');
+    }
+  }
+
+  // ── the header turns with it ─────────────────────────────────────────────
   var topbar=$('.top');
   function paintTurn(){
     var cl=$('.panel.active .closer'),t=0;
@@ -2598,7 +2927,7 @@ JS = r"""<script>
   }
 
   var raf=false;
-  function frame(){paintActs();paintTurn();raf=false;}
+  function frame(){paintActs();paintFlood();paintTurn();paintReveal();raf=false;}
   addEventListener('scroll',function(){
     if(raf)return;raf=true;requestAnimationFrame(frame);
   },{passive:true});
@@ -2615,6 +2944,8 @@ LOGBOOK = ('<section class="panel" id="p-logbook" role="tabpanel" '
            + closer("From idea to life.",
                     "Every decision, every sample and every measurement, with the date it "
                     "happened and the reason behind it.", "var(--red)") + '</section>')
+# The quote and the invoice are still built; drop ("billing", "Billing") back into
+# DOCS and BILLING back into BODY to put the tab back in the room.
 BILLING = quote() + invoice() + "</section>"
 LIGHTBOX = ('<div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label="Full size">'
             '<button class="lbx__x" id="lbX" type="button">Close &times;</button>'
@@ -2628,8 +2959,10 @@ LIGHTBOX = ('<div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label
             '<figcaption id="lbC"></figcaption></div></figure>'
             '<button class="lbx__a n" id="lbN" type="button" aria-label="Next">&#8250;</button></div>')
 
-BODY = (DEFS + top() + '<main>' + range_panel() + LOGBOOK + techpack() + fitting()
-        + BILLING + handover() + system() + '</main>' + LIGHTBOX + JS)
+BODY = (DEFS + top() + '<main>' + range_panel() + LOGBOOK
+        + heads(techpack(), "sketched") + heads(fitting(), "stitched")
+        + heads(handover(), "born") + heads(system(), "born")
+        + '</main>' + LIGHTBOX + JS)
 HEAD = "<style>\n" + FONTS + "\n" + CSS + "\n" + IMGCSS + "\n</style>"
 
 artifact = "<title>BORN Project Room</title>\n" + HEAD + "\n" + BODY

@@ -107,20 +107,33 @@ Netlify, Vercel…). Al ser un único archivo autónomo, no hay pasos de build.
 —fuentes e imágenes embebidas, sin build, sin red— que funciona offline, por correo o en
 cualquier hosting estático.
 
-### Siete secciones
+### Seis secciones
 
-**The range** — portada, índice y una lámina por estilo: el flat técnico a ancho completo,
-la ficha, los callouts de construcción, los colorways y una **galería** con todas las
-vistas. **Logbook** — la bitácora fechada. **Tech pack** · **Fitting** · **Billing** ·
-**Handover** — los documentos, cada uno imprime solo a A4. **System** — cómo se arma una
-sala nueva.
+**The range** — puerta, las tres fases, portada del proyecto, índice y una lámina por
+estilo: el flat técnico a ancho completo, la ficha, los callouts de construcción, los
+colorways y una **galería** con todas las vistas. **Logbook** — la bitácora fechada.
+**Tech pack** · **Fitting** · **Handover** — los documentos, cada uno imprime solo a A4.
+**System** — cómo se arma una sala nueva.
+
+La cotización y la factura siguen construidas en `build_room.py` (`quote()`, `invoice()`,
+`BILLING`): para volver a montar la pestaña basta con devolver `("billing", "Billing")` a
+`DOCS` y `BILLING` a `BODY`. Se retiraron de la sala, no del sistema.
 
 ### Las fases conceptuales
 
-La sección **The process** abre el documento con los tres estados del oficio, cada uno
+Justo después de la puerta, **The process** presenta los tres estados del oficio, cada uno
 dibujado en su propio registro: *Sketched* sobre la retícula de construcción, *Stitched*
-sobre la trama diagonal, *BORN* sobre tinta. Funciona como método y como leyenda de todo
-lo que viene después.
+sobre la trama diagonal, *BORN* sobre tinta. Se recorre antes de ver el proyecto, así que
+funciona como método y como leyenda de todo lo que viene después.
+
+### Los títulos llevan puesto su estado
+
+Un título en fase *Sketched* se dibuja y no se rellena —tipografía en contorno—; uno en
+*Stitched* se rellena de hilo —trama de pespunte recortada contra la letra—; *BORN* es
+sólido y a color. Es el mismo sistema del wordmark trasladado a la tipografía, y aparece
+tanto en las tres fases como en las bandas de la bitácora. El color del trazo se nombra
+en `--ts` según el terreno: no puede ser `currentColor`, porque en estos títulos el color
+es justamente lo que se ha quitado.
 
 ### La galería *es* el proceso
 
@@ -208,15 +221,31 @@ Y el documento **cruza contigo**:
 
 Cada pestaña **abre a sangre y cierra en Rojo Valentino**:
 
-- El **encabezado de cada documento** es un campo a sangre en tinta —en rojo para la factura
-  y el handover— con el título en versales Didone a escala de cartel y la fase declarada
-  debajo.
-- El **importe debido** de la factura es un campo rojo a sangre con la cifra a 10vw. Es el
-  número más alto del documento, porque lo es.
+- El **encabezado de cada documento** es un campo a sangre en tinta —en rojo para el
+  handover— con el título en versales Didone a escala de cartel y la fase declarada debajo.
+  El numeral de la fase se imprime en contorno a escala de portada, sangrado por el borde
+  derecho, y deriva contra el scroll; el título entra palabra por palabra desde su propia
+  línea de base y se detiene. Lo que hay que leer está quieto cuando se lee.
 - El **veredicto** del fitting report es un campo en tinta a sangre.
-- Y **todas las pestañas terminan con la página volviéndose roja**: un degradado de papel a
-  Rojo Valentino que sostiene el wordmark, una frase de cierre propia de cada documento y la
-  firma del estudio. Es el mismo gesto con el que cierra el brandbook.
+- Y **todas las pestañas terminan con la página volviéndose roja**. El cierre no es un pie:
+  es el final de la frase del estudio, y lo lee la barra de scroll. El Rojo Valentino sube
+  desde el pie y se traga el papel cuadriculado; la marca se dibuja, se pespuntea y se pone
+  sólida; y lo último que queda en pie es el logotipo terminado —**BORN, con su punto**—
+  con la firma del documento debajo. Se puede detener en cualquier estado, y va hacia atrás
+  si se sube. Sin JavaScript, con *reduced motion* y al imprimir, todo colapsa al fotograma
+  final: la marca terminada sobre rojo.
+
+### Los encabezados de sección
+
+Dentro de cada documento, la etiqueta de sección se escribe una sola vez y en texto plano;
+el sistema hace el resto (`heads()` en `build_room.py`). El nombre pasa a la Didone, lo que
+seguía al punto medio se queda al lado en cuerpo pequeño —el matiz que necesita el lector
+técnico junto al título que necesita quien escanea—, y la sección se numera sola con un
+contador CSS. Es un contador y no un número escrito en el marcado a propósito: el tech pack
+muestra un estilo a la vez, y una sección que no está en pantalla no debe llevarse un
+número. La regla sobre la que abre se dibuja en la línea de su fase —punteada mientras se
+dibuja, pespunteada mientras se prueba, sólida cuando ya es BORN— y se traza de izquierda a
+derecha al llegar.
 
 ### El lenguaje: la hoja de patrón
 
