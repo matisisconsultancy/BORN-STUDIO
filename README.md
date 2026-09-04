@@ -149,6 +149,30 @@ en un teléfono se lee "RAGLAN SLEEVES" sin hacer nada.
 
 El registro nunca dice si algo está terminado; el marcador nunca dice en qué fase estás.
 
+### El lenguaje: la hoja de patrón
+
+El vocabulario no es "editorial" en general — es **patronaje**. Es lo que hace que esto no
+se parezca a cualquier otro documento:
+
+- **La costura.** Cada división es una línea sólida con su compañera punteada 5 px debajo:
+  línea de costura y margen de costura. Un solo detalle, en toda la página.
+- **El hilo (*grainline*).** La flecha de doble punta abre cada sección, en vez de un
+  numerito o una etiqueta.
+- **El piquete (*notch*).** Lo activo se marca con un corte en el filete, no con un
+  subrayado.
+- **La regla graduada.** El borde inferior del header está graduado y el avance de lectura
+  lo va llenando en rojo: una cinta métrica. El código de estilo también se apoya en una.
+- **La ficha técnica como layout.** El índice del estilo vive en su propio canal a la
+  izquierda, el nombre arranca en el borde de texto, las medidas van a la derecha.
+
+### La regla de voz
+
+**Una etiqueta es algo que dice una persona**, así que va en la tipografía de texto, en
+caja baja. **La monoespaciada se reserva para lo que produjo una máquina**: códigos,
+medidas, fechas, dinero. Nada más se compone en ella. Antes había versalitas espaciadas en
+mono en cada bloque de la página — es la señal más reconocible de "documento generado", y
+ya no queda ninguna.
+
 ### Decisiones de diseño
 
 - **Los dibujos flotan, las fotografías se enmarcan.** Flats, colorways y renders van con

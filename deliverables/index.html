@@ -37,7 +37,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topH) + 1.5rem)}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);
-  font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased}
+  font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased;overflow-x:clip}
 img,svg{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--red);color:var(--paper)}
@@ -65,8 +65,7 @@ a{color:inherit;text-decoration:none}
 .rule--ink{border-top:1px solid var(--ink)}
 
 /* ── chrome ───────────────────────────────────────────────────────────────── */
-.prog{position:fixed;top:0;left:0;height:2px;background:var(--red);z-index:80;
-  width:0;transform-origin:0 50%}
+
 .top{position:sticky;top:0;z-index:70;background:rgba(242,238,230,.93);
   backdrop-filter:blur(16px);border-bottom:1px solid var(--hair)}
 .top__in{max-width:var(--max);margin:0 auto;padding:0 var(--pad);min-height:var(--topH);
@@ -99,7 +98,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 
 /* ── cover ────────────────────────────────────────────────────────────────── */
 .cover{padding-block:clamp(2rem,5vw,4rem) clamp(2.4rem,5vw,4rem)}
-.cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.82fr);
+.cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
   gap:var(--gap);align-items:center}
 @media(max-width:900px){.cover__in{grid-template-columns:1fr}}
 .cover h1{margin:.5rem 0 0;font-size:clamp(4.5rem,15vw,12rem)}
@@ -113,7 +112,10 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   text-transform:uppercase;color:var(--g3)}
 .cover__meta dd{font-family:var(--mono);font-size:.82rem;margin-top:.2rem;
   font-variant-numeric:tabular-nums}
-.cover__r .im{width:100%;max-height:74vh;background-position:center right}
+/* the garment runs off the edge of the sheet the way it runs off a marker */
+.cover__r{width:calc(100% + var(--pad) + max(0px,(100vw - var(--max))/2));
+  margin-right:calc(-1 * (var(--pad) + max(0px,(100vw - var(--max))/2)))}
+.cover__r .im{width:100%;max-height:76vh;background-position:center right}
 /* the mark matures once, on load — sketched, stitched, born */
 .matur{position:relative;display:block;width:90px;height:19px}
 .matur > span{position:absolute;inset:0;opacity:0}
@@ -129,7 +131,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 @media(max-width:860px){.proc__h{grid-template-columns:1fr;gap:1.4rem}}
 .proc__g{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,3vw,2.6rem)}
 @media(max-width:860px){.proc__g{grid-template-columns:1fr;gap:2rem}}
-.ph3{border-top:1px solid var(--ink);padding-top:1.1rem}
+.ph3{border-top:1px solid var(--ink);padding-top:1.1rem;display:flex;flex-direction:column}
 .ph3__tex{padding:1.4rem 1.2rem;margin-bottom:1.2rem;display:flex;align-items:center;
   min-height:104px}
 .ph3--sketched .ph3__tex{background-image:linear-gradient(rgba(74,69,79,.10) 1px,transparent 1px),
@@ -145,11 +147,11 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .ph3 .ln{font-family:var(--serif6);font-weight:600;font-size:1.02rem;color:var(--g2);
   margin:.25rem 0 .7rem}
 .ph3 .p{font-size:.92rem}
-.ph3__f{display:flex;align-items:center;gap:.6rem;margin-top:1.1rem;padding-top:.8rem;
+.ph3__f{display:flex;align-items:center;gap:.6rem;margin-top:auto;padding-top:.9rem;
   border-top:1px solid var(--hair);font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--g3)}
 .ph3.is-now .ph3__f{color:var(--red)}
-.ph3__f .sp{margin-left:auto;color:var(--g3)}
+.ph3__f .wk{margin-left:auto;color:var(--g3)}
 
 /* ── the phase rail: where the view you are looking at came from ─────────── */
 .rail{display:flex;align-items:center;gap:.6rem;margin-top:1.1rem;padding-top:.9rem;
@@ -191,13 +193,18 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 
 /* ── style spread ─────────────────────────────────────────────────────────── */
 .sp{padding-block:clamp(2.6rem,7vw,6rem) clamp(1.5rem,4vw,3rem);border-top:1px solid var(--ink)}
-.sp__h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:var(--gap);
-  align-items:end}
-@media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:1.2rem}}
-.sp__ix{font-family:var(--serif);font-weight:900;line-height:.76;letter-spacing:-.05em;
-  font-size:clamp(5rem,15vw,13rem);color:var(--ink)}
+.sp__h{display:grid;grid-template-columns:clamp(4.6rem,7.6vw,7.4rem) minmax(0,1fr) minmax(0,.56fr);
+  gap:clamp(1rem,2.4vw,2.4rem) clamp(1.2rem,3vw,3rem);align-items:start;padding-top:1.6rem}
+@media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:.9rem}}
+.sp__nm{min-width:0}
+.sp__code{font-family:var(--mono);font-size:.86rem;letter-spacing:.06em;color:var(--g2);
+  margin-top:.9rem;padding-top:.55rem;
+  background:repeating-linear-gradient(90deg,rgba(27,23,32,.3) 0 1px,transparent 1px 11px)
+    top left/100% 4px no-repeat}
+.sp__ix{font-family:var(--serif);font-weight:900;line-height:.74;letter-spacing:-.055em;
+  font-size:clamp(2.8rem,5vw,5.2rem);color:var(--ink);margin-left:-.05em}
 .sp__ix em{font-style:normal;color:var(--red)}
-.sp h2{margin-top:.4rem;max-width:18ch}
+.sp h2{margin-top:.1rem;max-width:17ch;letter-spacing:-.032em;line-height:.94}
 .sp__meta{display:grid;gap:.75rem;padding-bottom:.4rem}
 .sp__meta div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:.8rem;
   padding-bottom:.7rem;border-bottom:1px solid var(--hair)}
@@ -608,6 +615,116 @@ pre.code .cm{color:var(--g3)}
 pre.code .st{color:#E8A0AE}
 pre.code .ky{color:var(--g4)}
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE PATTERN SHEET
+   The vernacular here is not "editorial" in general — it is pattern making.
+   A seam line carries its allowance five pixels below it. A grainline opens a
+   section. A notch marks what is active. A graduated rule measures the read.
+   Those are BORN's own materials, and they are what keep this from looking
+   like every other document.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── voice ────────────────────────────────────────────────────────────────
+   A label is something a person says, so it is set in the body face, in
+   sentence case. The monospace is reserved for what a machine produced:
+   codes, measurements, dates, money. Nothing else is ever set in it. */
+.m,.eyebrow,.e__k,.gal__hint,.rail__l,.kinds .kn,.spec .ln,
+.dl dt,.facts dt,.cover__meta dt,.sp__meta dt,table.t th,
+.dec .lbl,.apr .lbl,.alr .lbl,.pay-g .wh,.due .l,.sign .rl,.sign .lb,
+.toc .cat,.ph3 .n,.ph3__f,.meas__h,.clear,.rel .nt,.alr .ow,.vd,.tag,
+.golink,.pick button,.nav button,.mast__l .type,.note,.apr .wq,
+.lbx__x,.lbx__bar figcaption,.gal__stage figcaption,.strip figcaption{
+  font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
+.m,.eyebrow{font-size:.83rem;color:var(--graphite);line-height:1.4}
+.m--r{color:var(--red)}
+.e__k,.toc .cat,.rel .nt,.apr .lbl,.dec .lbl,.alr .lbl,.ph3 .n,
+.gal__hint,.rail__l,.sign .rl,.due .l,.pay-g .wh,.vd,.tag,.spec .ln{
+  font-size:.8rem;color:var(--graphite)}
+.dl dt,.facts dt,.cover__meta dt,.sp__meta dt,table.t th,.sign .lb{
+  font-size:.76rem;color:var(--graphite)}
+.note,.meas__h,.clear,.golink,.ph3__f,.kinds .kn{font-size:.8rem}
+.eyebrow{margin-bottom:.8rem}
+.meas__h b,.clear b{font-family:var(--mono);font-size:.76rem;color:var(--ink)}
+.m--r,.dec .a .lbl,.apr--wait .lbl,.alr .r .lbl,.ph3.is-now .n,
+.ph3.is-now .ph3__f,.alr .ow,.tag--r,.kinds .kn{color:var(--red)}
+.mast__l .type{font-family:var(--serif6);font-weight:600;font-size:1rem;color:var(--red)}
+.mast__r .meta,.dfoot{text-transform:none;letter-spacing:.02em}
+.top .mark span{font-family:var(--sans);text-transform:none;letter-spacing:0;font-size:.78rem}
+
+/* the payload labels, the captions and the remaining chrome speak too */
+figcaption,.dec .lb,.apr .lb,.alr .lb,.band .win,.meter__l,.ask .k,
+table.t tr.grp .gt,.pick .pk,.gal__cap .n,.sw{
+  font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
+figcaption,.band .win,.meter__l,.ask .k,.pick .pk{font-size:.8rem;color:var(--graphite)}
+.dec .lb,.apr .lb,.alr .lb{font-size:.8rem;color:var(--graphite)}
+.dec .a .lb,.apr--wait .lb,.alr .r .lb,.ask .k{color:var(--red)}
+table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
+/* dates, references and totals stay machined */
+.e__d .mm,.mast__r .meta,.dfoot,.chip .c,.cwl .cd,.sp__code,.toc .no{
+  font-family:var(--mono);text-transform:none}
+.e__d .mm{letter-spacing:.04em}
+
+/* ── the seam: a stitch line and the allowance that runs beside it ───────── */
+.seam,.sp,.proc,.band,.toc__h,.mast,.sec--rule,.ph3,.dec,.alr,.rel,.apr,
+.cover__meta,.gal__cap{position:relative}
+.seam::before,.sp::before,.proc::before,.band::before,.ph3::before{
+  content:'';position:absolute;left:0;right:0;top:0;border-top:1px solid var(--ink);
+  pointer-events:none}
+.seam::after,.sp::after,.proc::after,.band::after,.ph3::after{
+  content:'';position:absolute;left:0;right:0;top:5px;
+  border-top:1px dashed rgba(27,23,32,.34);pointer-events:none}
+.sp,.proc,.ph3{border-top:0}
+.band{border-top:0}
+.reg--sketched .band::before,.reg--stitched .band::before{background:none}
+.seam{height:6px;border:0;margin:0}
+
+/* the register texture belongs to the band, not to its seam */
+.band .tex{position:absolute;inset:6px 0 0;pointer-events:none;z-index:0}
+.reg--sketched .band .tex{
+  background-image:linear-gradient(rgba(74,69,79,.10) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(74,69,79,.10) 1px,transparent 1px);
+  background-size:30px 30px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent);
+  mask-image:linear-gradient(180deg,#000,transparent)}
+.reg--stitched .band .tex{
+  background-image:repeating-linear-gradient(45deg,rgba(27,23,32,.075) 0 1px,transparent 1px 11px);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent);
+  mask-image:linear-gradient(180deg,#000,transparent)}
+
+/* ── the grainline: the mark that opens a section ────────────────────────── */
+.grain{width:74px;height:9px;color:var(--ink);opacity:.85;margin-bottom:.9rem}
+.grain path{stroke:currentColor;stroke-width:1;fill:none}
+
+/* ── the notch: what is active is cut, not underlined ────────────────────── */
+.nav button{position:relative;border-bottom:0;padding:.62rem 0 .58rem;font-size:.83rem;
+  color:var(--graphite)}
+.nav button:hover{color:var(--ink)}
+.nav button[aria-selected=true]{color:var(--ink);border-bottom:0}
+.nav button[aria-selected=true]::after{content:'';position:absolute;left:50%;bottom:-1px;
+  transform:translateX(-50%);width:0;height:0;
+  border-left:6px solid transparent;border-right:6px solid transparent;
+  border-bottom:7px solid var(--red)}
+.pick button{border-bottom:0;position:relative;padding:.34rem 0 .5rem;font-size:.82rem}
+.pick button[aria-selected=true],.pick button[aria-pressed=true]{border-bottom:0}
+.pick button[aria-pressed=true]::after{content:'';position:absolute;left:50%;bottom:-1px;
+  transform:translateX(-50%);width:0;height:0;
+  border-left:5px solid transparent;border-right:5px solid transparent;
+  border-bottom:6px solid var(--red)}
+.strip button{border-bottom:0;position:relative}
+.strip button[aria-pressed=true]::after{content:'';position:absolute;left:50%;bottom:-3px;
+  transform:translateX(-50%);width:0;height:0;
+  border-left:5px solid transparent;border-right:5px solid transparent;
+  border-bottom:6px solid var(--red)}
+
+/* ── the graduated rule: the header edge measures the read ───────────────── */
+.top{border-bottom:0}
+.top::after{content:'';position:absolute;left:0;right:0;bottom:0;height:7px;
+  background:repeating-linear-gradient(90deg,rgba(27,23,32,.30) 0 1px,transparent 1px 12px)
+             bottom left/100% 4px no-repeat,
+             linear-gradient(var(--hair),var(--hair)) bottom left/100% 1px no-repeat;
+  pointer-events:none}
+.prog{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--red);z-index:1}
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -625,7 +742,7 @@ pre.code .ky{color:var(--g4)}
   .p{max-width:none}
   .cover .lede{font-size:1rem}
   .cover__in{gap:1.6rem}
-  .cover__r{order:-1;max-width:74%}
+  .cover__r{order:-1;width:calc(100% + var(--pad));margin-right:calc(-1 * var(--pad))}
   .cover__r .im{max-height:46vh;background-position:center}
   .cover h1{font-size:clamp(3.6rem,20vw,6rem)}
   .cover .cap{font-size:clamp(1.15rem,5.6vw,1.6rem);max-width:none}
@@ -740,8 +857,8 @@ pre.code .ky{color:var(--g4)}
 </style>
 </head>
 <body>
-<svg width="0" height="0" class="hatch-defs" aria-hidden="true"><defs><pattern id="hatch" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#1B1720" stroke-width="6.6"/></pattern><pattern id="hatch-d" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#F2EEE6" stroke-width="6.6"/></pattern><pattern id="hatchG" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#8A8590" stroke-width="6.6"/></pattern><pattern id="hatchR" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#C4122E" stroke-width="6.6"/></pattern></defs></svg><div class="prog" id="prog" aria-hidden="true"></div>
-<header class="top"><div class="top__in">
+<svg width="0" height="0" class="hatch-defs" aria-hidden="true"><defs><pattern id="hatch" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#1B1720" stroke-width="6.6"/></pattern><pattern id="hatch-d" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#F2EEE6" stroke-width="6.6"/></pattern><pattern id="hatchG" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#8A8590" stroke-width="6.6"/></pattern><pattern id="hatchR" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="6" y1="0" x2="6" y2="24" stroke="#C4122E" stroke-width="6.6"/></pattern></defs></svg><header class="top"><div class="prog" id="prog" aria-hidden="true"></div>
+<div class="top__in">
  <span class="mk-w matur" id="matur" aria-label="BORN Studio">
   <span data-i="0"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></span>
   <span data-i="1"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></span>
@@ -770,13 +887,13 @@ pre.code .ky{color:var(--g4)}
  </div></div>
 
  <div class="w toc">
-  <div class="toc__h"><h2 class="d3">The range</h2><p class="m">Six styles &middot; Drop 02</p></div>
+  <div class="toc__h"><div><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d3">The range</h2></div><p class="m">Six styles &middot; Drop 02</p></div>
   <a href="#s-ALO006"><span class="ix">01</span><span><span class="nm">Cold Shoulder Bra Top</span><span class="no">ALO006</span></span><span class="cat">Top</span><span class="th"><span class="im i-render_bra_red th float" style="--r:0.6793" role="img" aria-label=""></span></span></a><a href="#s-LY-JK-149"><span class="ix">02</span><span><span class="nm">Training Jacket</span><span class="no">LY-JK-149</span></span><span class="cat">Outerwear</span><span class="th"><span class="im i-render_black th float" style="--r:0.9873" role="img" aria-label=""></span></span></a><a href="#s-LY-6012156"><span class="ix">03</span><span><span class="nm">PureLuxe 6" Shorts</span><span class="no">LY-6012156</span></span><span class="cat">Bottom</span><span class="th"><span class="im i-render_black th float" style="--r:0.9873" role="img" aria-label=""></span></span></a><a href="#s-LY-HD-025"><span class="ix">04</span><span><span class="nm">Cropped Zip Hoodie</span><span class="no">LY-HD-025</span></span><span class="cat">Top</span><span class="th"><span class="im i-render_periwinkle th float" style="--r:0.816" role="img" aria-label=""></span></span></a><a href="#s-WB082601"><span class="ix">05</span><span><span class="nm">Core Support Leggings</span><span class="no">WB082601</span></span><span class="cat">Bottom</span><span class="th"><span class="im i-render_whisper th float" style="--r:0.7833" role="img" aria-label=""></span></span></a><a href="#s-WB082608"><span class="ix">06</span><span><span class="nm">White-Trim Compression Leggings</span><span class="no">WB082608</span></span><span class="cat">Bottom</span><span class="th"><span class="im i-render_bra_black th float" style="--r:0.722" role="img" aria-label=""></span></span></a>
  </div>
 
 <div class="w proc">
  <div class="proc__h">
-  <div><p class="m m--r">The process</p>
+  <div><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><p class="m m--r">The process</p>
    <h2 class="d2">Every garment<br>lives three states.</h2></div>
   <p class="p">The mark itself changes with the phase &mdash; outline while it is being
    drawn, topstitch while it is being tested, solid and in colour once it goes out into
@@ -789,27 +906,28 @@ pre.code .ky{color:var(--g4)}
  <h3 class="d3">Sketched</h3>
  <p class="ln">The idea on paper</p>
  <p class="p">Material selection, technical sketches with construction callouts, colour development against physical chips, 3D visualisation, and a factory-ready tech pack.</p>
- <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="sp">1–3 weeks</span></p>
+ <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="wk">1–3 weeks</span></p>
 </article><article class="ph3 ph3--stitched is-now">
  <div class="ph3__tex"><div class="ph3__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <p class="n">Phase 02</p>
  <h3 class="d3">Stitched</h3>
  <p class="ln">Tested with thread and needle</p>
  <p class="p">Factory pairing, lab dip management, sample rounds with documented fit sessions, and tech pack revisions carried through to the approved sample.</p>
- <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="sp">2–6 months</span></p>
+ <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="wk">2–6 months</span></p>
 </article><article class="ph3 ph3--born">
  <div class="ph3__tex"><div class="ph3__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <p class="n">Phase 03</p>
  <h3 class="d3">BORN</h3>
  <p class="ln">It goes out into the world</p>
  <p class="p">Size set and PPS sign-off, bulk oversight, inline QC, final AQL inspection and a documented handover with the full production archive.</p>
- <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="sp">4–8 weeks</span></p>
+ <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="wk">4–8 weeks</span></p>
 </article></div>
 </div>
  <section class="sp w" id="s-ALO006">
  <div class="sp__h">
-  <div><p class="sp__ix">01<em>.</em></p>
-   <h2 class="d2">Dual-Layer Cold Shoulder Long Sleeve Bra Top</h2></div>
+  <p class="sp__ix">01<em>.</em></p>
+  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Dual-Layer Cold Shoulder Long Sleeve Bra Top</h2>
+   <p class="sp__code">ALO006</p></div>
   <dl class="sp__meta"><div><dt>Style no.</dt><dd>ALO006</dd></div><div><dt>Category</dt><dd>Top</dd></div><div><dt>Base quality</dt><dd>Performance rib knit</dd></div><div><dt>Composition</dt><dd>78% nylon / 22% elastane</dd></div><div><dt>Weight</dt><dd>280 g/m²</dd></div><div><dt>Colourways</dt><dd>3 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
  </div>
  <div class="sp__body">
@@ -822,8 +940,9 @@ pre.code .ky{color:var(--g4)}
  </div>
 </section><section class="sp w" id="s-LY-JK-149">
  <div class="sp__h">
-  <div><p class="sp__ix">02<em>.</em></p>
-   <h2 class="d2">Full-Zip Performance Training Jacket</h2></div>
+  <p class="sp__ix">02<em>.</em></p>
+  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Full-Zip Performance Training Jacket</h2>
+   <p class="sp__code">LY-JK-149</p></div>
   <dl class="sp__meta"><div><dt>Style no.</dt><dd>LY-JK-149</dd></div><div><dt>Category</dt><dd>Outerwear</dd></div><div><dt>Base quality</dt><dd>Interlock performance knit</dd></div><div><dt>Composition</dt><dd>76% nylon / 24% elastane</dd></div><div><dt>Weight</dt><dd>240 g/m²</dd></div><div><dt>Colourways</dt><dd>2 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
  </div>
  <div class="sp__body">
@@ -836,8 +955,9 @@ pre.code .ky{color:var(--g4)}
  </div>
 </section><section class="sp w" id="s-LY-6012156">
  <div class="sp__h">
-  <div><p class="sp__ix">03<em>.</em></p>
-   <h2 class="d2">Oasis PureLuxe High-Waisted 6" Shorts</h2></div>
+  <p class="sp__ix">03<em>.</em></p>
+  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Oasis PureLuxe High-Waisted 6" Shorts</h2>
+   <p class="sp__code">LY-6012156</p></div>
   <dl class="sp__meta"><div><dt>Style no.</dt><dd>LY-6012156</dd></div><div><dt>Category</dt><dd>Bottom</dd></div><div><dt>Base quality</dt><dd>PureLuxe interlock</dd></div><div><dt>Composition</dt><dd>72% recycled nylon / 28% elastane</dd></div><div><dt>Weight</dt><dd>210 g/m²</dd></div><div><dt>Colourways</dt><dd>2 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
  </div>
  <div class="sp__body">
@@ -850,8 +970,9 @@ pre.code .ky{color:var(--g4)}
  </div>
 </section><section class="sp w" id="s-LY-HD-025">
  <div class="sp__h">
-  <div><p class="sp__ix">04<em>.</em></p>
-   <h2 class="d2">UrbanEase Cropped Zip Hoodie</h2></div>
+  <p class="sp__ix">04<em>.</em></p>
+  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">UrbanEase Cropped Zip Hoodie</h2>
+   <p class="sp__code">LY-HD-025</p></div>
   <dl class="sp__meta"><div><dt>Style no.</dt><dd>LY-HD-025</dd></div><div><dt>Category</dt><dd>Top</dd></div><div><dt>Base quality</dt><dd>Brushed-back French terry</dd></div><div><dt>Composition</dt><dd>68% cotton / 27% polyester / 5% elastane</dd></div><div><dt>Weight</dt><dd>320 g/m²</dd></div><div><dt>Colourways</dt><dd>2 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
  </div>
  <div class="sp__body">
@@ -864,8 +985,9 @@ pre.code .ky{color:var(--g4)}
  </div>
 </section><section class="sp w" id="s-WB082601">
  <div class="sp__h">
-  <div><p class="sp__ix">05<em>.</em></p>
-   <h2 class="d2">Ultra-High Waist Core Support Leggings</h2></div>
+  <p class="sp__ix">05<em>.</em></p>
+  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Ultra-High Waist Core Support Leggings</h2>
+   <p class="sp__code">WB082601</p></div>
   <dl class="sp__meta"><div><dt>Style no.</dt><dd>WB082601</dd></div><div><dt>Category</dt><dd>Bottom</dd></div><div><dt>Base quality</dt><dd>Second-skin interlock</dd></div><div><dt>Composition</dt><dd>75% recycled nylon / 25% elastane</dd></div><div><dt>Weight</dt><dd>260 g/m²</dd></div><div><dt>Colourways</dt><dd>4 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
  </div>
  <div class="sp__body">
@@ -878,8 +1000,9 @@ pre.code .ky{color:var(--g4)}
  </div>
 </section><section class="sp w" id="s-WB082608">
  <div class="sp__h">
-  <div><p class="sp__ix">06<em>.</em></p>
-   <h2 class="d2">Noir White-Trim High-Rise Compression Leggings</h2></div>
+  <p class="sp__ix">06<em>.</em></p>
+  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Noir White-Trim High-Rise Compression Leggings</h2>
+   <p class="sp__code">WB082608</p></div>
   <dl class="sp__meta"><div><dt>Style no.</dt><dd>WB082608</dd></div><div><dt>Category</dt><dd>Bottom</dd></div><div><dt>Base quality</dt><dd>Matte compression knit</dd></div><div><dt>Composition</dt><dd>79% nylon / 21% elastane</dd></div><div><dt>Weight</dt><dd>290 g/m²</dd></div><div><dt>Colourways</dt><dd>1 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
  </div>
  <div class="sp__body">
@@ -922,7 +1045,7 @@ pre.code .ky{color:var(--g4)}
  </div>
 </div><div class="ask"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg>
  <div><p class="k">Waiting on you &middot; by 8 Sep 2026</p>
-  <p>Tech pack v2.1 needs your sign-off. Three pattern corrections and two factory settings.</p></div></div></div><section class="reg reg--sketched"><div class="band"><div class="w band__in">
+  <p>Tech pack v2.1 needs your sign-off. Three pattern corrections and two factory settings.</p></div></div></div><section class="reg reg--sketched"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 01</p><h2 class="d2">Sketched</h2>
    <p class="ln">The idea on paper</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Outline, graphite, a construction grid behind everything. Nothing here is settled — it is being drawn, and drawing is where changes are free.</p>
@@ -973,7 +1096,7 @@ pre.code .ky{color:var(--g4)}
  <div class="e__b"><p class="e__k">Release</p><h3 class="e__h">Tech pack v1.0 — factory-ready.</h3>
   <p class="e__p">Bill of materials, graded points of measure with tolerances, construction and grading intent. Six styles. This is the file a factory builds from.</p><div class="pay"><div class="rel"><span class="nm">Tech pack &middot; v1.0
   <span class="nt">BOM · graded POM · construction</span></span><button class="golink" data-go="techpack">Open &rarr;</button></div></div></div>
-</article></div></section><section class="reg reg--stitched"><div class="band"><div class="w band__in">
+</article></div></section><section class="reg reg--stitched"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 02</p><h2 class="d2">Stitched</h2>
    <p class="ln">Tested with thread and needle</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Topstitch and tension. The idea now exists as an object and every claim about it is measured against a tolerance rather than argued.</p>
@@ -1070,7 +1193,7 @@ pre.code .ky{color:var(--g4)}
  <div class="e__s"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg></div>
  <div class="e__b"><p class="e__k">Approval</p><h3 class="e__h">Final approved sample.</h3>
   <p class="e__p">The sample the whole bulk run is judged against. Sealed, signed and held by both sides.</p></div>
-</article></div></section><section class="reg reg--born"><div class="band"><div class="w band__in">
+</article></div></section><section class="reg reg--born"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 03</p><h2 class="d2">BORN</h2>
    <p class="ln">It goes out into the world</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Solid, in colour, signed. Clean paper and nothing provisional left on the page.</p>

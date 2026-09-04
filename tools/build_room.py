@@ -76,6 +76,9 @@ def daymonth(iso):
     y, m, d = iso.split("-")
     return d, f'{MONTHS[int(m)-1]} <span class="yr">{y}</span>' 
 
+GRAIN = ('<svg class="grain" viewBox="0 0 74 9" aria-hidden="true">'
+  '<path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg>')
+
 def mk(state, label=None):
     """The maturity marker. Outline · stitch · solid with the red dot."""
     if state in ("done", "born"):
@@ -108,7 +111,7 @@ CSS = ROOT + r"""
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topH) + 1.5rem)}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);
-  font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased}
+  font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased;overflow-x:clip}
 img,svg{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--red);color:var(--paper)}
@@ -136,8 +139,7 @@ a{color:inherit;text-decoration:none}
 .rule--ink{border-top:1px solid var(--ink)}
 
 /* ── chrome ───────────────────────────────────────────────────────────────── */
-.prog{position:fixed;top:0;left:0;height:2px;background:var(--red);z-index:80;
-  width:0;transform-origin:0 50%}
+
 .top{position:sticky;top:0;z-index:70;background:rgba(242,238,230,.93);
   backdrop-filter:blur(16px);border-bottom:1px solid var(--hair)}
 .top__in{max-width:var(--max);margin:0 auto;padding:0 var(--pad);min-height:var(--topH);
@@ -170,7 +172,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 
 /* ── cover ────────────────────────────────────────────────────────────────── */
 .cover{padding-block:clamp(2rem,5vw,4rem) clamp(2.4rem,5vw,4rem)}
-.cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.82fr);
+.cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
   gap:var(--gap);align-items:center}
 @media(max-width:900px){.cover__in{grid-template-columns:1fr}}
 .cover h1{margin:.5rem 0 0;font-size:clamp(4.5rem,15vw,12rem)}
@@ -184,7 +186,10 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   text-transform:uppercase;color:var(--g3)}
 .cover__meta dd{font-family:var(--mono);font-size:.82rem;margin-top:.2rem;
   font-variant-numeric:tabular-nums}
-.cover__r .im{width:100%;max-height:74vh;background-position:center right}
+/* the garment runs off the edge of the sheet the way it runs off a marker */
+.cover__r{width:calc(100% + var(--pad) + max(0px,(100vw - var(--max))/2));
+  margin-right:calc(-1 * (var(--pad) + max(0px,(100vw - var(--max))/2)))}
+.cover__r .im{width:100%;max-height:76vh;background-position:center right}
 /* the mark matures once, on load — sketched, stitched, born */
 .matur{position:relative;display:block;width:90px;height:19px}
 .matur > span{position:absolute;inset:0;opacity:0}
@@ -200,7 +205,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 @media(max-width:860px){.proc__h{grid-template-columns:1fr;gap:1.4rem}}
 .proc__g{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,3vw,2.6rem)}
 @media(max-width:860px){.proc__g{grid-template-columns:1fr;gap:2rem}}
-.ph3{border-top:1px solid var(--ink);padding-top:1.1rem}
+.ph3{border-top:1px solid var(--ink);padding-top:1.1rem;display:flex;flex-direction:column}
 .ph3__tex{padding:1.4rem 1.2rem;margin-bottom:1.2rem;display:flex;align-items:center;
   min-height:104px}
 .ph3--sketched .ph3__tex{background-image:linear-gradient(rgba(74,69,79,.10) 1px,transparent 1px),
@@ -216,11 +221,11 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .ph3 .ln{font-family:var(--serif6);font-weight:600;font-size:1.02rem;color:var(--g2);
   margin:.25rem 0 .7rem}
 .ph3 .p{font-size:.92rem}
-.ph3__f{display:flex;align-items:center;gap:.6rem;margin-top:1.1rem;padding-top:.8rem;
+.ph3__f{display:flex;align-items:center;gap:.6rem;margin-top:auto;padding-top:.9rem;
   border-top:1px solid var(--hair);font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--g3)}
 .ph3.is-now .ph3__f{color:var(--red)}
-.ph3__f .sp{margin-left:auto;color:var(--g3)}
+.ph3__f .wk{margin-left:auto;color:var(--g3)}
 
 /* ── the phase rail: where the view you are looking at came from ─────────── */
 .rail{display:flex;align-items:center;gap:.6rem;margin-top:1.1rem;padding-top:.9rem;
@@ -262,13 +267,18 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 
 /* ── style spread ─────────────────────────────────────────────────────────── */
 .sp{padding-block:clamp(2.6rem,7vw,6rem) clamp(1.5rem,4vw,3rem);border-top:1px solid var(--ink)}
-.sp__h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:var(--gap);
-  align-items:end}
-@media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:1.2rem}}
-.sp__ix{font-family:var(--serif);font-weight:900;line-height:.76;letter-spacing:-.05em;
-  font-size:clamp(5rem,15vw,13rem);color:var(--ink)}
+.sp__h{display:grid;grid-template-columns:clamp(4.6rem,7.6vw,7.4rem) minmax(0,1fr) minmax(0,.56fr);
+  gap:clamp(1rem,2.4vw,2.4rem) clamp(1.2rem,3vw,3rem);align-items:start;padding-top:1.6rem}
+@media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:.9rem}}
+.sp__nm{min-width:0}
+.sp__code{font-family:var(--mono);font-size:.86rem;letter-spacing:.06em;color:var(--g2);
+  margin-top:.9rem;padding-top:.55rem;
+  background:repeating-linear-gradient(90deg,rgba(27,23,32,.3) 0 1px,transparent 1px 11px)
+    top left/100% 4px no-repeat}
+.sp__ix{font-family:var(--serif);font-weight:900;line-height:.74;letter-spacing:-.055em;
+  font-size:clamp(2.8rem,5vw,5.2rem);color:var(--ink);margin-left:-.05em}
 .sp__ix em{font-style:normal;color:var(--red)}
-.sp h2{margin-top:.4rem;max-width:18ch}
+.sp h2{margin-top:.1rem;max-width:17ch;letter-spacing:-.032em;line-height:.94}
 .sp__meta{display:grid;gap:.75rem;padding-bottom:.4rem}
 .sp__meta div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:.8rem;
   padding-bottom:.7rem;border-bottom:1px solid var(--hair)}
@@ -679,6 +689,116 @@ pre.code .cm{color:var(--g3)}
 pre.code .st{color:#E8A0AE}
 pre.code .ky{color:var(--g4)}
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE PATTERN SHEET
+   The vernacular here is not "editorial" in general — it is pattern making.
+   A seam line carries its allowance five pixels below it. A grainline opens a
+   section. A notch marks what is active. A graduated rule measures the read.
+   Those are BORN's own materials, and they are what keep this from looking
+   like every other document.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── voice ────────────────────────────────────────────────────────────────
+   A label is something a person says, so it is set in the body face, in
+   sentence case. The monospace is reserved for what a machine produced:
+   codes, measurements, dates, money. Nothing else is ever set in it. */
+.m,.eyebrow,.e__k,.gal__hint,.rail__l,.kinds .kn,.spec .ln,
+.dl dt,.facts dt,.cover__meta dt,.sp__meta dt,table.t th,
+.dec .lbl,.apr .lbl,.alr .lbl,.pay-g .wh,.due .l,.sign .rl,.sign .lb,
+.toc .cat,.ph3 .n,.ph3__f,.meas__h,.clear,.rel .nt,.alr .ow,.vd,.tag,
+.golink,.pick button,.nav button,.mast__l .type,.note,.apr .wq,
+.lbx__x,.lbx__bar figcaption,.gal__stage figcaption,.strip figcaption{
+  font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
+.m,.eyebrow{font-size:.83rem;color:var(--graphite);line-height:1.4}
+.m--r{color:var(--red)}
+.e__k,.toc .cat,.rel .nt,.apr .lbl,.dec .lbl,.alr .lbl,.ph3 .n,
+.gal__hint,.rail__l,.sign .rl,.due .l,.pay-g .wh,.vd,.tag,.spec .ln{
+  font-size:.8rem;color:var(--graphite)}
+.dl dt,.facts dt,.cover__meta dt,.sp__meta dt,table.t th,.sign .lb{
+  font-size:.76rem;color:var(--graphite)}
+.note,.meas__h,.clear,.golink,.ph3__f,.kinds .kn{font-size:.8rem}
+.eyebrow{margin-bottom:.8rem}
+.meas__h b,.clear b{font-family:var(--mono);font-size:.76rem;color:var(--ink)}
+.m--r,.dec .a .lbl,.apr--wait .lbl,.alr .r .lbl,.ph3.is-now .n,
+.ph3.is-now .ph3__f,.alr .ow,.tag--r,.kinds .kn{color:var(--red)}
+.mast__l .type{font-family:var(--serif6);font-weight:600;font-size:1rem;color:var(--red)}
+.mast__r .meta,.dfoot{text-transform:none;letter-spacing:.02em}
+.top .mark span{font-family:var(--sans);text-transform:none;letter-spacing:0;font-size:.78rem}
+
+/* the payload labels, the captions and the remaining chrome speak too */
+figcaption,.dec .lb,.apr .lb,.alr .lb,.band .win,.meter__l,.ask .k,
+table.t tr.grp .gt,.pick .pk,.gal__cap .n,.sw{
+  font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
+figcaption,.band .win,.meter__l,.ask .k,.pick .pk{font-size:.8rem;color:var(--graphite)}
+.dec .lb,.apr .lb,.alr .lb{font-size:.8rem;color:var(--graphite)}
+.dec .a .lb,.apr--wait .lb,.alr .r .lb,.ask .k{color:var(--red)}
+table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
+/* dates, references and totals stay machined */
+.e__d .mm,.mast__r .meta,.dfoot,.chip .c,.cwl .cd,.sp__code,.toc .no{
+  font-family:var(--mono);text-transform:none}
+.e__d .mm{letter-spacing:.04em}
+
+/* ── the seam: a stitch line and the allowance that runs beside it ───────── */
+.seam,.sp,.proc,.band,.toc__h,.mast,.sec--rule,.ph3,.dec,.alr,.rel,.apr,
+.cover__meta,.gal__cap{position:relative}
+.seam::before,.sp::before,.proc::before,.band::before,.ph3::before{
+  content:'';position:absolute;left:0;right:0;top:0;border-top:1px solid var(--ink);
+  pointer-events:none}
+.seam::after,.sp::after,.proc::after,.band::after,.ph3::after{
+  content:'';position:absolute;left:0;right:0;top:5px;
+  border-top:1px dashed rgba(27,23,32,.34);pointer-events:none}
+.sp,.proc,.ph3{border-top:0}
+.band{border-top:0}
+.reg--sketched .band::before,.reg--stitched .band::before{background:none}
+.seam{height:6px;border:0;margin:0}
+
+/* the register texture belongs to the band, not to its seam */
+.band .tex{position:absolute;inset:6px 0 0;pointer-events:none;z-index:0}
+.reg--sketched .band .tex{
+  background-image:linear-gradient(rgba(74,69,79,.10) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(74,69,79,.10) 1px,transparent 1px);
+  background-size:30px 30px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent);
+  mask-image:linear-gradient(180deg,#000,transparent)}
+.reg--stitched .band .tex{
+  background-image:repeating-linear-gradient(45deg,rgba(27,23,32,.075) 0 1px,transparent 1px 11px);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent);
+  mask-image:linear-gradient(180deg,#000,transparent)}
+
+/* ── the grainline: the mark that opens a section ────────────────────────── */
+.grain{width:74px;height:9px;color:var(--ink);opacity:.85;margin-bottom:.9rem}
+.grain path{stroke:currentColor;stroke-width:1;fill:none}
+
+/* ── the notch: what is active is cut, not underlined ────────────────────── */
+.nav button{position:relative;border-bottom:0;padding:.62rem 0 .58rem;font-size:.83rem;
+  color:var(--graphite)}
+.nav button:hover{color:var(--ink)}
+.nav button[aria-selected=true]{color:var(--ink);border-bottom:0}
+.nav button[aria-selected=true]::after{content:'';position:absolute;left:50%;bottom:-1px;
+  transform:translateX(-50%);width:0;height:0;
+  border-left:6px solid transparent;border-right:6px solid transparent;
+  border-bottom:7px solid var(--red)}
+.pick button{border-bottom:0;position:relative;padding:.34rem 0 .5rem;font-size:.82rem}
+.pick button[aria-selected=true],.pick button[aria-pressed=true]{border-bottom:0}
+.pick button[aria-pressed=true]::after{content:'';position:absolute;left:50%;bottom:-1px;
+  transform:translateX(-50%);width:0;height:0;
+  border-left:5px solid transparent;border-right:5px solid transparent;
+  border-bottom:6px solid var(--red)}
+.strip button{border-bottom:0;position:relative}
+.strip button[aria-pressed=true]::after{content:'';position:absolute;left:50%;bottom:-3px;
+  transform:translateX(-50%);width:0;height:0;
+  border-left:5px solid transparent;border-right:5px solid transparent;
+  border-bottom:6px solid var(--red)}
+
+/* ── the graduated rule: the header edge measures the read ───────────────── */
+.top{border-bottom:0}
+.top::after{content:'';position:absolute;left:0;right:0;bottom:0;height:7px;
+  background:repeating-linear-gradient(90deg,rgba(27,23,32,.30) 0 1px,transparent 1px 12px)
+             bottom left/100% 4px no-repeat,
+             linear-gradient(var(--hair),var(--hair)) bottom left/100% 1px no-repeat;
+  pointer-events:none}
+.prog{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--red);z-index:1}
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -696,7 +816,7 @@ pre.code .ky{color:var(--g4)}
   .p{max-width:none}
   .cover .lede{font-size:1rem}
   .cover__in{gap:1.6rem}
-  .cover__r{order:-1;max-width:74%}
+  .cover__r{order:-1;width:calc(100% + var(--pad));margin-right:calc(-1 * var(--pad))}
   .cover__r .im{max-height:46vh;background-position:center}
   .cover h1{font-size:clamp(3.6rem,20vw,6rem)}
   .cover .cap{font-size:clamp(1.15rem,5.6vw,1.6rem);max-width:none}
@@ -880,7 +1000,7 @@ def band(key):
     ph = next(p for p in PHASES if p["key"] == key)
     logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
             "born": SVG["state_born"]}[key]
-    return f"""<div class="band"><div class="w band__in">
+    return f"""<div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase {r['n']}</p><h2 class="d2">{r['name']}</h2>
    <p class="ln">{r['line']}</p><div class="lg">{logo}</div></div>
  <div><p class="df">{r['defn']}</p>
@@ -951,8 +1071,8 @@ def top():
         f'<button role="tab" id="t-{k}" aria-controls="p-{k}" data-doc="{k}" '
         f'aria-selected="{"true" if i == 0 else "false"}">{lbl}</button>'
         for i, (k, lbl) in enumerate(DOCS))
-    return f"""<div class="prog" id="prog" aria-hidden="true"></div>
-<header class="top"><div class="top__in">
+    return f"""<header class="top"><div class="prog" id="prog" aria-hidden="true"></div>
+<div class="top__in">
  <span class="mk-w matur" id="matur" aria-label="BORN Studio">
   <span data-i="0">{SVG['state_sketch']}</span>
   <span data-i="1">{SVG['state_stitch']}</span>
@@ -1566,8 +1686,9 @@ def spread(st, n):
         f'<span class="cd">{code}</span></li>' for _, code, nm, hx in st["colourways"])
     return f"""<section class="sp w" id="s-{st['no']}">
  <div class="sp__h">
-  <div><p class="sp__ix">{n:02d}<em>.</em></p>
-   <h2 class="d2">{st['name']}</h2></div>
+  <p class="sp__ix">{n:02d}<em>.</em></p>
+  <div class="sp__nm">{GRAIN}<h2 class="d2">{st['name']}</h2>
+   <p class="sp__code">{st['no']}</p></div>
   <dl class="sp__meta">{rows}</dl>
  </div>
  <div class="sp__body">
@@ -1611,11 +1732,11 @@ def process():
  <h3 class="d3">{r['name']}</h3>
  <p class="ln">{r['line']}</p>
  <p class="p">{work}</p>
- <p class="ph3__f">{mk(state)}<span>{where}</span><span class="sp">{span}</span></p>
+ <p class="ph3__f">{mk(state)}<span>{where}</span><span class="wk">{span}</span></p>
 </article>"""
     return f"""<div class="w proc">
  <div class="proc__h">
-  <div><p class="m m--r">The process</p>
+  <div>{GRAIN}<p class="m m--r">The process</p>
    <h2 class="d2">Every garment<br>lives three states.</h2></div>
   <p class="p">The mark itself changes with the phase &mdash; outline while it is being
    drawn, topstitch while it is being tested, solid and in colour once it goes out into
@@ -1659,7 +1780,7 @@ def range_panel():
  </div></div>
 
  <div class="w toc">
-  <div class="toc__h"><h2 class="d3">The range</h2><p class="m">Six styles &middot; {PROJECT['drop']}</p></div>
+  <div class="toc__h"><div>{GRAIN}<h2 class="d3">The range</h2></div><p class="m">Six styles &middot; {PROJECT['drop']}</p></div>
   {toc}
  </div>
 
