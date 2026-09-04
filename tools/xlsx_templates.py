@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""BORN Studio — redesigned Sourcing & Development trackers (branded XLSX).
+"""BORN Studio — redesigned Sourcing & Development trackers (v2, editorial).
 
-Rebuilds the two supplier templates in BORN's visual language: ink/paper/Rojo
-palette, a branded banner with the wordmark, grouped headers, row banding,
-frozen panes, auto-filter, dropdowns, conditional status formatting, currency
-formats, an example row, and a 'Start here' guide sheet.
+Big type, index numbers, editorial group headers with a Rojo rule, tinted
+cost zones, bold status chips, generous rows, frozen panes, filters,
+dropdowns, conditional status colour, currency formats, an example row and a
+'Start here' guide sheet.
 """
 import openpyxl
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side, NamedStyle
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter as L
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.formatting.rule import CellIsRule
 from openpyxl.comments import Comment
+import openpyxl.worksheet.properties as wsprops
 try:
     from openpyxl.cell.rich_text import CellRichText, TextBlock
     from openpyxl.cell.text import InlineFont
@@ -19,318 +20,267 @@ try:
 except Exception:
     RICH=False
 import os
-
 OUTDIR="assets/templates"; os.makedirs(OUTDIR, exist_ok=True)
 
-# ---- brand palette (ARGB) -------------------------------------------------
-INK="FF1B1720"; PAPER="FFF2EEE6"; PAPER2="FFEAE5DA"; PAPER3="FFDED8CC"
+INK="FF1B1720"; INKD="FF14111A"; PAPER="FFF4F1E9"; PAPER2="FFECE7DC"
 G2="FF4A454F"; G3="FF8A8590"; G4="FFB7B2BA"; RED="FFC4122E"; WHITE="FFFFFFFF"
-INKD="FF14111A"
+WARM="FFFBF7EF"; COOL="FFEDE8DE"; HAIR="FFE2DCCF"; INKHAIR="FFCFC9BE"
 SERIF="Georgia"; SANS="Arial"; MONO="Courier New"
 
-def fill(c): return PatternFill("solid", fgColor=c)
-def side(c, style="thin"): return Side(style=style, color=c)
-THIN=side(G4); THINK=side("FFCFC9BE")
+def fillc(c): return PatternFill("solid", fgColor=c)
+def S(c, style="thin"): return Side(style=style, color=c)
 def box(l=None,r=None,t=None,b=None): return Border(left=l,right=r,top=t,bottom=b)
 
-def set_widths(ws, widths):  # widths: {colidx: width}
-    for i,w in widths.items(): ws.column_dimensions[L(i)].width=w
-
-def merge_center(ws, r1,c1,r2,c2, value, font, fillc=None, align=None):
-    ws.merge_cells(start_row=r1,start_column=c1,end_row=r2,end_column=c2)
-    cell=ws.cell(r1,c1); cell.value=value; cell.font=font
-    if fillc:
-        for r in range(r1,r2+1):
-            for c in range(c1,c2+1): ws.cell(r,c).fill=fill(fillc)
-    cell.alignment=align or Alignment(horizontal="left", vertical="center")
-    return cell
-
-def wordmark(ws, r1,c1,r2,c2, size=22):
-    """BORN. — white with a Rojo period (rich text where supported)."""
-    ws.merge_cells(start_row=r1,start_column=c1,end_row=r2,end_column=c2)
+def merge(ws,r1,c1,r2,c2): ws.merge_cells(start_row=r1,start_column=c1,end_row=r2,end_column=c2)
+def paint(ws,r1,c1,r2,c2,color):
     for r in range(r1,r2+1):
-        for c in range(c1,c2+1): ws.cell(r,c).fill=fill(INK)
-    cell=ws.cell(r1,c1)
-    if RICH:
-        cell.value=CellRichText(
-            TextBlock(InlineFont(rFont=SERIF, sz=size, b=True, color="FFFFFF"), "BORN"),
-            TextBlock(InlineFont(rFont=SERIF, sz=size, b=True, color="C4122E"), "."))
-    else:
-        cell.value="BORN."; cell.font=Font(name=SERIF,size=size,bold=True,color=WHITE)
-    cell.alignment=Alignment(horizontal="left", vertical="center", indent=1)
+        for c in range(c1,c2+1): ws.cell(r,c).fill=fillc(color)
 
-# ---------------------------------------------------------------- banner
-def banner(ws, ncols, title, kicker):
+def banner(ws, ncols, title, subtitle):
     ws.sheet_view.showGridLines=False
-    wend=min(ncols, 6)
-    ws.row_dimensions[1].height=40
-    wordmark(ws,1,1,1,wend)
-    merge_center(ws,1,wend+1,1,ncols,title,
-                 Font(name=MONO,size=12,bold=True,color=WHITE),INK,
-                 Alignment(horizontal="right",vertical="center",indent=2))
-    # red ruler rule
-    ws.row_dimensions[2].height=5
-    for c in range(1,ncols+1): ws.cell(2,c).fill=fill(RED)
-    # tagline row
-    ws.row_dimensions[3].height=18
-    merge_center(ws,3,1,3,wend,"From idea to life",
-                 Font(name=SERIF,size=10,italic=True,color=G2),PAPER)
-    merge_center(ws,3,wend+1,3,ncols,kicker,
-                 Font(name=MONO,size=8,color=G3),PAPER,
-                 Alignment(horizontal="right",vertical="center",indent=2))
-    ws.row_dimensions[4].height=6
-    for c in range(1,ncols+1): ws.cell(4,c).fill=fill(PAPER)
+    wend=min(ncols,6)
+    ws.row_dimensions[1].height=42
+    merge(ws,1,1,1,wend); paint(ws,1,1,1,ncols,INK)
+    a=ws.cell(1,1)
+    if RICH:
+        a.value=CellRichText(TextBlock(InlineFont(rFont=SERIF,sz=26,b=True,color="FFFFFF"),"BORN"),
+                             TextBlock(InlineFont(rFont=SERIF,sz=26,b=True,color="C4122E"),"."))
+    else:
+        a.value="BORN."; a.font=Font(name=SERIF,size=26,bold=True,color=WHITE)
+    a.alignment=Alignment(horizontal="left",vertical="center",indent=1)
+    merge(ws,1,wend+1,1,ncols)
+    t=ws.cell(1,wend+1); t.value=title
+    t.font=Font(name=MONO,size=15,bold=True,color=WHITE)
+    t.alignment=Alignment(horizontal="right",vertical="center",indent=2)
+    ws.row_dimensions[2].height=5; paint(ws,2,1,2,ncols,RED)
+    ws.row_dimensions[3].height=22
+    merge(ws,3,1,3,wend); paint(ws,3,1,3,ncols,PAPER)
+    tg=ws.cell(3,1); tg.value="From idea to life"
+    tg.font=Font(name=SERIF,size=11,italic=True,color=G2)
+    tg.alignment=Alignment(horizontal="left",vertical="center",indent=1)
+    merge(ws,3,wend+1,3,ncols)
+    st=ws.cell(3,wend+1); st.value=subtitle
+    st.font=Font(name=MONO,size=9,color=G3)
+    st.alignment=Alignment(horizontal="right",vertical="center",indent=2)
+    ws.row_dimensions[4].height=8; paint(ws,4,1,4,ncols,PAPER)
 
-# ---------------------------------------------------------------- headers
-def group_header(ws, row, groups):
-    ws.row_dimensions[row].height=22
+def group_header(ws,row,groups):
+    ws.row_dimensions[row].height=28
     for c1,c2,label in groups:
-        merge_center(ws,row,c1,row,c2,label,
-                     Font(name=SERIF,size=10,bold=True,color=WHITE),INK,
-                     Alignment(horizontal="center",vertical="center"))
-        # red accent under each group + ink separators
+        merge(ws,row,c1,row,c2)
+        cell=ws.cell(row,c1); cell.value=label
+        cell.font=Font(name=SERIF,size=13,bold=True,color=INK)
+        cell.alignment=Alignment(horizontal="left",vertical="center",indent=1)
         for c in range(c1,c2+1):
-            ws.cell(row,c).border=box(b=side(RED,"medium"),
-                                      l=side(INKD) if c==c1 else None,
-                                      r=side(INKD) if c==c2 else None)
+            ws.cell(row,c).fill=fillc(PAPER)
+            ws.cell(row,c).border=box(b=S(RED,"medium"))
 
-def sub_header(ws, row, cols):
+def sub_header(ws,row,cols):
     ws.row_dimensions[row].height=40
-    for i,(name,*rest) in enumerate(cols, start=1):
-        c=ws.cell(row,i); c.value=name
-        c.fill=fill(PAPER3)
-        c.font=Font(name=SANS,size=9,bold=True,color=INK)
-        c.alignment=Alignment(horizontal="center",vertical="center",wrap_text=True)
-        c.border=box(b=side(G3),l=THINK,r=THINK)
+    for i,(name,_w,_f,kind) in enumerate(cols,start=1):
+        c=ws.cell(row,i); c.value=name; c.fill=fillc(PAPER)
+        c.font=Font(name=MONO,size=8.5,color=G3)
+        al="center" if kind in ("idx","num","cost_s","cost_g","cat","eval","samples") else "left"
+        c.alignment=Alignment(horizontal=al,vertical="center",wrap_text=True,indent=0 if al=="center" else 1)
+        c.border=box(b=S(INKHAIR))
 
-# ---------------------------------------------------------------- data body
-def data_body(ws, first_row, nrows, cols, example):
-    ncols=len(cols)
+def style_cell(c, kind, band):
+    fill=band
+    font=Font(name=SANS,size=11,color=INK); al=Alignment(horizontal="left",vertical="center",indent=1); nf=None
+    bd=box(b=S(HAIR))
+    if kind=="idx":
+        font=Font(name=MONO,size=12,bold=True,color=RED); al=Alignment(horizontal="center",vertical="center")
+    elif kind=="fct":
+        font=Font(name=SERIF,size=13,bold=True,color=INK)
+    elif kind in ("num","samples"):
+        font=Font(name=MONO,size=11,color=INK); al=Alignment(horizontal="center",vertical="center")
+    elif kind=="cost_s":
+        font=Font(name=MONO,size=11,color=INK); al=Alignment(horizontal="center",vertical="center"); fill=WARM
+    elif kind=="cost_g":
+        font=Font(name=MONO,size=11,color=INK); al=Alignment(horizontal="center",vertical="center"); fill=COOL
+    elif kind=="cat":
+        font=Font(name=MONO,size=8.5,color=G2); al=Alignment(horizontal="center",vertical="center")
+        bd=box(b=S(HAIR),l=S(G4),r=S(G4),t=S(G4))  # chip-like box (approx)
+    elif kind=="eval":
+        font=Font(name=SANS,size=11,bold=True,color=INK); al=Alignment(horizontal="center",vertical="center")
+    c.fill=fillc(fill); c.font=font; c.alignment=al; c.border=bd
+    return c
+
+def data_body(ws,first,nrows,cols,example,fct_col_letter):
     for ridx in range(nrows):
-        row=first_row+ridx
-        band = PAPER if ridx%2==0 else PAPER2
-        ws.row_dimensions[row].height=20
-        for i,(name,width,numfmt,kind) in enumerate(cols, start=1):
+        row=first+ridx
+        ws.row_dimensions[row].height=26
+        for i,(name,_w,numfmt,kind) in enumerate(cols,start=1):
             c=ws.cell(row,i)
-            c.fill=fill(band)
-            c.border=box(b=THIN,l=THINK,r=THINK)
-            c.font=Font(name=(MONO if kind in("num","cost") else SANS),size=10,color=INK)
-            if kind in ("num","cost"):
-                c.alignment=Alignment(horizontal="center",vertical="center")
-            else:
-                c.alignment=Alignment(horizontal="left",vertical="center",indent=1)
-            if numfmt: c.number_format=numfmt
-            if ridx==0 and (name in example): c.value=example[name]
-        # example row accent
-        if ridx==0:
-            for i in range(1,ncols+1):
-                cur=ws.cell(first_row,i).border
-                ws.cell(first_row,i).border=box(b=side(G3),l=cur.left,r=cur.right,t=side(G3))
-            ws.cell(first_row,1).comment=Comment(
-                "Example row — overwrite with your first supplier, or delete it.\nEvery row below is yours to fill.","BORN Studio")
+            style_cell(c,kind,PAPER)
+            if numfmt and kind!="idx": c.number_format=numfmt
+            if kind=="idx":
+                c.value=f'=IF(${fct_col_letter}{row}<>"",TEXT(ROW()-{first-1},"00"),"")'
+            elif ridx==0 and name in example:
+                c.value=example[name]
+        if ridx==0:  # example row: subtle top rule + note
+            for i in range(1,len(cols)+1):
+                cur=ws.cell(row,i).border
+                ws.cell(row,i).border=box(b=cur.bottom,l=cur.left,r=cur.right,t=S(G3))
+            ws.cell(row,1).comment=Comment("Example row — overwrite or delete.\nEvery row below is yours to fill.","BORN Studio")
 
-def col_letter_by_name(cols, name):
+def clet(cols,name):
     for i,(n,*_ ) in enumerate(cols,start=1):
         if n==name: return L(i)
-    return None
 
-# ---------------------------------------------------------------- build one tracker
-def build_tracker(path, sheet_title, banner_title, kicker, groups, cols, example,
-                  category_at=None, eval_at=None, glossary=None, nrows=40):
-    wb=openpyxl.Workbook()
-    guide=wb.active; guide.title="Start here"
-    ws=wb.create_sheet(sheet_title)
-    ncols=len(cols)
-    HDR_G=5; HDR_S=6; DATA0=7
-    banner(ws, ncols, banner_title, kicker)
-    group_header(ws, HDR_G, groups)
-    sub_header(ws, HDR_S, cols)
-    data_body(ws, DATA0, nrows, cols, example)
-    set_widths(ws, {i:w for i,(_,w,_,_) in enumerate(cols,start=1)})
-    ws.freeze_panes=ws.cell(DATA0, 4)   # keep banner+headers and first 3 id columns
-    last=DATA0+nrows-1
-    ws.auto_filter.ref=f"A{HDR_S}:{L(ncols)}{last}"
-    # column comments (glossary tooltips on a few key headers)
-    tips={"MOQ":"Minimum Order Quantity — smallest run the factory will produce.",
-          "Sample Lead":"Working days from tech pack to first sample.",
-          "Prod. Lead":"Working days from PO to shipped bulk.",
-          "Evaluation":"Your status for this supplier — pick from the dropdown.",
-          "Next Step":"The single next action to move this supplier forward."}
+def build(path, sheet_title, banner_title, subtitle, groups, cols, example,
+          fct_name, freeze_col, category_at=None, eval_at=None, glossary=None, nrows=40):
+    wb=openpyxl.Workbook(); guide=wb.active; guide.title="Start here"
+    ws=wb.create_sheet(sheet_title); ncols=len(cols)
+    GH,SH,D0=5,6,7
+    paint(ws,1,1,D0+nrows,ncols,PAPER)
+    banner(ws,ncols,banner_title,subtitle)
+    group_header(ws,GH,groups)
+    sub_header(ws,SH,cols)
+    data_body(ws,D0,nrows,cols,example,clet(cols,fct_name))
+    for i,(_,w,_,_) in enumerate(cols,start=1): ws.column_dimensions[L(i)].width=w
+    ws.freeze_panes=f"{freeze_col}{D0}"
+    last=D0+nrows-1
+    ws.auto_filter.ref=f"A{SH}:{L(ncols)}{last}"
+    tips={"MOQ":"Minimum Order Quantity — smallest run the factory will make.",
+          "Sample":"Sample lead time in working days.","Prod.":"Production lead time in working days.",
+          "Evaluation":"Supplier status — pick from the dropdown.","Next Step":"The one action to move this supplier forward."}
     for name,tip in tips.items():
-        cl=col_letter_by_name(cols,name)
-        if cl: ws[f"{cl}{HDR_S}"].comment=Comment(tip,"BORN Studio")
-    # data validation — Category
+        cl=clet(cols,name)
+        if cl: ws[f"{cl}{SH}"].comment=Comment(tip,"BORN Studio")
     if category_at:
-        dv=DataValidation(type="list",
-            formula1='"Knit,Woven,Activewear,Denim,Outerwear,Accessories,Trims & Notions"',
-            allow_blank=True, showErrorMessage=True)
-        dv.prompt="Pick a category"; dv.promptTitle="Category"
-        ws.add_data_validation(dv); dv.add(f"{category_at}{DATA0}:{category_at}{last}")
-    # data validation + conditional formatting — Evaluation
+        dv=DataValidation(type="list",formula1='"Knit,Woven,Activewear,Denim,Outerwear,Accessories,Trims & Notions"',
+                          allow_blank=True,showErrorMessage=True)
+        dv.promptTitle="Category"; dv.prompt="Pick a category"
+        ws.add_data_validation(dv); dv.add(f"{category_at}{D0}:{category_at}{last}")
     if eval_at:
-        dv=DataValidation(type="list", formula1='"Preferred,Shortlist,Hold,Pass"',
-            allow_blank=True, showErrorMessage=True)
-        dv.prompt="Set the supplier status"; dv.promptTitle="Evaluation"
-        ws.add_data_validation(dv); dv.add(f"{eval_at}{DATA0}:{eval_at}{last}")
-        rng=f"{eval_at}{DATA0}:{eval_at}{last}"
-        ws.conditional_formatting.add(rng, CellIsRule(operator="equal",formula=['"Preferred"'],
-            fill=fill(RED), font=Font(name=SANS,size=10,bold=True,color=WHITE)))
-        ws.conditional_formatting.add(rng, CellIsRule(operator="equal",formula=['"Shortlist"'],
-            fill=fill(PAPER3), font=Font(name=SANS,size=10,bold=True,color=INK)))
-        ws.conditional_formatting.add(rng, CellIsRule(operator="equal",formula=['"Hold"'],
-            fill=fill("FFF6E6C7"), font=Font(name=SANS,size=10,color=G2)))
-        ws.conditional_formatting.add(rng, CellIsRule(operator="equal",formula=['"Pass"'],
-            fill=fill(PAPER2), font=Font(name=SANS,size=10,italic=True,color=G4)))
-    build_guide(guide, banner_title, kicker, groups, glossary or [], has_eval=bool(eval_at))
-    # print: landscape, fit all columns to one page wide
+        dv=DataValidation(type="list",formula1='"Preferred,Shortlist,Hold,Pass"',allow_blank=True,showErrorMessage=True)
+        dv.promptTitle="Evaluation"; dv.prompt="Set the supplier status"
+        ws.add_data_validation(dv); dv.add(f"{eval_at}{D0}:{eval_at}{last}")
+        rng=f"{eval_at}{D0}:{eval_at}{last}"
+        for status,fg,fnt in [("Preferred",RED,Font(name=SANS,size=11,bold=True,color=WHITE)),
+                              ("Shortlist","FFDED8CC",Font(name=SANS,size=11,bold=True,color=INK)),
+                              ("Hold","FFF6E6C7",Font(name=SANS,size=11,color=G2)),
+                              ("Pass",PAPER2,Font(name=SANS,size=11,italic=True,color=G4))]:
+            ws.conditional_formatting.add(rng,CellIsRule(operator="equal",formula=[f'"{status}"'],fill=fillc(fg),font=fnt))
+    build_guide(guide,banner_title,subtitle,glossary or [],bool(eval_at))
     ws.page_setup.orientation="landscape"; ws.page_setup.fitToWidth=1; ws.page_setup.fitToHeight=0
-    ws.sheet_properties.pageSetUpPr=openpyxl.worksheet.properties.PageSetupProperties(fitToPage=True)
+    ws.sheet_properties.pageSetUpPr=wsprops.PageSetupProperties(fitToPage=True)
     ws.page_margins.left=ws.page_margins.right=ws.page_margins.top=ws.page_margins.bottom=0.3
-    wb.save(path)
-    return path
+    wb.save(path); return path
 
-# ---------------------------------------------------------------- Start here sheet
-def build_guide(ws, title, kicker, groups, glossary, has_eval):
-    ws.sheet_view.showGridLines=False
-    W=8
-    set_widths(ws, {1:3,2:22,3:30,4:22,5:22,6:20,7:20,8:6})
-    banner(ws, W, title, kicker)
-    r=6
-    ws.row_dimensions[r].height=10
-    def heading(row, text):
-        merge_center(ws,row,2,row,7,text,Font(name=SERIF,size=15,bold=True,color=INK),PAPER)
-        ws.row_dimensions[row].height=26
-    def body(row, text, font=None):
-        merge_center(ws,row,2,row,7,text,font or Font(name=SANS,size=10,color=G2),PAPER,
-                     Alignment(horizontal="left",vertical="center",wrap_text=True))
-    r=7; heading(r,"How to use this tracker")
-    steps=["1 — Each row is one factory. Start on the first data row; the example row shows the format.",
-           "2 — Fill left to right: who they are, how they produce, then their costs per style.",
-           "3 — Costs are in USD. Sample cost = one prototype; garment/production cost = per unit at MOQ.",
-           "4 — Use the column filters (▾ on the header row) to compare, sort and shortlist.",
-           ("5 — Set each supplier's status in Evaluation — Preferred turns Rojo." if has_eval
-            else "5 — Keep one clear Next Step per supplier so nothing stalls.")]
-    for i,s in enumerate(steps):
-        rr=r+1+i; ws.row_dimensions[rr].height=22; body(rr,s)
-    r=r+1+len(steps)+1
-    heading(r,"The key")
-    r+=1
-    keys=[(INK,"Section header","Groups of columns — who / production / cost / status."),
-          (PAPER3,"Column header","The field to fill. Hover for a tip on the key ones."),
-          (PAPER2,"Your rows","Everything below the header is yours to complete."),
-          (RED,"Preferred","In Evaluation, your chosen factories light up in Rojo Valentino.")]
-    for kc,label,desc in keys:
-        ws.row_dimensions[r].height=22
-        ws.cell(r,2).fill=fill(kc); ws.cell(r,2).border=box(l=THINK,r=THINK,t=THINK,b=THINK)
-        ws.cell(r,3).value=label; ws.cell(r,3).font=Font(name=SANS,size=10,bold=True,color=INK)
-        ws.cell(r,3).alignment=Alignment(horizontal="left",vertical="center",indent=1)
-        merge_center(ws,r,4,r,7,desc,Font(name=SANS,size=10,color=G2),PAPER)
-        r+=1
+def build_guide(ws,title,subtitle,glossary,has_eval):
+    ws.sheet_view.showGridLines=False; W=8
+    for i,w in {1:3,2:22,3:30,4:22,5:22,6:20,7:20,8:6}.items(): ws.column_dimensions[L(i)].width=w
+    paint(ws,1,1,60,W,PAPER)
+    banner(ws,W,title,subtitle)
+    def heading(row,text):
+        merge(ws,row,2,row,7); c=ws.cell(row,2); c.value=text
+        c.font=Font(name=SERIF,size=16,bold=True,color=INK); c.alignment=Alignment(vertical="center")
+        ws.row_dimensions[row].height=30
+        for cc in range(2,8): ws.cell(row,cc).border=box(b=S(RED,"medium"))
+    def body(row,text,font=None):
+        merge(ws,row,2,row,7); c=ws.cell(row,2); c.value=text
+        c.font=font or Font(name=SANS,size=11,color=G2)
+        c.alignment=Alignment(horizontal="left",vertical="center",wrap_text=True)
+        ws.row_dimensions[row].height=24
+    r=7; heading(r,"How to use this tracker"); r+=1
+    for s in ["Each row is one factory. Start on the first data row — the example shows the format.",
+              "Fill left to right: who they are, how they produce, then their cost per style (USD).",
+              "Sample cost = one prototype. Garment / production cost = per unit at MOQ.",
+              "Use the ▾ filters on the header row to compare, sort and shortlist.",
+              ("Set each supplier's status in Evaluation — Preferred lights up in Rojo." if has_eval
+               else "Keep one clear Next Step per supplier so nothing stalls.")]:
+        body(r,"—  "+s); r+=1
+    r+=1; heading(r,"The key"); r+=1
+    for kc,label,desc in [(INK,"Section header","Editorial groups: who / production / cost / status."),
+                          (WARM,"Sample cost zone","Warm-tinted columns — prototype prices."),
+                          (COOL,"Production cost zone","Cool-tinted columns — per-unit prices at MOQ."),
+                          (RED,"Preferred","Your chosen factories light up in Rojo Valentino.")]:
+        ws.row_dimensions[r].height=24
+        ws.cell(r,2).fill=fillc(kc); ws.cell(r,2).border=box(l=S(INKHAIR),r=S(INKHAIR),t=S(INKHAIR),b=S(INKHAIR))
+        c=ws.cell(r,3); c.value=label; c.font=Font(name=SANS,size=11,bold=True,color=INK)
+        c.alignment=Alignment(horizontal="left",vertical="center",indent=1)
+        merge(ws,r,4,r,7); d=ws.cell(r,4); d.value=desc; d.font=Font(name=SANS,size=11,color=G2)
+        d.alignment=Alignment(horizontal="left",vertical="center"); r+=1
     r+=1
     if glossary:
         heading(r,"Field glossary"); r+=1
-        # header
-        ws.cell(r,2).value="Field"; ws.cell(r,4).value="What to enter"
-        for cc in (2,4):
-            ws.cell(r,cc).font=Font(name=MONO,size=8,bold=True,color=G3)
-        merge_center(ws,r,4,r,7,"What to enter",Font(name=MONO,size=8,bold=True,color=G3),PAPER)
-        r+=1
         for field,desc in glossary:
-            ws.row_dimensions[r].height=20
-            ws.cell(r,2).value=field; ws.cell(r,2).font=Font(name=SANS,size=10,bold=True,color=INK)
-            ws.cell(r,2).alignment=Alignment(horizontal="left",vertical="center")
-            ws.cell(r,2).border=box(b=THIN)
-            merge_center(ws,r,4,r,7,desc,Font(name=SANS,size=10,color=G2),PAPER)
-            for c in range(4,8): ws.cell(r,c).border=box(b=THIN)
-            ws.cell(r,3).border=box(b=THIN)
-            r+=1
-    r+=1
-    merge_center(ws,r,2,r,7,"Born Studio · Full-Service Apparel Development · v1.0",
-                 Font(name=MONO,size=8,color=G4),PAPER)
-    # paint remaining background paper for a clean canvas
-    for rr in range(5, r+2):
-        for c in range(1,W+1):
-            if ws.cell(rr,c).fill.patternType is None: ws.cell(rr,c).fill=fill(PAPER)
+            ws.row_dimensions[r].height=22
+            c=ws.cell(r,2); c.value=field; c.font=Font(name=SANS,size=11,bold=True,color=INK)
+            c.alignment=Alignment(horizontal="left",vertical="center");
+            for cc in range(2,8): ws.cell(r,cc).border=box(b=S(HAIR))
+            merge(ws,r,4,r,7); d=ws.cell(r,4); d.value=desc; d.font=Font(name=SANS,size=11,color=G2)
+            d.alignment=Alignment(horizontal="left",vertical="center"); r+=1
+    r+=2
+    merge(ws,r,2,r,7); f=ws.cell(r,2)
+    f.value="Born Studio · Full-Service Apparel Development · v1.0"
+    f.font=Font(name=MONO,size=9,color=G4)
 
-# =========================================================== SOURCING
+# ============================================================ SOURCING
 styles_s=["Shams Wide-Leg Leggings","Majara Regular Leggings","Qamar Long line top",
           "Suha Longline Integrated Tank-Bra","Zohra Heroine Jacket","Noor Dress"]
-cols_s=[("Country",14,None,"text"),("Category",16,None,"cat"),("Factory Name",30,None,"text"),
-        ("Website",26,None,"link"),("Email",24,None,"link"),("POC",16,None,"text"),
-        ("MOQ",10,'#,##0',"num"),("Sample Lead",12,'0" d"',"num"),("Prod. Lead",12,'0" d"',"num")]
-cols_s+=[(s,15,'$#,##0',"cost") for s in styles_s]
-cols_s+=[(s,15,'$#,##0',"cost") for s in styles_s]
-cols_s+=[("Certifications",22,None,"text"),("Vendors Folder",18,None,"link"),
-         ("Notes",42,None,"text"),("Evaluation",14,None,"eval")]
-groups_s=[(1,3,"FACTORY"),(4,6,"CONTACT"),(7,9,"PRODUCTION"),
-          (10,15,"SAMPLE COST · USD"),(16,21,"GARMENT COST · USD"),(22,25,"REFERENCE & STATUS")]
-ex_s={"Country":"Portugal","Category":"Activewear","Factory Name":"Atelier Norte",
+cols_s=[("#",5,None,"idx"),("Country",13,None,"meta"),("Category",15,None,"cat"),("Factory",27,None,"fct"),
+        ("Website",20,None,"link"),("Email",24,None,"link"),("POC",15,None,"meta"),
+        ("MOQ",8,'#,##0',"num"),("Sample",9,'0" d"',"num"),("Prod.",9,'0" d"',"num")]
+cols_s+=[(s,13,'$#,##0',"cost_s") for s in styles_s]
+cols_s+=[(s,13,'$#,##0',"cost_g") for s in styles_s]
+cols_s+=[("Certifications",18,None,"meta"),("Vendors Folder",13,None,"link"),
+         ("Notes",28,None,"meta"),("Evaluation",15,None,"eval")]
+groups_s=[(2,4,"FACTORY"),(5,7,"CONTACT"),(8,10,"PRODUCTION"),
+          (11,16,"SAMPLE COST · USD"),(17,22,"GARMENT COST · USD"),(23,26,"STATUS")]
+ex_s={"Country":"Portugal","Category":"Activewear","Factory":"Atelier Norte",
       "Website":"ateliernorte.pt","Email":"hello@ateliernorte.pt","POC":"Marta Sousa",
-      "MOQ":300,"Sample Lead":15,"Prod. Lead":45,
+      "MOQ":300,"Sample":15,"Prod.":45,
       "Shams Wide-Leg Leggings":65,"Majara Regular Leggings":55,"Qamar Long line top":45,
       "Suha Longline Integrated Tank-Bra":60,"Zohra Heroine Jacket":120,"Noor Dress":85,
-      "Certifications":"GOTS · OEKO-TEX","Vendors Folder":"▸ Drive link",
+      "Certifications":"GOTS · OEKO-TEX","Vendors Folder":"▸ Drive",
       "Notes":"Strong on technical knits; English-speaking POC.","Evaluation":"Preferred"}
-# garment-cost example values (second block, same style names -> only first block set above;
-# set garment block via positional patch after build not possible in dict; add distinct keys)
 gloss_s=[("Country / Category","Where they are and what they specialise in."),
-         ("Factory Name","Legal or trade name you'll reference everywhere."),
-         ("Website / Email / POC","How to reach them and your point of contact."),
-         ("MOQ","Minimum Order Quantity per style/colour."),
-         ("Sample / Prod. Lead","Turnaround in working days."),
-         ("Sample cost","Price of one prototype for each style."),
-         ("Garment cost","Per-unit production price at MOQ for each style."),
-         ("Certifications","GOTS, OEKO-TEX, BSCI, etc."),
+         ("Factory","Legal or trade name you'll reference everywhere."),
+         ("MOQ","Minimum Order Quantity per style / colour."),
+         ("Sample / Prod.","Turnaround in working days."),
+         ("Sample cost","Price of one prototype per style."),
+         ("Garment cost","Per-unit production price at MOQ per style."),
+         ("Certifications","GOTS, OEKO-TEX, BSCI…"),
          ("Vendors Folder","Link to their profile, quotes and docs."),
          ("Evaluation","Preferred · Shortlist · Hold · Pass.")]
-
-# because the two cost blocks share style names, fill the garment example cells by index
 def build_sourcing():
     p=f"{OUTDIR}/BORN_Sourcing_Tracker.xlsx"
-    build_tracker(p,"Suppliers","SOURCING TRACKER","Supplier sourcing · v1.0",
-                  groups_s, cols_s, ex_s, category_at="B", eval_at="Y",
-                  glossary=gloss_s, nrows=40)
-    # patch garment-cost example (columns 16..21) on the example row (row 7)
+    build(p,"Suppliers","SOURCING","Supplier sourcing · 2026",groups_s,cols_s,ex_s,
+          fct_name="Factory",freeze_col="E",category_at="C",eval_at="Z",glossary=gloss_s)
     wb=openpyxl.load_workbook(p); ws=wb["Suppliers"]
-    gvals=[18,15,12,16,34,24]
-    for i,v in enumerate(gvals): ws.cell(7,16+i).value=v
+    for i,v in enumerate([18,15,12,16,34,24]): ws.cell(7,17+i).value=v
     wb.save(p); return p
 
-# =========================================================== DEVELOPMENT
+# ============================================================ DEVELOPMENT
 styles_d=["Mid range WOMEN","Mid Range MEN","Premium MEN","Premium silicone","Basic MEN",
           "Hoodie UNISEX","Zip pullover","Fitted Hat","6 panel Hat"]
-cols_d=[("Factory Name",26,None,"text"),("Email",24,None,"link"),("POC",16,None,"text"),
-        ("MOQ",10,'#,##0',"num"),("Sample Lead",12,'0" d"',"num"),("Prod. Lead",12,'0" d"',"num")]
-cols_d+=[(s,14,'$#,##0',"cost") for s in styles_d]
-cols_d+=[(s,14,'$#,##0',"cost") for s in styles_d]
-cols_d+=[("Payment Terms",20,None,"text"),("Certifications",22,None,"text"),
-         ("Invoice",14,None,"link"),("Samples Cost",14,'$#,##0',"cost"),("Next Step",24,None,"text")]
-groups_d=[(1,3,"SUPPLIER"),(4,6,"PRODUCTION"),(7,15,"SAMPLE COST · USD"),
-          (16,24,"PRODUCTION COST · USD"),(25,29,"TERMS & STATUS")]
-ex_d={"Factory Name":"Atelier Norte","Email":"hello@ateliernorte.pt","POC":"Marta Sousa",
-      "MOQ":300,"Sample Lead":15,"Prod. Lead":45,
-      "Payment Terms":"30% deposit · Net 30","Certifications":"OEKO-TEX",
-      "Invoice":"▸ link","Samples Cost":240,"Next Step":"Send tech packs"}
-gloss_d=[("Factory Name","Legal or trade name."),
-         ("Email / POC","Contact and your point of contact."),
-         ("MOQ","Minimum Order Quantity per style."),
-         ("Sample / Prod. Lead","Turnaround in working days."),
-         ("Sample cost","Prototype price per style."),
-         ("Production cost","Per-unit price at MOQ per style."),
-         ("Payment Terms","Deposit % and net terms."),
-         ("Certifications","OEKO-TEX, GRS, etc."),
-         ("Invoice","Link to the latest invoice."),
-         ("Samples Cost","Total spent on samples so far."),
+cols_d=[("#",5,None,"idx"),("Factory",27,None,"fct"),("Email",24,None,"link"),("POC",15,None,"meta"),
+        ("MOQ",8,'#,##0',"num"),("Sample",9,'0" d"',"num"),("Prod.",9,'0" d"',"num")]
+cols_d+=[(s,12,'$#,##0',"cost_s") for s in styles_d]
+cols_d+=[(s,12,'$#,##0',"cost_g") for s in styles_d]
+cols_d+=[("Payment Terms",18,None,"meta"),("Certifications",15,None,"meta"),
+         ("Invoice",12,None,"link"),("Samples Cost",12,'$#,##0',"samples"),("Next Step",22,None,"meta")]
+groups_d=[(2,4,"SUPPLIER"),(5,7,"PRODUCTION"),(8,16,"SAMPLE COST · USD"),
+          (17,25,"PRODUCTION COST · USD"),(26,30,"TERMS & STATUS")]
+ex_d={"Factory":"Atelier Norte","Email":"hello@ateliernorte.pt","POC":"Marta Sousa",
+      "MOQ":300,"Sample":15,"Prod.":45,"Payment Terms":"30% deposit · Net 30",
+      "Certifications":"OEKO-TEX","Invoice":"▸ link","Samples Cost":240,"Next Step":"Send tech packs"}
+gloss_d=[("Factory","Legal or trade name."),("Email / POC","Contact and your point of contact."),
+         ("MOQ","Minimum Order Quantity per style."),("Sample / Prod.","Turnaround in working days."),
+         ("Sample cost","Prototype price per style."),("Production cost","Per-unit price at MOQ per style."),
+         ("Payment Terms","Deposit % and net terms."),("Certifications","OEKO-TEX, GRS…"),
+         ("Invoice","Link to the latest invoice."),("Samples Cost","Total spent on samples so far."),
          ("Next Step","The one action to move this factory forward.")]
 def build_development():
     p=f"{OUTDIR}/BORN_Development_Tracker.xlsx"
-    build_tracker(p,"Development","DEVELOPMENT TRACKER","Product development · v1.0",
-                  groups_d, cols_d, ex_d, category_at=None, eval_at=None,
-                  glossary=gloss_d, nrows=40)
+    build(p,"Development","DEVELOPMENT","Product development · 2026",groups_d,cols_d,ex_d,
+          fct_name="Factory",freeze_col="C",category_at=None,eval_at=None,glossary=gloss_d)
     wb=openpyxl.load_workbook(p); ws=wb["Development"]
-    svals=[45,40,70,95,32,38,42,18,22]; pvals=[14,12,22,30,9,12,13,6,7]
-    for i,v in enumerate(svals): ws.cell(7,7+i).value=v
-    for i,v in enumerate(pvals): ws.cell(7,16+i).value=v
+    for i,v in enumerate([45,40,70,95,32,38,42,18,22]): ws.cell(7,8+i).value=v
+    for i,v in enumerate([14,12,22,30,9,12,13,6,7]): ws.cell(7,17+i).value=v
     wb.save(p); return p
 
 print(build_sourcing()); print(build_development())
