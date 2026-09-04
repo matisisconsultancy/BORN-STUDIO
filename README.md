@@ -115,12 +115,30 @@ vistas. **Logbook** — la bitácora fechada. **Tech pack** · **Fitting** · **
 **Handover** — los documentos, cada uno imprime solo a A4. **System** — cómo se arma una
 sala nueva.
 
+### Las fases conceptuales
+
+La sección **The process** abre el documento con los tres estados del oficio, cada uno
+dibujado en su propio registro: *Sketched* sobre la retícula de construcción, *Stitched*
+sobre la trama diagonal, *BORN* sobre tinta. Funciona como método y como leyenda de todo
+lo que viene después.
+
 ### La galería *es* el proceso
 
-La navegación de cada estilo son las fases del oficio: **Coloured · Visualised · Born**.
-Una tira de contactos bajo la lámina; se hace clic y la vista se funde. Clic en la lámina
-abre a pantalla completa con flechas y `Esc`. Están las **37 imágenes** del deck: 6 flats
-técnicos, 7 tableros de colorway, 8 renders 3D y 16 fotografías de muestra.
+La navegación de cada estilo son las fases del oficio: **Drawn · Coloured · Visualised ·
+Sampled**, y un raíl bajo la lámina marca en cuál de los tres estados —Sketched, Stitched,
+BORN— nace la vista que estás mirando. La lámina toma la proporción de su imagen, así que
+un flat ancho y una legging alta se ven enteros, sin bandas ni recortes.
+
+Están las **37 imágenes** del deck: 6 flats técnicos, 7 tableros de colorway, 8 renders 3D
+y 16 fotografías de muestra.
+
+### Close-up
+
+Clic en la lámina abre a pantalla completa sobre el mismo papel, con **zoom hasta 6×**:
+rueda, `+`/`−`, doble clic, teclas `+ − 0`, y **pinch** en táctil. Con zoom se arrastra para
+recorrer la prenda. Los flats se exportan a 2200 px porque su texto de callout tiene que
+aguantar el acercamiento; en pantalla estrecha se abren ya ajustados a la altura, así que
+en un teléfono se lee "RAGLAN SLEEVES" sin hacer nada.
 
 ### Dos canales, nunca mezclados
 
@@ -144,6 +162,10 @@ El registro nunca dice si algo está terminado; el marcador nunca dice en qué f
   en medio.
 - **El rojo es escaso.** Solo marca lo vivo, lo que espera al cliente y lo fuera de
   tolerancia.
+- **Responsive de verdad.** Nada se oculta: cambia cuánto sitio recibe cada parte y a qué
+  ancho se compone el texto. En móvil la navegación es una tira que se desliza, la portada
+  antepone la imagen, la bitácora conserva su espina y las tablas anchas se desplazan con
+  el borde difuminado como señal.
 
 ### La bitácora
 

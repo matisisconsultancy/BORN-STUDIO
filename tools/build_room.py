@@ -74,7 +74,7 @@ def date(iso):
 
 def daymonth(iso):
     y, m, d = iso.split("-")
-    return d, f"{MONTHS[int(m)-1]} {y}"
+    return d, f'{MONTHS[int(m)-1]} <span class="yr">{y}</span>' 
 
 def mk(state, label=None):
     """The maturity marker. Outline · stitch · solid with the red dot."""
@@ -169,7 +169,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   color:var(--g3);margin-top:.6rem}
 
 /* ── cover ────────────────────────────────────────────────────────────────── */
-.cover{padding:clamp(2rem,5vw,4rem) 0 clamp(2.4rem,5vw,4rem)}
+.cover{padding-block:clamp(2rem,5vw,4rem) clamp(2.4rem,5vw,4rem)}
 .cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.82fr);
   gap:var(--gap);align-items:center}
 @media(max-width:900px){.cover__in{grid-template-columns:1fr}}
@@ -193,8 +193,53 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 @media(prefers-reduced-motion:no-preference){.matur > span{transition:opacity .45s var(--ease)}}
 @media(prefers-reduced-motion:reduce){.matur > span:last-child{opacity:1}}
 
+/* ── the three phases, each drawn in its own register ────────────────────── */
+.proc{padding-block:clamp(2.4rem,6vw,4.6rem) clamp(1.6rem,3vw,2.4rem);border-top:1px solid var(--ink)}
+.proc__h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap);
+  align-items:end;padding-bottom:clamp(1.8rem,4vw,3rem)}
+@media(max-width:860px){.proc__h{grid-template-columns:1fr;gap:1.4rem}}
+.proc__g{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,3vw,2.6rem)}
+@media(max-width:860px){.proc__g{grid-template-columns:1fr;gap:2rem}}
+.ph3{border-top:1px solid var(--ink);padding-top:1.1rem}
+.ph3__tex{padding:1.4rem 1.2rem;margin-bottom:1.2rem;display:flex;align-items:center;
+  min-height:104px}
+.ph3--sketched .ph3__tex{background-image:linear-gradient(rgba(74,69,79,.10) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(74,69,79,.10) 1px,transparent 1px);background-size:22px 22px}
+.ph3--stitched .ph3__tex{background-image:repeating-linear-gradient(45deg,rgba(27,23,32,.075) 0 1px,transparent 1px 10px)}
+.ph3--born .ph3__tex{background:var(--ink)}
+.ph3__lg{width:100%;max-width:200px}
+.ph3__lg svg{width:100%;height:auto}
+.ph3--born .p-ink{fill:var(--paper)}
+.ph3 .n{font-family:var(--mono);font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--g3)}
+.ph3.is-now .n{color:var(--red)}
+.ph3 .ln{font-family:var(--serif6);font-weight:600;font-size:1.02rem;color:var(--g2);
+  margin:.25rem 0 .7rem}
+.ph3 .p{font-size:.92rem}
+.ph3__f{display:flex;align-items:center;gap:.6rem;margin-top:1.1rem;padding-top:.8rem;
+  border-top:1px solid var(--hair);font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--g3)}
+.ph3.is-now .ph3__f{color:var(--red)}
+.ph3__f .sp{margin-left:auto;color:var(--g3)}
+
+/* ── the phase rail: where the view you are looking at came from ─────────── */
+.rail{display:flex;align-items:center;gap:.6rem;margin-top:1.1rem;padding-top:.9rem;
+  border-top:1px solid var(--hair)}
+.rail__n{display:flex;align-items:center;gap:.45rem;flex:0 0 auto}
+.rail__n .mk{color:var(--g4)}
+.rail__l{font-family:var(--mono);font-size:.57rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--g4)}
+.rail__r{flex:1 1 auto;height:1px;background:var(--g4);opacity:.5}
+.rail__n.is-on .mk{color:var(--red)}
+.rail__n.is-on .rail__l{color:var(--ink)}
+.rail__n.is-past .mk{color:var(--ink)}
+.rail__n.is-past .rail__l{color:var(--g2)}
+.gal__hint{font-family:var(--mono);font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--g4);margin-top:.85rem;text-align:center;transition:color .2s}
+.gal:hover .gal__hint{color:var(--g2)}
+
 /* ── contents ─────────────────────────────────────────────────────────────── */
-.toc{padding:clamp(2rem,5vw,3.4rem) 0}
+.toc{padding-block:clamp(2rem,5vw,3.4rem)}
 .toc__h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
   padding-bottom:.9rem;border-bottom:1px solid var(--ink);flex-wrap:wrap}
 .toc a{display:grid;grid-template-columns:3.2rem minmax(0,1fr) minmax(0,13ch) 8rem;
@@ -216,7 +261,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .toc .th .im{height:72px;width:118px;aspect-ratio:auto;background-position:right center}
 
 /* ── style spread ─────────────────────────────────────────────────────────── */
-.sp{padding:clamp(2.6rem,7vw,6rem) 0 clamp(1.5rem,4vw,3rem);border-top:1px solid var(--ink)}
+.sp{padding-block:clamp(2.6rem,7vw,6rem) clamp(1.5rem,4vw,3rem);border-top:1px solid var(--ink)}
 .sp__h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:var(--gap);
   align-items:end}
 @media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:1.2rem}}
@@ -249,8 +294,11 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .cwl .cd{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--g3)}
 
 /* ── gallery: drawn · coloured · visualised · born ───────────────────────── */
-.gal__stage{display:grid;aspect-ratio:3/4;cursor:zoom-in}
-@media(max-width:900px){.gal__stage{aspect-ratio:1/1}}
+/* the stage takes the shape of the view in it, so a wide technical flat and a
+   tall legging are each shown whole, with no letterboxing either way */
+.gal__stage{display:grid;aspect-ratio:var(--sr,.78);cursor:zoom-in;
+  transition:aspect-ratio .42s var(--ease)}
+@media(prefers-reduced-motion:reduce){.gal__stage{transition:none}}
 .gal__stage > figure{grid-area:1/1;min-width:0;min-height:0;display:grid;
   grid-template-rows:minmax(0,1fr) auto;opacity:0;pointer-events:none;
   transition:opacity .42s var(--ease)}
@@ -283,10 +331,25 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .sws{display:flex;gap:1.1rem;flex-wrap:wrap;margin-top:1rem}
 
 /* ── lightbox ─────────────────────────────────────────────────────────────── */
-.lbx{position:fixed;inset:0;z-index:200;background:rgba(242,238,230,.985);display:none;
+.lbx{position:fixed;inset:0;z-index:200;background:var(--paper);display:none;
   align-items:center;justify-content:center;padding:clamp(1rem,5vw,4rem);isolation:isolate}
 .lbx.on{display:flex}
-.lbx .im{max-width:100%;height:min(82vh,var(--h,640px));width:auto;background-size:contain}
+.lbx__box{position:relative;width:100%;max-width:1500px;height:78vh;overflow:hidden;
+  touch-action:none;cursor:grab}
+.lbx__box.zoomed{cursor:grab}
+.lbx__box.dragging{cursor:grabbing}
+.lbx .im{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;
+  background-size:contain;transform-origin:50% 50%;
+  transition:transform .28s var(--ease);will-change:transform}
+.lbx__box.dragging .im{transition:none}
+.lbx__bar{display:flex;align-items:center;gap:1.2rem;justify-content:center;margin-top:1.1rem;
+  flex-wrap:wrap}
+.lbx__z{display:flex;align-items:center;gap:.15rem;border:1px solid var(--hair-2)}
+.lbx__z button{width:34px;height:30px;background:none;border:0;color:var(--ink);cursor:pointer;
+  font-family:var(--mono);font-size:.9rem;line-height:1}
+.lbx__z button:hover{background:var(--ink);color:var(--paper)}
+.lbx__z span{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--g2);
+  min-width:4.2ch;text-align:center;font-variant-numeric:tabular-nums}
 .lbx figcaption{color:var(--g2);text-align:center;margin-top:1.2rem}
 .lbx__x{position:absolute;top:1.1rem;right:1.4rem;background:none;border:0;color:var(--ink);
   font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
@@ -297,7 +360,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .lbx__a.p{left:.5rem}.lbx__a.n{right:.5rem}
 
 /* ── the ink counterpoint: colour standards, full bleed ──────────────────── */
-.ink{background:var(--ink);color:var(--paper);padding:clamp(2.6rem,6vw,5rem) 0}
+.ink{background:var(--ink);color:var(--paper);padding-block:clamp(2.6rem,6vw,5rem)}
 .ink .m{color:var(--g3)}
 .ink .d2,.ink .d3{color:var(--paper)}
 .ink .p{color:var(--g4)}
@@ -315,7 +378,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .reg--sketched{--stroke:dotted;--strokec:var(--g4);--txt:var(--graphite)}
 .reg--stitched{--stroke:dashed;--strokec:var(--hair-2);--txt:var(--ink)}
 .reg--born{--stroke:solid;--strokec:var(--hair-2);--txt:var(--ink)}
-.band{padding:clamp(2.4rem,5.5vw,4.4rem) 0 clamp(1.6rem,3.5vw,2.6rem);
+.band{padding-block:clamp(2.4rem,5.5vw,4.4rem) clamp(1.6rem,3.5vw,2.6rem);
   border-top:1px solid var(--ink);position:relative;overflow:hidden}
 .band::before{content:'';position:absolute;inset:0;pointer-events:none}
 .reg--sketched .band::before{
@@ -446,7 +509,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   text-transform:uppercase;color:var(--red);margin-top:.9rem}
 
 /* ── standfirst ───────────────────────────────────────────────────────────── */
-.stand{padding:clamp(2.4rem,6vw,4.6rem) 0 clamp(1.6rem,3.5vw,2.6rem)}
+.stand{padding-block:clamp(2.4rem,6vw,4.6rem) clamp(1.6rem,3.5vw,2.6rem)}
 .stand__g{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:var(--gap);
   align-items:end}
 @media(max-width:880px){.stand__g{grid-template-columns:1fr}}
@@ -616,6 +679,71 @@ pre.code .cm{color:var(--g3)}
 pre.code .st{color:#E8A0AE}
 pre.code .ky{color:var(--g4)}
 
+/* ── smaller screens ──────────────────────────────────────────────────────
+   The document keeps every word; what changes is how much room each part is
+   given and how wide type is set. Nothing is hidden that carries meaning. */
+@media(max-width:1000px){
+  .top__in{gap:.4rem 1rem;padding-block:.35rem}
+  .nav{width:100%;margin-left:0;flex-wrap:nowrap;overflow-x:auto;gap:1.15rem;
+    scrollbar-width:none;-ms-overflow-style:none;
+    padding-bottom:.15rem;scroll-snap-type:x proximity}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{scroll-snap-align:start}
+  .top .matur{width:78px;height:17px}
+}
+@media(max-width:760px){
+  body{font-size:15px;line-height:1.62}
+  .p{max-width:none}
+  .cover .lede{font-size:1rem}
+  .cover__in{gap:1.6rem}
+  .cover__r{order:-1;max-width:74%}
+  .cover__r .im{max-height:46vh;background-position:center}
+  .cover h1{font-size:clamp(3.6rem,20vw,6rem)}
+  .cover .cap{font-size:clamp(1.15rem,5.6vw,1.6rem);max-width:none}
+  .cover__meta{gap:.9rem 1.2rem}
+  .sp__ix{font-size:clamp(4.2rem,22vw,7rem)}
+  .sp__meta div{grid-template-columns:6.4rem minmax(0,1fr);gap:.7rem}
+  .sp__meta dd{font-size:.9rem}
+  .toc .th{height:58px}.toc .th .im{height:58px;width:82px}
+  .toc a{padding:.85rem 0}
+  .cwl .nm{font-size:.9rem;min-width:0}
+  .cwl .cd{flex:0 0 auto;font-size:.58rem}
+  .gal__stage{aspect-ratio:var(--sr,.78)}
+  .strip{gap:1.1rem 1.4rem}
+  .strip button{width:50px;height:60px}
+  .strip button .im{height:54px;width:44px}
+  .rail__l{font-size:.53rem;letter-spacing:.1em}
+  .rail{gap:.4rem}
+  .due .d{text-align:left;flex:1 1 100%}
+  .dfoot{gap:.4rem;flex-direction:column}
+  .mast__r{text-align:left;padding-top:.8rem}
+  .mast__r svg{margin-left:0}
+  .ph3__tex{min-height:84px;padding:1.1rem}
+  pre.code{font-size:.66rem;padding:1rem}
+}
+@media(max-width:620px){
+  .e{grid-template-columns:3.1rem 20px minmax(0,1fr)}
+  .e__d{padding:1.6rem .55rem 0 0}
+  .e__d .dd{font-size:1.3rem}
+  .e__d .mm{font-size:.5rem;letter-spacing:.08em}
+  .e__d .yr{display:none}
+  .e__s .mk{top:1.6rem}
+  .e__b{padding:1.45rem 0 1.9rem}
+  .e__h{font-size:1.15rem;max-width:none}
+  .lbx{padding:.75rem}
+  .lbx__box{height:66vh}
+  .lbx__a{font-size:1.6rem;padding:.5rem}
+  .lbx__x{top:.5rem;right:.7rem;font-size:.6rem}
+  .lbx__bar{gap:.7rem;margin-top:.8rem}
+  .gal__hint{color:var(--g2);font-size:.55rem}
+  .sign{gap:1.6rem}
+}
+/* wide tables scroll; the fading edge says so without adding a label */
+@media(max-width:820px){
+  .tw{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+      mask-image:linear-gradient(90deg,#000 calc(100% - 26px),transparent)}
+}
+
 /* ── print ────────────────────────────────────────────────────────────────── */
 @page{size:A4;margin:13mm}
 @media print{
@@ -634,7 +762,11 @@ pre.code .ky{color:var(--g4)}
   .float{mix-blend-mode:normal}
   .im{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .gal__stage > figure{opacity:1!important;position:static;grid-area:auto}
-  .gal__stage{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;min-height:0}
+  .gal__stage{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;min-height:0;
+    aspect-ratio:auto;transition:none}
+  .gal__hint,.rail{display:none}
+  .ph3__tex{background:none!important;border:1px solid #ccc}
+  .ph3--born .p-ink{fill:#000}
   .gal__stage .im{height:auto;width:100%}
   .due,.ask,.apr--wait{border:1px solid #000}
 }
@@ -1379,20 +1511,33 @@ def system():
 def views(st):
     """(group label, [(image key, caption, is_photograph)])"""
     return [
-     ("Coloured",   [(k, f"{nm} &middot; {code}", False) for k, code, nm, _ in st["colourways"]]),
-     ("Visualised", [(k, f"{nm} &middot; 3D visualisation", False) for k, nm in st["renders"]]),
-     ("Born",       [(k, cap, True) for k, cap in st["photos"]]),
+     ("Drawn",      "sketched", [(st["img"], "Technical flat &middot; front, back and side", False)]),
+     ("Coloured",   "sketched", [(k, f"{nm} &middot; {code}", False) for k, code, nm, _ in st["colourways"]]),
+     ("Visualised", "sketched", [(k, f"{nm} &middot; 3D visualisation", False) for k, nm in st["renders"]]),
+     ("Sampled",    "stitched", [(k, f"SMS 2 &middot; {cap}", True) for k, cap in st["photos"]]),
     ]
+
+def phase_rail():
+    """Three nodes on a rule. The view you are looking at lights its own phase, so
+    every image says which state of the craft it came out of."""
+    n = ""
+    for i, key in enumerate(("sketched", "stitched", "born")):
+        r = REGISTERS[key]
+        n += (f'<span class="rail__n" data-p="{key}">{mk("next", r["name"])}'
+              f'<span class="rail__l">{r["name"]}</span></span>')
+        if i < 2: n += '<span class="rail__r"></span>'
+    return f'<div class="rail" aria-hidden="true">{n}</div>'
 
 def gallery(st, gid):
     figs, thumbs, i = [], [], 0
-    for label, items in views(st):
+    for label, phase, items in views(st):
         if not items: continue
         buttons = ""
         for key, cap, photo in items:
             alt = f'{st["short"]} — {cap}'
             figs.append(
-                f'<figure class="{"on" if i == 0 else ""}{" ph" if photo else ""}" data-i="{i}">'
+                f'<figure class="{"on" if i == 0 else ""}{" ph" if photo else ""}" '
+                f'data-i="{i}" data-phase="{phase}">'
                 f'{im(key, alt, "" if photo else "float")}'
                 f'<figcaption>{cap}</figcaption></figure>')
             buttons += (f'<button data-g="{gid}" data-i="{i}" '
@@ -1403,7 +1548,9 @@ def gallery(st, gid):
                       f'<div class="strip__t">{buttons}</div></div>')
     return (f'<div class="gal" data-gal="{gid}">'
             f'<div class="gal__stage" data-stage="{gid}" role="button" tabindex="0" '
-            f'aria-label="Open full size">{"".join(figs)}</div>'
+            f'aria-label="Open this view full size">{"".join(figs)}</div>'
+            f'<p class="gal__hint">Open full size to zoom in on the construction</p>'
+            f'{phase_rail()}'
             f'<div class="strip">{"".join(thumbs)}</div></div>')
 
 def spread(st, n):
@@ -1423,9 +1570,6 @@ def spread(st, n):
    <h2 class="d2">{st['name']}</h2></div>
   <dl class="sp__meta">{rows}</dl>
  </div>
- <figure class="sp__flat">{im(st['img'], st['name'] + ' technical flat', 'float')}
-  <figcaption>Technical flat &middot; front, back and side, with construction callouts</figcaption>
- </figure>
  <div class="sp__body">
   <div><p class="p">{st['hand']}.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1435,6 +1579,51 @@ def spread(st, n):
   <div>{gallery(st, st['no'])}</div>
  </div>
 </section>"""
+
+PHASE_WORK = {
+ "sketched": ("Material selection, technical sketches with construction callouts, colour "
+              "development against physical chips, 3D visualisation, and a factory-ready "
+              "tech pack.", "1–3 weeks"),
+ "stitched": ("Factory pairing, lab dip management, sample rounds with documented fit "
+              "sessions, and tech pack revisions carried through to the approved sample.",
+              "2–6 months"),
+ "born":     ("Size set and PPS sign-off, bulk oversight, inline QC, final AQL inspection "
+              "and a documented handover with the full production archive.", "4–8 weeks"),
+}
+
+def process():
+    """The three states, shown in the registers the rest of the document uses.
+    It reads as the studio's method and works as the legend for everything after."""
+    cols = ""
+    for key in ("sketched", "stitched", "born"):
+        r = REGISTERS[key]
+        ph = next(p for p in PHASES if p["key"] == key)
+        work, span = PHASE_WORK[key]
+        live = ph["state"] == "stitched"
+        done = ph["state"] == "born"
+        state = "done" if done else ("now" if live else "next")
+        where = ("Complete" if done else "Where the capsule is now" if live else "Ahead")
+        logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
+                "born": SVG["state_born"]}[key]
+        cols += f"""<article class="ph3 ph3--{key}{' is-now' if live else ''}">
+ <div class="ph3__tex"><div class="ph3__lg">{logo}</div></div>
+ <p class="n">Phase {r['n']}</p>
+ <h3 class="d3">{r['name']}</h3>
+ <p class="ln">{r['line']}</p>
+ <p class="p">{work}</p>
+ <p class="ph3__f">{mk(state)}<span>{where}</span><span class="sp">{span}</span></p>
+</article>"""
+    return f"""<div class="w proc">
+ <div class="proc__h">
+  <div><p class="m m--r">The process</p>
+   <h2 class="d2">Every garment<br>lives three states.</h2></div>
+  <p class="p">The mark itself changes with the phase &mdash; outline while it is being
+   drawn, topstitch while it is being tested, solid and in colour once it goes out into
+   the world. That language runs through this whole document, so you can always tell how
+   settled a piece of information is without being told.</p>
+ </div>
+ <div class="proc__g">{cols}</div>
+</div>"""
 
 def range_panel():
     toc = "".join(
@@ -1474,6 +1663,7 @@ def range_panel():
   {toc}
  </div>
 
+{process()}
  {spreads}
 
  <div class="ink"><div class="w">
@@ -1542,31 +1732,104 @@ JS = r"""<script>
         figs=$$('.gal__stage > figure',g),
         btns=$$('.strip button',g);
     GAL[id]={figs:figs,i:0};
+    var stage=$('.gal__stage',g),rail=$$('.rail__n',g),ORDER=['sketched','stitched','born'];
     function pick(n){
       n=(n+figs.length)%figs.length;
       GAL[id].i=n;
       figs.forEach(function(f,j){f.classList.toggle('on',j===n);});
       btns.forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.i===n?'true':'false');});
+      var f=figs[n],
+          r=parseFloat(getComputedStyle($('.im',f)).getPropertyValue('--r'))||1;
+      stage.style.setProperty('--sr',Math.min(1.75,Math.max(.66,r)));
+      var at=ORDER.indexOf(f.dataset.phase);
+      rail.forEach(function(nd,k){
+        nd.classList.toggle('is-on',k===at);
+        nd.classList.toggle('is-past',k<at);
+      });
     }
     btns.forEach(function(b){b.addEventListener('click',function(){pick(+b.dataset.i);});});
     GAL[id].pick=pick;
+    pick(0);   // set the stage shape and the phase rail before the first click
   });
 
   // ── lightbox ──────────────────────────────────────────────────────────────
   var lb=$('#lb'),lbI=$('#lbI'),lbC=$('#lbC'),cur=null;
+  var box=$('#lbBox'),zEl=$('#lbZ'),z=1,ox=0,oy=0,drag=null;
+  function apply(){
+    lbI.style.transform='translate('+ox+'px,'+oy+'px) scale('+z+')';
+    zEl.textContent=Math.round(z*100)+'%';
+    box.classList.toggle('zoomed',z>1);
+  }
+  function zoom(nz,cx,cy){
+    nz=Math.min(6,Math.max(1,nz));
+    var r=box.getBoundingClientRect();
+    cx=(cx==null?r.width/2:cx-r.left)-r.width/2;
+    cy=(cy==null?r.height/2:cy-r.top)-r.height/2;
+    var k=nz/z;
+    ox=cx-(cx-ox)*k; oy=cy-(cy-oy)*k;
+    z=nz;
+    if(z===1){ox=0;oy=0;}
+    apply();
+  }
+  function openZoom(ir){
+    // `contain` fits the whole image in; on a narrow screen a wide technical
+    // flat then lands as a thin strip, so it opens filled to the height instead
+    var r=box.getBoundingClientRect(),br=r.width/r.height;
+    return ir/br > 1.5 ? Math.min(2.8,ir/br) : 1;
+  }
   function paint(){
-    var g=GAL[cur],f=g.figs[g.i],src=$('.im',f);
+    var g=GAL[cur],f=g.figs[g.i],src=$('.im',f),
+        ir=parseFloat(getComputedStyle(src).getPropertyValue('--r'))||1;
     lbI.className=src.className;
-    lbI.style.setProperty('--r',getComputedStyle(src).getPropertyValue('--r'));
-    lbI.style.setProperty('--h','640px');
     lbI.setAttribute('aria-label',src.getAttribute('aria-label')||'');
     lbC.innerHTML=$('figcaption',f).innerHTML;
+    ox=0;oy=0;z=openZoom(ir);apply();
   }
-  function open(id){cur=id;paint();lb.classList.add('on');$('#lbX').focus();}
-  function close(){lb.classList.remove('on');cur=null;}
+  $('#lbIn').addEventListener('click',function(e){e.stopPropagation();zoom(z*1.5);});
+  $('#lbOut').addEventListener('click',function(e){e.stopPropagation();zoom(z/1.5);});
+  box.addEventListener('wheel',function(e){
+    e.preventDefault();zoom(z*(e.deltaY<0?1.18:1/1.18),e.clientX,e.clientY);
+  },{passive:false});
+  box.addEventListener('dblclick',function(e){zoom(z>1?1:2.6,e.clientX,e.clientY);});
+  var pts={},pinch=null;
+  function two(){var k=Object.keys(pts);return k.length===2?[pts[k[0]],pts[k[1]]]:null;}
+  box.addEventListener('pointerdown',function(e){
+    pts[e.pointerId]={x:e.clientX,y:e.clientY};
+    box.setPointerCapture(e.pointerId);
+    var t=two();
+    if(t){
+      drag=null;
+      pinch={d:Math.hypot(t[0].x-t[1].x,t[0].y-t[1].y),z:z,
+             cx:(t[0].x+t[1].x)/2,cy:(t[0].y+t[1].y)/2};
+      return;
+    }
+    if(z>1){drag={x:e.clientX-ox,y:e.clientY-oy};box.classList.add('dragging');}
+  });
+  box.addEventListener('pointermove',function(e){
+    if(pts[e.pointerId]){pts[e.pointerId].x=e.clientX;pts[e.pointerId].y=e.clientY;}
+    var t=two();
+    if(pinch&&t){
+      var d=Math.hypot(t[0].x-t[1].x,t[0].y-t[1].y);
+      if(pinch.d>0)zoom(pinch.z*(d/pinch.d),pinch.cx,pinch.cy);
+      return;
+    }
+    if(!drag)return;ox=e.clientX-drag.x;oy=e.clientY-drag.y;apply();
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(t){
+    box.addEventListener(t,function(e){
+      delete pts[e.pointerId];
+      if(Object.keys(pts).length<2)pinch=null;
+      drag=null;box.classList.remove('dragging');
+    });
+  });
+  function open(id){cur=id;lb.classList.add('on');document.body.style.overflow='hidden';
+    paint();$('#lbX').focus();}
+  function close(){lb.classList.remove('on');document.body.style.overflow='';cur=null;}
   function step(d){if(!cur)return;GAL[cur].pick(GAL[cur].i+d);paint();}
   $$('.gal__stage').forEach(function(st){
-    st.addEventListener('click',function(){open(st.dataset.stage);});
+    st.addEventListener('click',function(e){
+      if(e.target.closest('button'))return;
+      open(st.dataset.stage);});
     st.addEventListener('keydown',function(e){
       if(e.key==='Enter'||e.key===' '){e.preventDefault();open(st.dataset.stage);}
     });
@@ -1580,6 +1843,9 @@ JS = r"""<script>
     if(e.key==='Escape')close();
     if(e.key==='ArrowLeft')step(-1);
     if(e.key==='ArrowRight')step(1);
+    if(e.key==='+'||e.key==='=')zoom(z*1.5);
+    if(e.key==='-')zoom(z/1.5);
+    if(e.key==='0')zoom(1);
   });
 
   // ── contents links jump inside the panel ─────────────────────────────────
@@ -1614,7 +1880,13 @@ BILLING = quote() + invoice() + "</section>"
 LIGHTBOX = ('<div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label="Full size">'
             '<button class="lbx__x" id="lbX" type="button">Close &times;</button>'
             '<button class="lbx__a p" id="lbP" type="button" aria-label="Previous">&#8249;</button>'
-            '<figure><span class="im" id="lbI" role="img"></span><figcaption id="lbC"></figcaption></figure>'
+            '<figure style="width:100%;max-width:1500px">'
+            '<div class="lbx__box" id="lbBox"><span class="im" id="lbI" role="img"></span></div>'
+            '<div class="lbx__bar"><span class="lbx__z">'
+            '<button type="button" id="lbOut" aria-label="Zoom out">&minus;</button>'
+            '<span id="lbZ">100%</span>'
+            '<button type="button" id="lbIn" aria-label="Zoom in">+</button></span>'
+            '<figcaption id="lbC"></figcaption></div></figure>'
             '<button class="lbx__a n" id="lbN" type="button" aria-label="Next">&#8250;</button></div>')
 
 BODY = (DEFS + top() + '<main>' + range_panel() + LOGBOOK + techpack() + fitting()

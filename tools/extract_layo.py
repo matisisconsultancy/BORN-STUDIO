@@ -10,13 +10,13 @@ from PIL import Image, ImageChops
 
 SRC = "source/BORN_LayoCapsule_DesignStage.pdf"
 OUT = "deliverables/assets"
-DPI = 190
+DPI = 265
 os.makedirs(OUT, exist_ok=True)
 
 # name -> (page, left, top, right, bottom) as fractions of the page box
 CROPS = {
     # ── technical flats: the line drawings with construction callouts ────────
-    "flat_alo006":  (2, .100, .340, .478, .740),
+    "flat_alo006":  (2, .102, .340, .482, .740),
     "flat_jk149":   (2, .515, .335, .975, .745),
     "flat_hd025":   (3, .030, .255, .490, .765),
     "flat_6012156": (3, .515, .255, .985, .765),
@@ -87,13 +87,24 @@ def main():
     for name, (n, l, t, r, b) in CROPS.items():
         px = pages[n]
         im = Image.frombytes("RGB", (px.width, px.height), px.samples)
-        im = im.crop((int(l * px.width), int(t * px.height),
-                      int(r * px.width), int(b * px.height)))
+        # a small margin on every side, then a trim, so nothing is ever cut
+        # at the boundary and no uniform border is left behind
+        # flat panels have deliberate left/right edges — a side margin there would
+        # pull the neighbouring panel back in, so only the other crops get one
+        pad_x = 0.0 if name.startswith("flat_") else (r - l) * .012
+        pad_y = (b - t) * .022
+        l2, t2 = max(0.0, l - pad_x), max(0.0, t - pad_y)
+        r2, b2 = min(1.0, r + pad_x), min(1.0, b + pad_y)
+        im = im.crop((int(l2 * px.width), int(t2 * px.height),
+                      int(r2 * px.width), int(b2 * px.height)))
         if name.startswith("flat_"): im = drop_dark_header(im)
         im = trim(im)
-        im.thumbnail((1600, 1600) if name == "render_motion" else (1150, 1150), Image.LANCZOS)
+        # flats carry callout type that has to survive a close-up, so they keep
+        # more pixels than the photography does
+        cap = 2200 if name.startswith("flat_") else 1500
+        im.thumbnail((cap, cap), Image.LANCZOS)
         path = f"{OUT}/{name}.jpg"
-        im.save(path, "JPEG", quality=80, optimize=True, progressive=True)
+        im.save(path, "JPEG", quality=82, optimize=True, progressive=True)
         print(f"{name:16s} {im.size[0]:4d}x{im.size[1]:4d}  {os.path.getsize(path)//1024:4d} KB")
 
 if __name__ == "__main__":
