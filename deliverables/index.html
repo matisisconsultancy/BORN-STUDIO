@@ -823,6 +823,79 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   background-image:repeating-linear-gradient(45deg,rgba(242,238,230,.10) 0 1px,transparent 1px 13px)}
 .act--born .act__tex{display:none}
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE JOURNEY
+   A phase is not a chapter you pass once — it is a set of graphic properties
+   that every rule, tint and mark in the document inherits. Each phase owns a
+   line (dotted, stitch-dashed, solid), a colour (graphite, ink, Rojo Valentino)
+   and a texture (construction grid, diagonal hatch, clean paper). Scroll, or
+   change what you are looking at, and the document crosses with you.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ph-sketched{--pline:dotted;--pcol:rgba(92,87,98,.85);--pink:var(--graphite);
+  --ptint:rgba(74,69,79,.055);--pw:1px}
+.ph-stitched{--pline:dashed;--pcol:rgba(27,23,32,.55);--pink:var(--ink);
+  --ptint:rgba(27,23,32,.075);--pw:1.2px}
+.ph-born{--pline:solid;--pcol:var(--red);--pink:var(--red);
+  --ptint:rgba(196,18,46,.055);--pw:1.4px}
+
+/* the sheet under a poster takes the phase of the view you are looking at */
+.sp{--pline:dotted;--pcol:rgba(92,87,98,.85);--pink:var(--graphite);--ptint:transparent;--pw:1px}
+.pband{display:flex;align-items:center;gap:.9rem;padding-top:clamp(1.4rem,3vw,2.2rem)}
+.pband__ln{flex:1 1 auto;order:2;height:0;
+  border-top:var(--pw) var(--pline) var(--pcol);transition:border-color .4s var(--ease)}
+.pband__p{display:none;align-items:center;gap:.6rem;flex:0 0 auto;order:1}
+.pband__p b{font-family:var(--serif6);font-weight:600;font-size:1.05rem;color:var(--pink);
+  transition:color .4s var(--ease)}
+.pband__p > span{font-size:.8rem;color:var(--graphite)}
+.pband__p .mk{color:var(--pink)}
+.sp.ph-sketched .pband__p[data-p=sketched],
+.sp.ph-stitched .pband__p[data-p=stitched],
+.sp.ph-born .pband__p[data-p=born]{display:flex}
+@media(max-width:700px){.pband{flex-wrap:wrap}.pband__ln{flex-basis:100%;order:3}
+  .pband__p > span{display:none}}
+.sp__body{position:relative;transition:background-color .5s var(--ease)}
+.sp__body::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:var(--ptint);transition:background-color .5s var(--ease);z-index:-1}
+.sp .calls li,.sp .cwl li{border-bottom:var(--pw) var(--pline) var(--pcol);
+  transition:border-color .4s var(--ease)}
+.sp .m{color:var(--pink);transition:color .4s var(--ease)}
+.sp .gal__stage{position:relative}
+.sp .gal__stage::after{content:'';position:absolute;left:0;right:0;bottom:-.55rem;
+  border-bottom:var(--pw) var(--pline) var(--pcol);transition:border-color .4s var(--ease)}
+.sp .strip button[aria-pressed=true]::after{border-bottom-color:var(--pink)}
+.sp .rail__r{background:var(--pcol);opacity:.75}
+
+/* the phase rail carries its own line, so the three states are told apart by
+   stroke and not only by position */
+.rail__r{height:0;border-top:1px dotted var(--g4);background:none!important}
+.rail__n:nth-child(1) ~ .rail__r{border-top-style:dotted}
+.rail{gap:.7rem}
+.rail__n.is-on .rail__l{color:var(--pink)}
+
+/* ── the header always says which phase you are in ───────────────────────── */
+.pnow{display:flex;align-items:center;gap:.5rem;margin-left:1.4rem;flex:0 0 auto;
+  font-size:.78rem;color:var(--graphite);white-space:nowrap;
+  transition:color .4s var(--ease)}
+.pnow .mk{color:var(--pink,var(--graphite))}
+.pnow b{font-weight:400;color:var(--pink,var(--ink))}
+.pnow__ln{width:26px;height:0;border-top:var(--pw,1px) var(--pline,dotted) var(--pcol,var(--g4));
+  transition:border-color .4s var(--ease)}
+@media(max-width:1000px){.pnow{margin-left:0;order:3;font-size:.72rem}}
+body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
+.top{transition:none}
+.prog{background:var(--pink,var(--red));transition:background-color .4s var(--ease)}
+
+/* ── a document belongs to a phase, and says so ──────────────────────────── */
+.pstrip{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;
+  padding-bottom:.75rem;border-bottom:var(--pw) var(--pline) var(--pcol)}
+.pstrip .mk{color:var(--pink)}
+.pstrip b{font-family:var(--serif6);font-weight:600;font-size:1rem;color:var(--pink)}
+.pstrip span{font-size:.8rem;color:var(--graphite)}
+.pstrip .pstrip__t{margin-left:auto;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.04em;color:var(--graphite)}
+@media(max-width:620px){.pstrip{flex-wrap:wrap;gap:.45rem .7rem}
+  .pstrip .pstrip__t{margin-left:0;width:100%}}
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -978,6 +1051,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <span data-i="1"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></span>
   <span data-i="2" class="on"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></span>
  </span>
+ <p class="pnow" id="pnow" aria-live="polite"><span class="pnow__ln"></span>
+  <svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b></p>
  <nav class="nav" role="tablist" aria-label="Sections"><button role="tab" id="t-range" aria-controls="p-range" data-doc="range" aria-selected="true">The range</button><button role="tab" id="t-logbook" aria-controls="p-logbook" data-doc="logbook" aria-selected="false">Logbook</button><button role="tab" id="t-techpack" aria-controls="p-techpack" data-doc="techpack" aria-selected="false">Tech pack</button><button role="tab" id="t-fitting" aria-controls="p-fitting" data-doc="fitting" aria-selected="false">Fitting</button><button role="tab" id="t-billing" aria-controls="p-billing" data-doc="billing" aria-selected="false">Billing</button><button role="tab" id="t-handover" aria-controls="p-handover" data-doc="handover" aria-selected="false">Handover</button><button role="tab" id="t-system" aria-controls="p-system" data-doc="system" aria-selected="false">System</button>
   <button class="pr" id="printBtn" type="button">Print</button></nav>
 </div></header><main><section class="panel active" id="p-range" role="tabpanel" aria-labelledby="t-range">
@@ -1013,7 +1088,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    topstitch while it is being tested, solid and in colour once it goes out into the
    world. So does the ground you are reading it on.</p>
  </div>
-</div><div class="act act--sketched bleed">
+</div><div class="act act--sketched bleed ph-sketched" data-phase-region="sketched">
  <div class="act__tex" aria-hidden="true"></div>
  <div class="w act__in">
   <div><p class="act__n">01</p><h3 class="act__nm">Sketched</h3>
@@ -1022,7 +1097,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div><p class="p" style="font-size:1.04rem">Material selection, technical sketches with construction callouts, colour development against physical chips, 3D visualisation, and a factory-ready tech pack.</p>
    <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="wk">1–3 weeks</span></p></div>
  </div>
-</div><div class="act act--stitched field--ink bleed">
+</div><div class="act act--stitched field--ink bleed ph-stitched" data-phase-region="stitched">
  <div class="act__tex" aria-hidden="true"></div>
  <div class="w act__in">
   <div><p class="act__n">02</p><h3 class="act__nm">Stitched</h3>
@@ -1031,7 +1106,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div><p class="p" style="font-size:1.04rem">Factory pairing, lab dip management, sample rounds with documented fit sessions, and tech pack revisions carried through to the approved sample.</p>
    <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="wk">2–6 months</span></p></div>
  </div>
-</div><div class="act act--born field--red bleed">
+</div><div class="act act--born field--red bleed ph-born" data-phase-region="born">
  <div class="act__tex" aria-hidden="true"></div>
  <div class="w act__in">
   <div><p class="act__n">03</p><h3 class="act__nm">BORN</h3>
@@ -1041,7 +1116,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="wk">4–8 weeks</span></p></div>
  </div>
 </div><div class="w">
- </div><section class="sp" id="s-ALO006">
+ </div><section class="sp ph-sketched"
+ data-phase-region="sketched" id="s-ALO006">
  <div class="hero bleed field--ink">
  <div class="hero__in">
   <div class="hero__t">
@@ -1054,6 +1130,15 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div class="hero__img"><span class="im i-render_bra_red float" style="--r:0.6793" role="img" aria-label="Dual-Layer Cold Shoulder Long Sleeve Bra Top"></span></div>
  </div>
 </div>
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">Moisture-wicking, breathable, soft hand feel, lightweight support.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1062,7 +1147,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#9E1B32"></i><span class="nm">Jester Red</span><span class="cd">19-1862 TCX</span></li><li><i style="background:#282A2D"></i><span class="nm">Black Beauty</span><span class="cd">19-3911 TCX</span></li><li><i style="background:#AFC0AC"></i><span class="nm">Cameo Green</span><span class="cd">14-6312 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="ALO006"><div class="gal__stage" data-stage="ALO006" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_alo006 float" style="--r:1.62" role="img" aria-label="Cold Shoulder Bra Top — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_bra_red float" style="--r:0.6153" role="img" aria-label="Cold Shoulder Bra Top — Jester Red &middot; 19-1862 TCX"></span><figcaption>Jester Red &middot; 19-1862 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_bra_black float" style="--r:0.6293" role="img" aria-label="Cold Shoulder Bra Top — Black Beauty &middot; 19-3911 TCX"></span><figcaption>Black Beauty &middot; 19-3911 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-cw_bra_green float" style="--r:0.6267" role="img" aria-label="Cold Shoulder Bra Top — Cameo Green &middot; 14-6312 TCX"></span><figcaption>Cameo Green &middot; 14-6312 TCX</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_bra_red float" style="--r:0.6793" role="img" aria-label="Cold Shoulder Bra Top — Jester Red &middot; 3D visualisation"></span><figcaption>Jester Red &middot; 3D visualisation</figcaption></figure><figure class="" data-i="5" data-phase="sketched"><span class="im i-render_bra_green float" style="--r:0.74" role="img" aria-label="Cold Shoulder Bra Top — Cameo Green &middot; 3D visualisation"></span><figcaption>Cameo Green &middot; 3D visualisation</figcaption></figure><figure class="" data-i="6" data-phase="sketched"><span class="im i-render_bra_black float" style="--r:0.722" role="img" aria-label="Cold Shoulder Bra Top — Black Beauty &middot; 3D visualisation"></span><figcaption>Black Beauty &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="7" data-phase="stitched"><span class="im i-photo_bra_red_f" style="--r:0.7413" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Jester Red · front"></span><figcaption>SMS 2 &middot; Jester Red · front</figcaption></figure><figure class=" ph" data-i="8" data-phase="stitched"><span class="im i-photo_bra_red_b" style="--r:0.7407" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Jester Red · back"></span><figcaption>SMS 2 &middot; Jester Red · back</figcaption></figure><figure class=" ph" data-i="9" data-phase="stitched"><span class="im i-photo_bra_blk_f" style="--r:0.7853" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Black Beauty · front"></span><figcaption>SMS 2 &middot; Black Beauty · front</figcaption></figure><figure class=" ph" data-i="10" data-phase="stitched"><span class="im i-photo_bra_blk_b" style="--r:0.7407" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Black Beauty · back"></span><figcaption>SMS 2 &middot; Black Beauty · back</figcaption></figure><figure class=" ph" data-i="11" data-phase="stitched"><span class="im i-photo_bra_f" style="--r:0.6787" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Bolero layer · front"></span><figcaption>SMS 2 &middot; Bolero layer · front</figcaption></figure><figure class=" ph" data-i="12" data-phase="stitched"><span class="im i-photo_bra_b" style="--r:0.6787" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Bolero layer · back"></span><figcaption>SMS 2 &middot; Bolero layer · back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="ALO006" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_alo006 th" style="--r:1.62" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="ALO006" data-i="1" aria-pressed="false" title="Jester Red &middot; 19-1862 TCX"><span class="im i-cw_bra_red th" style="--r:0.6153" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="2" aria-pressed="false" title="Black Beauty &middot; 19-3911 TCX"><span class="im i-cw_bra_black th" style="--r:0.6293" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="3" aria-pressed="false" title="Cameo Green &middot; 14-6312 TCX"><span class="im i-cw_bra_green th" style="--r:0.6267" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="ALO006" data-i="4" aria-pressed="false" title="Jester Red &middot; 3D visualisation"><span class="im i-render_bra_red th" style="--r:0.6793" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="5" aria-pressed="false" title="Cameo Green &middot; 3D visualisation"><span class="im i-render_bra_green th" style="--r:0.74" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="6" aria-pressed="false" title="Black Beauty &middot; 3D visualisation"><span class="im i-render_bra_black th" style="--r:0.722" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="ALO006" data-i="7" aria-pressed="false" title="SMS 2 &middot; Jester Red · front"><span class="im i-photo_bra_red_f th" style="--r:0.7413" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="8" aria-pressed="false" title="SMS 2 &middot; Jester Red · back"><span class="im i-photo_bra_red_b th" style="--r:0.7407" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="9" aria-pressed="false" title="SMS 2 &middot; Black Beauty · front"><span class="im i-photo_bra_blk_f th" style="--r:0.7853" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="10" aria-pressed="false" title="SMS 2 &middot; Black Beauty · back"><span class="im i-photo_bra_blk_b th" style="--r:0.7407" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="11" aria-pressed="false" title="SMS 2 &middot; Bolero layer · front"><span class="im i-photo_bra_f th" style="--r:0.6787" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="12" aria-pressed="false" title="SMS 2 &middot; Bolero layer · back"><span class="im i-photo_bra_b th" style="--r:0.6787" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp sp--flip" id="s-LY-JK-149">
+</section><section class="sp sp--flip ph-sketched"
+ data-phase-region="sketched" id="s-LY-JK-149">
  <div class="hero bleed field--ink hero--flip">
  <div class="hero__in">
   <div class="hero__t">
@@ -1075,6 +1161,15 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div class="hero__img"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="Full-Zip Performance Training Jacket"></span></div>
  </div>
 </div>
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">Flexibility, durability and shape retention across repeated wear.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1083,7 +1178,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#282A2D"></i><span class="nm">Black Beauty</span><span class="cd">19-3911 TCX</span></li><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="LY-JK-149"><div class="gal__stage" data-stage="LY-JK-149" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_jk149 float" style="--r:1.7642" role="img" aria-label="Training Jacket — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_jacket_black float" style="--r:1.1202" role="img" aria-label="Training Jacket — Black Beauty &middot; 19-3911 TCX"></span><figcaption>Black Beauty &middot; 19-3911 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_jacket_peri float" style="--r:1.0925" role="img" aria-label="Training Jacket — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="Training Jacket — Black Beauty &middot; 3D visualisation"></span><figcaption>Black Beauty &middot; 3D visualisation</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_blue float" style="--r:1.3711" role="img" aria-label="Training Jacket — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="5" data-phase="stitched"><span class="im i-photo_jacket_f" style="--r:0.7407" role="img" aria-label="Training Jacket — SMS 2 &middot; Black Beauty · front"></span><figcaption>SMS 2 &middot; Black Beauty · front</figcaption></figure><figure class=" ph" data-i="6" data-phase="stitched"><span class="im i-photo_jacket_b" style="--r:0.7407" role="img" aria-label="Training Jacket — SMS 2 &middot; Black Beauty · back"></span><figcaption>SMS 2 &middot; Black Beauty · back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="LY-JK-149" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_jk149 th" style="--r:1.7642" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="LY-JK-149" data-i="1" aria-pressed="false" title="Black Beauty &middot; 19-3911 TCX"><span class="im i-cw_jacket_black th" style="--r:1.1202" role="img" aria-label=""></span></button><button data-g="LY-JK-149" data-i="2" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_jacket_peri th" style="--r:1.0925" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="LY-JK-149" data-i="3" aria-pressed="false" title="Black Beauty &middot; 3D visualisation"><span class="im i-render_black th" style="--r:0.9873" role="img" aria-label=""></span></button><button data-g="LY-JK-149" data-i="4" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_blue th" style="--r:1.3711" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="LY-JK-149" data-i="5" aria-pressed="false" title="SMS 2 &middot; Black Beauty · front"><span class="im i-photo_jacket_f th" style="--r:0.7407" role="img" aria-label=""></span></button><button data-g="LY-JK-149" data-i="6" aria-pressed="false" title="SMS 2 &middot; Black Beauty · back"><span class="im i-photo_jacket_b th" style="--r:0.7407" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp" id="s-LY-6012156">
+</section><section class="sp ph-sketched"
+ data-phase-region="sketched" id="s-LY-6012156">
  <div class="hero bleed field--ink">
  <div class="hero__in">
   <div class="hero__t">
@@ -1096,6 +1192,15 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div class="hero__img"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="Oasis PureLuxe High-Waisted 6" Shorts"></span></div>
  </div>
 </div>
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">Lightweight stretch engineered for mobility and structural stability.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1104,7 +1209,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#282A2D"></i><span class="nm">Black Beauty</span><span class="cd">19-3911 TCX</span></li><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="LY-6012156"><div class="gal__stage" data-stage="LY-6012156" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_6012156 float" style="--r:2.1422" role="img" aria-label="PureLuxe 6" Shorts — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_jacket_black float" style="--r:1.1202" role="img" aria-label="PureLuxe 6" Shorts — Black Beauty &middot; 19-3911 TCX"></span><figcaption>Black Beauty &middot; 19-3911 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_jacket_peri float" style="--r:1.0925" role="img" aria-label="PureLuxe 6" Shorts — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="PureLuxe 6" Shorts — Black Beauty &middot; 3D visualisation"></span><figcaption>Black Beauty &middot; 3D visualisation</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_blue float" style="--r:1.3711" role="img" aria-label="PureLuxe 6" Shorts — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="5" data-phase="stitched"><span class="im i-photo_short_f" style="--r:0.7873" role="img" aria-label="PureLuxe 6" Shorts — SMS 2 &middot; Black Beauty · front"></span><figcaption>SMS 2 &middot; Black Beauty · front</figcaption></figure><figure class=" ph" data-i="6" data-phase="stitched"><span class="im i-photo_short_b" style="--r:0.6827" role="img" aria-label="PureLuxe 6" Shorts — SMS 2 &middot; Black Beauty · back, side pocket"></span><figcaption>SMS 2 &middot; Black Beauty · back, side pocket</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="LY-6012156" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_6012156 th" style="--r:2.1422" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="LY-6012156" data-i="1" aria-pressed="false" title="Black Beauty &middot; 19-3911 TCX"><span class="im i-cw_jacket_black th" style="--r:1.1202" role="img" aria-label=""></span></button><button data-g="LY-6012156" data-i="2" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_jacket_peri th" style="--r:1.0925" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="LY-6012156" data-i="3" aria-pressed="false" title="Black Beauty &middot; 3D visualisation"><span class="im i-render_black th" style="--r:0.9873" role="img" aria-label=""></span></button><button data-g="LY-6012156" data-i="4" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_blue th" style="--r:1.3711" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="LY-6012156" data-i="5" aria-pressed="false" title="SMS 2 &middot; Black Beauty · front"><span class="im i-photo_short_f th" style="--r:0.7873" role="img" aria-label=""></span></button><button data-g="LY-6012156" data-i="6" aria-pressed="false" title="SMS 2 &middot; Black Beauty · back, side pocket"><span class="im i-photo_short_b th" style="--r:0.6827" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp sp--flip" id="s-LY-HD-025">
+</section><section class="sp sp--flip ph-sketched"
+ data-phase-region="sketched" id="s-LY-HD-025">
  <div class="hero bleed field--ink hero--flip">
  <div class="hero__in">
   <div class="hero__t">
@@ -1117,6 +1223,15 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div class="hero__img"><span class="im i-render_periwinkle float" style="--r:0.816" role="img" aria-label="UrbanEase Cropped Zip Hoodie"></span></div>
  </div>
 </div>
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">Smooth exterior, brushed interior — warmth without bulk.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1125,7 +1240,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li><li><i style="background:#EFEBE4"></i><span class="nm">Whisper White</span><span class="cd">11-0701 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="LY-HD-025"><div class="gal__stage" data-stage="LY-HD-025" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_hd025 float" style="--r:1.7614" role="img" aria-label="Cropped Zip Hoodie — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_hoodie_peri float" style="--r:0.742" role="img" aria-label="Cropped Zip Hoodie — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_hoodie_whisper float" style="--r:0.7993" role="img" aria-label="Cropped Zip Hoodie — Whisper White &middot; 11-0701 TCX"></span><figcaption>Whisper White &middot; 11-0701 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-render_periwinkle float" style="--r:0.816" role="img" aria-label="Cropped Zip Hoodie — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_whisper float" style="--r:0.7833" role="img" aria-label="Cropped Zip Hoodie — Whisper White &middot; 3D visualisation"></span><figcaption>Whisper White &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="5" data-phase="stitched"><span class="im i-photo_hoodie_f" style="--r:1.0274" role="img" aria-label="Cropped Zip Hoodie — SMS 2 &middot; front"></span><figcaption>SMS 2 &middot; front</figcaption></figure><figure class=" ph" data-i="6" data-phase="stitched"><span class="im i-photo_hoodie_b" style="--r:0.938" role="img" aria-label="Cropped Zip Hoodie — SMS 2 &middot; back"></span><figcaption>SMS 2 &middot; back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="LY-HD-025" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_hd025 th" style="--r:1.7614" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="LY-HD-025" data-i="1" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_hoodie_peri th" style="--r:0.742" role="img" aria-label=""></span></button><button data-g="LY-HD-025" data-i="2" aria-pressed="false" title="Whisper White &middot; 11-0701 TCX"><span class="im i-cw_hoodie_whisper th" style="--r:0.7993" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="LY-HD-025" data-i="3" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_periwinkle th" style="--r:0.816" role="img" aria-label=""></span></button><button data-g="LY-HD-025" data-i="4" aria-pressed="false" title="Whisper White &middot; 3D visualisation"><span class="im i-render_whisper th" style="--r:0.7833" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="LY-HD-025" data-i="5" aria-pressed="false" title="SMS 2 &middot; front"><span class="im i-photo_hoodie_f th" style="--r:1.0274" role="img" aria-label=""></span></button><button data-g="LY-HD-025" data-i="6" aria-pressed="false" title="SMS 2 &middot; back"><span class="im i-photo_hoodie_b th" style="--r:0.938" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp" id="s-WB082601">
+</section><section class="sp ph-sketched"
+ data-phase-region="sketched" id="s-WB082601">
  <div class="hero bleed field--ink">
  <div class="hero__in">
   <div class="hero__t">
@@ -1138,6 +1254,15 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div class="hero__img"><span class="im i-render_whisper float" style="--r:0.7833" role="img" aria-label="Ultra-High Waist Core Support Leggings"></span></div>
  </div>
 </div>
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">Smooth, second-skin feel with durability and recovery after repeated wear.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1146,7 +1271,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#EFEBE4"></i><span class="nm">Whisper White</span><span class="cd">11-0701 TCX</span></li><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li><li><i style="background:#9E1B32"></i><span class="nm">Jester Red</span><span class="cd">19-1862 TCX</span></li><li><i style="background:#AFC0AC"></i><span class="nm">Cameo Green</span><span class="cd">14-6312 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="WB082601"><div class="gal__stage" data-stage="WB082601" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_wb082601 float" style="--r:1.9231" role="img" aria-label="Core Support Leggings — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_hoodie_whisper float" style="--r:0.7993" role="img" aria-label="Core Support Leggings — Whisper White &middot; 11-0701 TCX"></span><figcaption>Whisper White &middot; 11-0701 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_hoodie_peri float" style="--r:0.742" role="img" aria-label="Core Support Leggings — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-cw_bra_red float" style="--r:0.6153" role="img" aria-label="Core Support Leggings — Jester Red &middot; 19-1862 TCX"></span><figcaption>Jester Red &middot; 19-1862 TCX</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-cw_bra_green float" style="--r:0.6267" role="img" aria-label="Core Support Leggings — Cameo Green &middot; 14-6312 TCX"></span><figcaption>Cameo Green &middot; 14-6312 TCX</figcaption></figure><figure class="" data-i="5" data-phase="sketched"><span class="im i-render_whisper float" style="--r:0.7833" role="img" aria-label="Core Support Leggings — Whisper White &middot; 3D visualisation"></span><figcaption>Whisper White &middot; 3D visualisation</figcaption></figure><figure class="" data-i="6" data-phase="sketched"><span class="im i-render_periwinkle float" style="--r:0.816" role="img" aria-label="Core Support Leggings — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class="" data-i="7" data-phase="sketched"><span class="im i-render_bra_red float" style="--r:0.6793" role="img" aria-label="Core Support Leggings — Jester Red &middot; 3D visualisation"></span><figcaption>Jester Red &middot; 3D visualisation</figcaption></figure><figure class="" data-i="8" data-phase="sketched"><span class="im i-render_bra_green float" style="--r:0.74" role="img" aria-label="Core Support Leggings — Cameo Green &middot; 3D visualisation"></span><figcaption>Cameo Green &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="9" data-phase="stitched"><span class="im i-photo_leg_white_f" style="--r:0.7053" role="img" aria-label="Core Support Leggings — SMS 2 &middot; Whisper White · front"></span><figcaption>SMS 2 &middot; Whisper White · front</figcaption></figure><figure class=" ph" data-i="10" data-phase="stitched"><span class="im i-photo_leg_white_b" style="--r:0.786" role="img" aria-label="Core Support Leggings — SMS 2 &middot; Whisper White · back"></span><figcaption>SMS 2 &middot; Whisper White · back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="WB082601" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_wb082601 th" style="--r:1.9231" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="WB082601" data-i="1" aria-pressed="false" title="Whisper White &middot; 11-0701 TCX"><span class="im i-cw_hoodie_whisper th" style="--r:0.7993" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="2" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_hoodie_peri th" style="--r:0.742" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="3" aria-pressed="false" title="Jester Red &middot; 19-1862 TCX"><span class="im i-cw_bra_red th" style="--r:0.6153" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="4" aria-pressed="false" title="Cameo Green &middot; 14-6312 TCX"><span class="im i-cw_bra_green th" style="--r:0.6267" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="WB082601" data-i="5" aria-pressed="false" title="Whisper White &middot; 3D visualisation"><span class="im i-render_whisper th" style="--r:0.7833" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="6" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_periwinkle th" style="--r:0.816" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="7" aria-pressed="false" title="Jester Red &middot; 3D visualisation"><span class="im i-render_bra_red th" style="--r:0.6793" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="8" aria-pressed="false" title="Cameo Green &middot; 3D visualisation"><span class="im i-render_bra_green th" style="--r:0.74" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="WB082601" data-i="9" aria-pressed="false" title="SMS 2 &middot; Whisper White · front"><span class="im i-photo_leg_white_f th" style="--r:0.7053" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="10" aria-pressed="false" title="SMS 2 &middot; Whisper White · back"><span class="im i-photo_leg_white_b th" style="--r:0.786" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp sp--flip" id="s-WB082608">
+</section><section class="sp sp--flip ph-sketched"
+ data-phase-region="sketched" id="s-WB082608">
  <div class="hero bleed field--ink hero--flip">
  <div class="hero__in">
   <div class="hero__t">
@@ -1159,6 +1285,15 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <div class="hero__img"><span class="im i-render_bra_black float" style="--r:0.722" role="img" aria-label="Noir White-Trim High-Rise Compression Leggings"></span></div>
  </div>
 </div>
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">Deep matte black with an unbroken, elongating line from hip to ankle.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1199,7 +1334,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
  </div>
 </div><div class="ask"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg>
  <div><p class="k">Waiting on you &middot; by 8 Sep 2026</p>
-  <p>Tech pack v2.1 needs your sign-off. Three pattern corrections and two factory settings.</p></div></div></div><section class="reg reg--sketched"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
+  <p>Tech pack v2.1 needs your sign-off. Three pattern corrections and two factory settings.</p></div></div></div><section class="reg reg--sketched ph-sketched" data-phase-region="sketched"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 01</p><h2 class="d2">Sketched</h2>
    <p class="ln">The idea on paper</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Outline, graphite, a construction grid behind everything. Nothing here is settled — it is being drawn, and drawing is where changes are free.</p>
@@ -1250,7 +1385,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
  <div class="e__b"><p class="e__k">Release</p><h3 class="e__h">Tech pack v1.0 — factory-ready.</h3>
   <p class="e__p">Bill of materials, graded points of measure with tolerances, construction and grading intent. Six styles. This is the file a factory builds from.</p><div class="pay"><div class="rel"><span class="nm">Tech pack &middot; v1.0
   <span class="nt">BOM · graded POM · construction</span></span><button class="golink" data-go="techpack">Open &rarr;</button></div></div></div>
-</article></div></section><section class="reg reg--stitched"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
+</article></div></section><section class="reg reg--stitched ph-stitched" data-phase-region="stitched"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 02</p><h2 class="d2">Stitched</h2>
    <p class="ln">Tested with thread and needle</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Topstitch and tension. The idea now exists as an object and every claim about it is measured against a tolerance rather than argued.</p>
@@ -1347,7 +1482,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
  <div class="e__s"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg></div>
  <div class="e__b"><p class="e__k">Approval</p><h3 class="e__h">Final approved sample.</h3>
   <p class="e__p">The sample the whole bulk run is judged against. Sealed, signed and held by both sides.</p></div>
-</article></div></section><section class="reg reg--born"><div class="band field--red"><div class="tex" aria-hidden="true"></div><div class="w band__in">
+</article></div></section><section class="reg reg--born ph-born" data-phase-region="born"><div class="band field--red"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 03</p><h2 class="d2">BORN</h2>
    <p class="ln">It goes out into the world</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Solid, in colour, signed. Clean paper and nothing provisional left on the page.</p>
@@ -1378,13 +1513,14 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
  <div class="e__b"><p class="e__k">Release</p><h3 class="e__h">Ex-factory, and everything transfers to LAYO.</h3>
   <p class="e__p">Patterns, specifications, supplier references, colour approvals and the full development record. Nothing held back.</p><div class="pay"><div class="rel"><span class="nm">Handover &middot; HO-2026-031
   <span class="nt">Patterns · specs · suppliers · record</span></span><button class="golink" data-go="handover">Open &rarr;</button></div></div></div>
-</article></div></section></section><section class="panel" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
+</article></div></section></section><section class="panel ph-sketched" data-phase-region="sketched" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
  <div class="doc"><div class="sheet">
   <div class="mast">
  <div class="mast__l"><p class="type">Tech pack</p><h1>Factory-ready specification</h1>
   <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
  <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>Revision <b>v2.0</b></div><div>Released <b>14 Aug 2026</b></div><div>Styles <b>6</b></div></div></div>
 </div>
+  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b><span>Phase 01 &middot; The idea on paper</span><span class="pstrip__t">The specification the factory builds from</span></div>
   <dl class="dl"><div><dt>Client</dt><dd>LAYO — Performance Luxury</dd></div><div><dt>Capsule</dt><dd>Performance Luxury Capsule &middot; Drop 02</dd></div><div><dt>Size range</dt><dd>XS – XL</dd></div><div><dt>Base size</dt><dd>M</dd></div><div><dt>Colour standards</dt><dd>5 TCX</dd></div><div><dt>Units</dt><dd>1,800</dd></div></dl>
 
   <div class="sec"><p class="eyebrow">Revision history</p>
@@ -1593,13 +1729,14 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Tech pack v2.0 &middot; 6 styles</span><span>BRN-LAYO-02</span></div>
  </div></div>
-</section><section class="panel" id="p-fitting" role="tabpanel" aria-labelledby="t-fitting">
+</section><section class="panel ph-stitched" data-phase-region="stitched" id="p-fitting" role="tabpanel" aria-labelledby="t-fitting">
  <div class="doc"><div class="sheet">
   <div class="mast">
  <div class="mast__l"><p class="type">Fitting report</p><h1>SMS 2 &middot; fit session 02</h1>
   <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
  <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>FIT-02</b></div><div>Session <b>4 Sep 2026</b></div><div>Size <b>M</b></div></div></div>
 </div>
+  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Measured against thread and needle</span></div>
   <dl class="dl"><div><dt>Sample round</dt><dd>SMS 2</dd></div><div><dt>Received</dt><dd>28 Aug 2026</dd></div><div><dt>Measured against</dt><dd>Tech pack v2.0</dd></div><div><dt>Form</dt><dd>Alvanon EU 38 · live fit 176 cm / 86-70-94</dd></div><div><dt>Present</dt><dd>María (BORN Studio) · Layo Ade-Ojo (LAYO)</dd></div><div><dt>Styles fitted</dt><dd>6</dd></div></dl>
 
   <div class="sec"><p class="eyebrow">Verdict</p>
@@ -1679,13 +1816,14 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Fitting report FIT-02 &middot; 4 Sep 2026</span><span>BRN-LAYO-02</span></div>
  </div></div>
-</section><section class="panel" id="p-billing" role="tabpanel" aria-labelledby="t-billing">
+</section><section class="panel ph-stitched" data-phase-region="stitched" id="p-billing" role="tabpanel" aria-labelledby="t-billing">
  <div class="doc"><div class="sheet">
   <div class="mast">
  <div class="mast__l"><p class="type">Quote</p><h1>Development of a six-style capsule</h1>
   <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
  <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>Q-2026-031</b></div><div>Issued <b>9 Feb 2026</b></div><div>Valid to <b>11 Mar 2026</b></div></div></div>
 </div>
+  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Billed as the work is made</span></div>
   <dl class="dl"><div><dt>Client</dt><dd>LAYO — Performance Luxury</dd></div><div><dt>Attention</dt><dd>Layo Ade-Ojo, Founder</dd></div><div><dt>Scope</dt><dd>6 styles &middot; 5 colour standards</dd></div><div><dt>Size range</dt><dd>XS – XL</dd></div><div><dt>Currency</dt><dd>EUR, excl. VAT</dd></div><div><dt>Terms</dt><dd>Net 15</dd></div></dl>
 
   <div class="sec"><p class="eyebrow">Scope and fees</p>
@@ -1770,13 +1908,14 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
     against the right milestone.</p>
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Invoice INV-2026-078 &middot; due 19 Sep 2026</span><span>BRN-LAYO-02</span></div>
- </div></div></section><section class="panel" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
+ </div></div></section><section class="panel ph-born" data-phase-region="born" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
  <div class="doc"><div class="sheet">
   <div class="mast">
  <div class="mast__l"><p class="type">Handover</p><h1>What LAYO owns at the end</h1>
   <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
  <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>HO-2026-031</b></div><div>Issues <b>11 Dec 2026</b></div><div>Status <b>Issues at ex-factory</b></div></div></div>
 </div>
+  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b><span>Phase 03 &middot; It goes out into the world</span><span class="pstrip__t">Everything transfers, and the project closes</span></div>
 
   <div class="sec"><p class="body">This is the document that closes the project. It issues at
    ex-factory with the production figures filled in, and it lists everything that transfers to
@@ -1933,6 +2072,7 @@ $ python3 tools/build_room.py</pre>
     });
     if(!found)return;
     history.replaceState(null,'','#'+key);
+    setTimeout(readPhase,40);
     if(!keep)window.scrollTo(0,0);
   }
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.doc);});});
@@ -1942,16 +2082,47 @@ $ python3 tools/build_room.py</pre>
     var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();show(n.dataset.doc);
   });});
   if(location.hash)show(location.hash.slice(1),true);
+  setTimeout(readPhase,60);
   $$('[data-go]').forEach(function(b){
     b.addEventListener('click',function(){show(b.dataset.go);});
   });
 
-  // ── scroll hairline ────────────────────────────────────────────────────────
-  var prog=$('#prog');
-  addEventListener('scroll',function(){
+  // ── scroll hairline, and the phase the reader is standing in ─────────────
+  var prog=$('#prog'),pnow=$('#pnow'),PH=['sketched','stitched','born'],
+      NAMES={sketched:'Sketched',stitched:'Stitched',born:'BORN'},
+      MARKS={sketched:'next',stitched:'now',born:'done'},cur_ph='';
+  function setPhase(k){
+    if(k===cur_ph)return; cur_ph=k;
+    PH.forEach(function(x){document.body.classList.toggle('ph-'+x,x===k);});
+    if(!pnow)return;
+    var b=$('b',pnow); if(b)b.textContent=NAMES[k]||'';
+    pnow.style.visibility=k?'visible':'hidden';
+    var m=$('.mk',pnow);
+    if(m){var t=$('title',m); if(t)t.textContent=NAMES[k]||'';}
+  }
+  function readPhase(){
     var d=document.documentElement,h=d.scrollHeight-d.clientHeight;
     prog.style.width=(h>0?(d.scrollTop/h*100):0)+'%';
+    // a whole document can belong to a phase, so the panel itself counts too
+    var mark=innerHeight*0.34,best=null,
+        act=$('.panel.active'),
+        list=act?[].concat(act.matches('[data-phase-region]')?[act]:[],
+                           $$('[data-phase-region]',act)):[];
+    var last=null;
+    list.forEach(function(e){
+      var r=e.getBoundingClientRect();
+      if(r.top<=mark&&r.bottom>mark)best=e;
+      if(r.top<=mark)last=e;
+    });
+    best=best||last;
+    setPhase(best?best.dataset.phaseRegion:'');
+  }
+  var tick=false;
+  addEventListener('scroll',function(){
+    if(tick)return; tick=true;
+    requestAnimationFrame(function(){readPhase();tick=false;});
   },{passive:true});
+  addEventListener('resize',readPhase,{passive:true});
 
   // ── the mark matures once, on load ────────────────────────────────────────
   var mat=$('#matur');
@@ -1980,11 +2151,16 @@ $ python3 tools/build_room.py</pre>
       var f=figs[n],
           r=parseFloat(getComputedStyle($('.im',f)).getPropertyValue('--r'))||1;
       stage.style.setProperty('--sr',Math.min(1.75,Math.max(.66,r)));
-      var at=ORDER.indexOf(f.dataset.phase);
+      var at=ORDER.indexOf(f.dataset.phase),sec=g.closest('.sp');
       rail.forEach(function(nd,k){
         nd.classList.toggle('is-on',k===at);
         nd.classList.toggle('is-past',k<at);
       });
+      if(sec){
+        ORDER.forEach(function(k){sec.classList.remove('ph-'+k);});
+        sec.classList.add('ph-'+f.dataset.phase);
+        sec.dataset.phaseRegion=f.dataset.phase;
+      }
     }
     btns.forEach(function(b){b.addEventListener('click',function(){pick(+b.dataset.i);});});
     GAL[id].pick=pick;

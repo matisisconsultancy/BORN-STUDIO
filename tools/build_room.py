@@ -897,6 +897,79 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   background-image:repeating-linear-gradient(45deg,rgba(242,238,230,.10) 0 1px,transparent 1px 13px)}
 .act--born .act__tex{display:none}
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE JOURNEY
+   A phase is not a chapter you pass once — it is a set of graphic properties
+   that every rule, tint and mark in the document inherits. Each phase owns a
+   line (dotted, stitch-dashed, solid), a colour (graphite, ink, Rojo Valentino)
+   and a texture (construction grid, diagonal hatch, clean paper). Scroll, or
+   change what you are looking at, and the document crosses with you.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ph-sketched{--pline:dotted;--pcol:rgba(92,87,98,.85);--pink:var(--graphite);
+  --ptint:rgba(74,69,79,.055);--pw:1px}
+.ph-stitched{--pline:dashed;--pcol:rgba(27,23,32,.55);--pink:var(--ink);
+  --ptint:rgba(27,23,32,.075);--pw:1.2px}
+.ph-born{--pline:solid;--pcol:var(--red);--pink:var(--red);
+  --ptint:rgba(196,18,46,.055);--pw:1.4px}
+
+/* the sheet under a poster takes the phase of the view you are looking at */
+.sp{--pline:dotted;--pcol:rgba(92,87,98,.85);--pink:var(--graphite);--ptint:transparent;--pw:1px}
+.pband{display:flex;align-items:center;gap:.9rem;padding-top:clamp(1.4rem,3vw,2.2rem)}
+.pband__ln{flex:1 1 auto;order:2;height:0;
+  border-top:var(--pw) var(--pline) var(--pcol);transition:border-color .4s var(--ease)}
+.pband__p{display:none;align-items:center;gap:.6rem;flex:0 0 auto;order:1}
+.pband__p b{font-family:var(--serif6);font-weight:600;font-size:1.05rem;color:var(--pink);
+  transition:color .4s var(--ease)}
+.pband__p > span{font-size:.8rem;color:var(--graphite)}
+.pband__p .mk{color:var(--pink)}
+.sp.ph-sketched .pband__p[data-p=sketched],
+.sp.ph-stitched .pband__p[data-p=stitched],
+.sp.ph-born .pband__p[data-p=born]{display:flex}
+@media(max-width:700px){.pband{flex-wrap:wrap}.pband__ln{flex-basis:100%;order:3}
+  .pband__p > span{display:none}}
+.sp__body{position:relative;transition:background-color .5s var(--ease)}
+.sp__body::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:var(--ptint);transition:background-color .5s var(--ease);z-index:-1}
+.sp .calls li,.sp .cwl li{border-bottom:var(--pw) var(--pline) var(--pcol);
+  transition:border-color .4s var(--ease)}
+.sp .m{color:var(--pink);transition:color .4s var(--ease)}
+.sp .gal__stage{position:relative}
+.sp .gal__stage::after{content:'';position:absolute;left:0;right:0;bottom:-.55rem;
+  border-bottom:var(--pw) var(--pline) var(--pcol);transition:border-color .4s var(--ease)}
+.sp .strip button[aria-pressed=true]::after{border-bottom-color:var(--pink)}
+.sp .rail__r{background:var(--pcol);opacity:.75}
+
+/* the phase rail carries its own line, so the three states are told apart by
+   stroke and not only by position */
+.rail__r{height:0;border-top:1px dotted var(--g4);background:none!important}
+.rail__n:nth-child(1) ~ .rail__r{border-top-style:dotted}
+.rail{gap:.7rem}
+.rail__n.is-on .rail__l{color:var(--pink)}
+
+/* ── the header always says which phase you are in ───────────────────────── */
+.pnow{display:flex;align-items:center;gap:.5rem;margin-left:1.4rem;flex:0 0 auto;
+  font-size:.78rem;color:var(--graphite);white-space:nowrap;
+  transition:color .4s var(--ease)}
+.pnow .mk{color:var(--pink,var(--graphite))}
+.pnow b{font-weight:400;color:var(--pink,var(--ink))}
+.pnow__ln{width:26px;height:0;border-top:var(--pw,1px) var(--pline,dotted) var(--pcol,var(--g4));
+  transition:border-color .4s var(--ease)}
+@media(max-width:1000px){.pnow{margin-left:0;order:3;font-size:.72rem}}
+body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
+.top{transition:none}
+.prog{background:var(--pink,var(--red));transition:background-color .4s var(--ease)}
+
+/* ── a document belongs to a phase, and says so ──────────────────────────── */
+.pstrip{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;
+  padding-bottom:.75rem;border-bottom:var(--pw) var(--pline) var(--pcol)}
+.pstrip .mk{color:var(--pink)}
+.pstrip b{font-family:var(--serif6);font-weight:600;font-size:1rem;color:var(--pink)}
+.pstrip span{font-size:.8rem;color:var(--graphite)}
+.pstrip .pstrip__t{margin-left:auto;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.04em;color:var(--graphite)}
+@media(max-width:620px){.pstrip{flex-wrap:wrap;gap:.45rem .7rem}
+  .pstrip .pstrip__t{margin-left:0;width:100%}}
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -1126,8 +1199,8 @@ def logbook():
     out = []
     for key in ["sketched", "stitched", "born"]:
         rows = "".join(entry(e) for e in ENTRIES if e["phase"] == key)
-        out.append(f'<section class="reg reg--{key}">{band(key)}'
-                   f'<div class="log w">{rows}</div></section>')
+        out.append(f'<section class="reg reg--{key} ph-{key}" data-phase-region="{key}">'
+                   f'{band(key)}<div class="log w">{rows}</div></section>')
     return "".join(out)
 
 # ═══════════════════════════════════════════════════════ standfirst + chrome ═
@@ -1193,6 +1266,8 @@ def top():
   <span data-i="1">{SVG['state_stitch']}</span>
   <span data-i="2" class="on">{SVG['wm_solo']}</span>
  </span>
+ <p class="pnow" id="pnow" aria-live="polite"><span class="pnow__ln"></span>
+  {mk('next')}<b>Sketched</b></p>
  <nav class="nav" role="tablist" aria-label="Sections">{tabs}
   <button class="pr" id="printBtn" type="button">Print</button></nav>
 </div></header>"""
@@ -1215,6 +1290,20 @@ def ribbon():
 # ══════════════════════════════════════════════════════ the four documents ═
 # Compiled views onto the same project. The logbook tells the story; these
 # hold the detail, and each prints to A4 on its own.
+DOC_PHASE = {"techpack": ("sketched", "The specification the factory builds from"),
+             "fitting": ("stitched", "Measured against thread and needle"),
+             "billing": ("stitched", "Billed as the work is made"),
+             "handover": ("born", "Everything transfers, and the project closes")}
+
+def pstrip(doc):
+    """A document belongs to a phase. It says so, in the phase's own line."""
+    key, note = DOC_PHASE[doc]
+    r = REGISTERS[key]
+    st = {"sketched": "next", "stitched": "now", "born": "done"}[key]
+    return (f'<div class="pstrip">{mk(st)}<b>{r["name"]}</b>'
+            f'<span>Phase {r["n"]} &middot; {r["line"]}</span>'
+            f'<span class="pstrip__t">{note}</span></div>')
+
 def masthead(doctype, title, meta):
     rows = "".join(f"<div>{k} <b>{v}</b></div>" for k, v in meta)
     return f"""<div class="mast">
@@ -1249,10 +1338,11 @@ def quote():
     pay = "".join(
         f'<div><div class="pc">{pc}</div><div class="wh">{wh}</div>'
         f'<div class="am">{money(a)}</div></div>' for wh, pc, a in QUOTE["schedule"])
-    return f"""<section class="panel" id="p-billing" role="tabpanel" aria-labelledby="t-billing">
+    return f"""<section class="panel ph-stitched" data-phase-region="stitched" id="p-billing" role="tabpanel" aria-labelledby="t-billing">
  <div class="doc"><div class="sheet">
   {masthead("Quote", "Development of a six-style capsule",
             [("No.", QUOTE["no"]), ("Issued", date(QUOTE["issued"])), ("Valid to", date(QUOTE["valid"]))])}
+  {pstrip("billing")}
   {dl([("Client", PROJECT["client_long"]), ("Attention", f"{PROJECT['contact']}, {PROJECT['contact_role']}"),
        ("Scope", "6 styles &middot; 5 colour standards"), ("Size range", PROJECT["size_range"]),
        ("Currency", f"{PROJECT['currency']}, excl. VAT"), ("Terms", PROJECT["terms"])])}
@@ -1408,10 +1498,11 @@ def techpack():
   <ol class="num">{build}</ol>
  </div>
 </div>""")
-    return f"""<section class="panel" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
+    return f"""<section class="panel ph-sketched" data-phase-region="sketched" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
  <div class="doc"><div class="sheet">
   {masthead("Tech pack", "Factory-ready specification",
             [("Revision", "v2.0"), ("Released", date("2026-08-14")), ("Styles", "6")])}
+  {pstrip("techpack")}
   {dl([("Client", PROJECT["client_long"]), ("Capsule", f"{PROJECT['capsule']} &middot; {PROJECT['drop']}"),
        ("Size range", PROJECT["size_range"]), ("Base size", PROJECT["base_size"]),
        ("Colour standards", "5 TCX"), ("Units", f"{PROJECT['units']:,}")])}
@@ -1491,10 +1582,11 @@ def fitting():
         f'<br><span class="c" style="color:var(--red)">{owner}</span></li>'
         for sn, pt, txt, owner in FITTING["corrections"])
     holds = "".join(f'<li>{h}</li>' for h in FITTING["holds"])
-    return f"""<section class="panel" id="p-fitting" role="tabpanel" aria-labelledby="t-fitting">
+    return f"""<section class="panel ph-stitched" data-phase-region="stitched" id="p-fitting" role="tabpanel" aria-labelledby="t-fitting">
  <div class="doc"><div class="sheet">
   {masthead("Fitting report", f"{FITTING['sample']} &middot; fit session 02",
             [("No.", FITTING["no"]), ("Session", date(FITTING["session"])), ("Size", FITTING["size"])])}
+  {pstrip("fitting")}
   {dl([("Sample round", FITTING["sample"]), ("Received", date(FITTING["received"])),
        ("Measured against", FITTING["spec"]), ("Form", FITTING["form"]),
        ("Present", FITTING["present"]), ("Styles fitted", "6")])}
@@ -1554,10 +1646,11 @@ def handover():
                        ("render_whisper", "11-0701 Whisper White"),
                        ("render_black", "19-3911 Black Beauty"),
                        ("render_blue", "17-3919 · jacket and short")])
-    return f"""<section class="panel" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
+    return f"""<section class="panel ph-born" data-phase-region="born" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
  <div class="doc"><div class="sheet">
   {masthead("Handover", "What LAYO owns at the end",
             [("No.", HANDOVER["no"]), ("Issues", date(HANDOVER["due"])), ("Status", HANDOVER["status"])])}
+  {pstrip("handover")}
 
   <div class="sec"><p class="body">This is the document that closes the project. It issues at
    ex-factory with the production figures filled in, and it lists everything that transfers to
@@ -1814,8 +1907,18 @@ def spread(st, n):
     cwl = "".join(
         f'<li><i style="background:{hx}"></i><span class="nm">{nm}</span>'
         f'<span class="cd">{code}</span></li>' for _, code, nm, hx in st["colourways"])
-    return f"""<section class="sp{' sp--flip' if n % 2 == 0 else ''}" id="s-{st['no']}">
+    return f"""<section class="sp{' sp--flip' if n % 2 == 0 else ''} ph-sketched"
+ data-phase-region="sketched" id="s-{st['no']}">
  {hero(st, n)}
+ <div class="w pband">
+  <span class="pband__ln"></span>
+  <span class="pband__p" data-p="sketched">{mk('next')}<b>Sketched</b>
+   <span>Drawn, coloured, visualised &mdash; nothing cut yet</span></span>
+  <span class="pband__p" data-p="stitched">{mk('now')}<b>Stitched</b>
+   <span>The garment exists and is being measured</span></span>
+  <span class="pband__p" data-p="born">{mk('done')}<b>BORN</b>
+   <span>It goes out into the world</span></span>
+ </div>
  <div class="w sp__body">
   <div><p class="p">{st['hand']}.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
@@ -1851,7 +1954,7 @@ def process():
         logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
                 "born": SVG["state_born"]}[key]
         field = {"sketched": "", "stitched": " field--ink", "born": " field--red"}[key]
-        acts += f"""<div class="act act--{key}{field} bleed">
+        acts += f"""<div class="act act--{key}{field} bleed ph-{key}" data-phase-region="{key}">
  <div class="act__tex" aria-hidden="true"></div>
  <div class="w act__in">
   <div><p class="act__n">{r['n']}</p><h3 class="act__nm">{r['name']}</h3>
@@ -1940,6 +2043,7 @@ JS = r"""<script>
     });
     if(!found)return;
     history.replaceState(null,'','#'+key);
+    setTimeout(readPhase,40);
     if(!keep)window.scrollTo(0,0);
   }
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.doc);});});
@@ -1949,16 +2053,47 @@ JS = r"""<script>
     var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();show(n.dataset.doc);
   });});
   if(location.hash)show(location.hash.slice(1),true);
+  setTimeout(readPhase,60);
   $$('[data-go]').forEach(function(b){
     b.addEventListener('click',function(){show(b.dataset.go);});
   });
 
-  // ── scroll hairline ────────────────────────────────────────────────────────
-  var prog=$('#prog');
-  addEventListener('scroll',function(){
+  // ── scroll hairline, and the phase the reader is standing in ─────────────
+  var prog=$('#prog'),pnow=$('#pnow'),PH=['sketched','stitched','born'],
+      NAMES={sketched:'Sketched',stitched:'Stitched',born:'BORN'},
+      MARKS={sketched:'next',stitched:'now',born:'done'},cur_ph='';
+  function setPhase(k){
+    if(k===cur_ph)return; cur_ph=k;
+    PH.forEach(function(x){document.body.classList.toggle('ph-'+x,x===k);});
+    if(!pnow)return;
+    var b=$('b',pnow); if(b)b.textContent=NAMES[k]||'';
+    pnow.style.visibility=k?'visible':'hidden';
+    var m=$('.mk',pnow);
+    if(m){var t=$('title',m); if(t)t.textContent=NAMES[k]||'';}
+  }
+  function readPhase(){
     var d=document.documentElement,h=d.scrollHeight-d.clientHeight;
     prog.style.width=(h>0?(d.scrollTop/h*100):0)+'%';
+    // a whole document can belong to a phase, so the panel itself counts too
+    var mark=innerHeight*0.34,best=null,
+        act=$('.panel.active'),
+        list=act?[].concat(act.matches('[data-phase-region]')?[act]:[],
+                           $$('[data-phase-region]',act)):[];
+    var last=null;
+    list.forEach(function(e){
+      var r=e.getBoundingClientRect();
+      if(r.top<=mark&&r.bottom>mark)best=e;
+      if(r.top<=mark)last=e;
+    });
+    best=best||last;
+    setPhase(best?best.dataset.phaseRegion:'');
+  }
+  var tick=false;
+  addEventListener('scroll',function(){
+    if(tick)return; tick=true;
+    requestAnimationFrame(function(){readPhase();tick=false;});
   },{passive:true});
+  addEventListener('resize',readPhase,{passive:true});
 
   // ── the mark matures once, on load ────────────────────────────────────────
   var mat=$('#matur');
@@ -1987,11 +2122,16 @@ JS = r"""<script>
       var f=figs[n],
           r=parseFloat(getComputedStyle($('.im',f)).getPropertyValue('--r'))||1;
       stage.style.setProperty('--sr',Math.min(1.75,Math.max(.66,r)));
-      var at=ORDER.indexOf(f.dataset.phase);
+      var at=ORDER.indexOf(f.dataset.phase),sec=g.closest('.sp');
       rail.forEach(function(nd,k){
         nd.classList.toggle('is-on',k===at);
         nd.classList.toggle('is-past',k<at);
       });
+      if(sec){
+        ORDER.forEach(function(k){sec.classList.remove('ph-'+k);});
+        sec.classList.add('ph-'+f.dataset.phase);
+        sec.dataset.phaseRegion=f.dataset.phase;
+      }
     }
     btns.forEach(function(b){b.addEventListener('click',function(){pick(+b.dataset.i);});});
     GAL[id].pick=pick;

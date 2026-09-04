@@ -165,6 +165,30 @@ end"*. El entregable hace lo mismo, y es lo que lo saca de plano:
 - **El póster seduce, la hoja especifica.** Ningún tecnicismo se pierde: el código, la
   composición, el gramaje y el rango de tallas van en el póster mismo.
 
+### La fase como sistema, no como capítulo
+
+Una fase no es algo por lo que se pasa una vez: es un juego de propiedades gráficas que
+heredan todos los filetes, tintes y marcas del documento. Cada fase posee **una línea**,
+**un color** y **una textura**:
+
+| Fase | Línea | Color | Textura |
+|---|---|---|---|
+| **Sketched** | punteada | grafito | retícula de construcción |
+| **Stitched** | pespunte | tinta | trama diagonal |
+| **BORN** | sólida | Rojo Valentino | papel limpio |
+
+Y el documento **cruza contigo**:
+
+- **La cabecera siempre dice en qué fase estás.** Al bajar, el nombre, la línea y el color
+  del indicador cambian —y con ellos la barra de avance—. Se lee sin buscarlo.
+- **La hoja técnica de cada prenda toma la fase de la vista que estás mirando.** Pasas la
+  galería de *Drawn* a *Sampled* y la hoja entera cruza: la banda superior cambia de nombre
+  y de línea, los filetes pasan de punteado grafito a pespunte tinta, el tinte del fondo se
+  desplaza. La fase deja de ser decorativa y pasa a ser operativa.
+- **Cada documento declara su fase** bajo la cabecera, con la línea y el color de esa fase:
+  el tech pack es *Sketched*, el fitting report y la facturación son *Stitched*, el handover
+  es *BORN*.
+
 ### El lenguaje: la hoja de patrón
 
 El vocabulario no es "editorial" en general — es **patronaje**. Es lo que hace que esto no
