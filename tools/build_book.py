@@ -192,6 +192,18 @@ html.js:not(.reduce) .rv:not(.in){opacity:0;transform:translateY(24px)}
 .dl--ghost:hover{background:var(--paper-3);color:var(--ink)}
 .dl--big{font-size:.72rem;padding:.85rem 1.4rem}
 .note{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;color:var(--g3);line-height:1.6;margin-top:1.5rem}
+/* deliverables gallery */
+.dsub{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:2.6rem 0 .2rem}
+.dstack{display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem}
+.dgrid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-top:1.5rem}
+.dfig{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.dfig__p{background:var(--paper);display:flex;align-items:center;justify-content:center;padding:1.1rem}
+.dfig__p img{display:block;width:100%;height:auto;border-radius:7px}
+.dfig--pf .dfig__p img{max-width:360px;margin:0 auto}
+.dfig__m{padding:1rem 1.15rem 1.1rem;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:.5rem}
+.dfig__m b{font-family:var(--sans7);font-size:.98rem}
+.dfig__m .cap{color:var(--g3);font-size:.86rem;line-height:1.45}
+.dfig__m .dl{align-self:flex-start;margin-top:.3rem}
 /* exploration frame */
 .expl-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:var(--ink);color:var(--paper);border-radius:14px 14px 0 0;padding:.75rem 1.1rem;margin-top:1.4rem}
 .expl-bar b{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:400}
@@ -575,6 +587,44 @@ apps = f"""
  </div>
 </section>"""
 
+# ------------------------------------------------------------------ DELIVERABLES
+def dfig(src, title, cap, portrait=False):
+    cls=" dfig--pf" if portrait else ""
+    return (f'<figure class="dfig{cls}"><div class="dfig__p"><img loading="lazy" src="{src}" alt="{title}"></div>'
+      f'<figcaption class="dfig__m"><b>{title}</b><span class="cap">{cap}</span>'
+      f'<a class="dl" href="{src}" download>Download PNG</a></figcaption></figure>')
+CO="assets/collateral"
+tape_wide="".join([
+  dfig(f"{CO}/tape_1_front.png","Front &middot; from idea to life","The full ruler with the four states &mdash; Sketched, Stitched, Inked, BORN &mdash; the wordmark and the thank-you line."),
+  dfig(f"{CO}/tape_2_back.png","Back &middot; the note","Ruled space to write the client a note by hand, signed by the studio."),
+  dfig(f"{CO}/tape_3_diecut.png","Die-cut &middot; metal end","Finished like a real measuring tape, with the metal clip and rivet detail."),
+])
+tape_port="".join([
+  dfig(f"{CO}/tape_4_vertical.png","Vertical &middot; hangtag","The same idea as a hanging tag, with the scale running down the edge.",portrait=True),
+])
+firstcards="".join([
+  dfig(f"{CO}/A_woven_label.png","Woven label","Printed on fabric like a garment care label, closed with a serged red merrow edge.",portrait=True),
+  dfig(f"{CO}/B_measuring_tape.png","Measuring tape","The first study of the tape-as-card idea &mdash; the route we went on to develop.",portrait=True),
+  dfig(f"{CO}/C_stitched_card.png","Stitched card","A card bound with running-stitch &mdash; tactile, hand-finished, textile-first.",portrait=True),
+])
+deliv = f"""
+<section class="panel" id="p-deliv" role="tabpanel" aria-labelledby="t-deliv">
+ <p class="kicker">Applications &middot; physical</p>
+ <h1 class="h1">Deliverables &amp; mockups</h1>
+ <p class="lede" style="margin-top:1rem">Where the identity meets the hand &mdash; the pieces that travel with the product. A growing library; this first cut collects the <b>fabric</b> studies. More collateral and the full sample-shipment kit land here next.</p>
+ <div class="sec">
+  <p class="dsub">The measuring-tape card &middot; on fabric</p>
+  <p class="prose">Our chosen direction: the thank-you card <b>printed on fabric like a real measuring tape</b> &mdash; each inch a step from idea to life.</p>
+  <div class="dstack">{tape_wide}</div>
+  <div class="dgrid" style="max-width:420px">{tape_port}</div>
+ </div>
+ <div class="sec">
+  <p class="dsub">Thank-you cards &middot; first studies on fabric</p>
+  <p class="prose">The opening round of textile thank-you cards &mdash; where the idea of a card <b>stitched and printed on cloth</b> began, like a label sewn into a garment.</p>
+  <div class="dgrid">{firstcards}</div>
+ </div>
+</section>"""
+
 # ------------------------------------------------------------------ DOWNLOADS -
 DARKBG={"wm_principal_neg","wm_solo_neg","state_sketch","state_stitch"}  # ivory/light marks need dark preview
 def ki_png(key):
@@ -613,7 +663,7 @@ expl = ('<section class="panel" id="p-expl" role="tabpanel" aria-labelledby="t-e
  '<iframe class="expl-frame" title="BORN logo exploration" loading="lazy" allow="fullscreen" allowfullscreen srcdoc="'+EXPL_ESC+'"></iframe></div></section>')
 
 # ------------------------------------------------------------------ shell -----
-TABS=[("brand","Brand"),("logo","Logo"),("color","Color"),("type","Typography"),("apps","Applications"),("desc","Downloads"),("expl","Exploration")]
+TABS=[("brand","Brand"),("logo","Logo"),("color","Color"),("type","Typography"),("apps","Applications"),("deliv","Deliverables"),("desc","Downloads"),("expl","Exploration")]
 tabbtns="".join(f'<button class="tab" role="tab" id="t-{k}" aria-controls="p-{k}" aria-selected="{"true" if i==0 else "false"}" data-tab="{k}">{lab}</button>' for i,(k,lab) in enumerate(TABS))
 header = f"""
 <header class="top"><div class="top__in">
@@ -669,7 +719,7 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
    if(reduce||seen){pl.classList.add('hide');}else{playPreload();try{sessionStorage.setItem('born_seen','1');}catch(e){}}}
  var replayBtn=document.getElementById('replayBtn');
  if(replayBtn)replayBtn.addEventListener('click',function(){if(pl){pl.classList.remove('hide');playPreload();}});
- var RVSEL='.kicker,.h1,.h2,.lede,.prose,.card,.spec,.stage,.stagex,.sw,.ki,.phase,.fullred,.dl-grid,.motion,.animbox';
+ var RVSEL='.kicker,.h1,.h2,.lede,.prose,.card,.spec,.stage,.stagex,.sw,.ki,.phase,.fullred,.dl-grid,.motion,.animbox,.dfig';
  var io=(!reduce&&'IntersectionObserver' in window)?new IntersectionObserver(function(es){
    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
    {threshold:.08,rootMargin:'0px 0px -6% 0px'}):null;
@@ -731,7 +781,7 @@ PRELOAD = ('<div id="preload" aria-hidden="true"><div class="pl-mark">'
   '<div class="pl-s" data-i="3">'+SVG['state_born']+'</div>'
   '<div class="pl-s pl-cream" data-i="4">'+SVG['wm_solo_onred']+'</div>'
   '</div><div class="pl-cap">Sketched</div><div class="pl-flood"></div></div>')
-body = (PRELOAD + DEFS + header + '<main class="wrap">'+brand+logo+color+typo+apps+desc+expl+'</main>'
+body = (PRELOAD + DEFS + header + '<main class="wrap">'+brand+logo+color+typo+apps+deliv+desc+expl+'</main>'
         + footer + '<div class="toast" role="status"></div>' + OVERLAYS + JS)
 head = "<style>\n"+FONTS+"\n"+CSS+"\n</style>"
 
