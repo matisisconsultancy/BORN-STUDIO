@@ -101,59 +101,64 @@ Netlify, Vercel…). Al ser un único archivo autónomo, no hay pasos de build.
 
 ---
 
-## Entregables a cliente — el Project Room (`deliverables/`)
+## El Project Room — el sistema de entrega (`deliverables/`)
 
-`deliverables/index.html` es el **link que se le pasa al cliente**: una sola página
-autónoma (fuentes embebidas, sin build, sin red) donde el cliente ve el estado real
-del desarrollo y descarga o imprime cada documento en A4.
+`deliverables/index.html` es el link que se le pasa al cliente: una **bitácora del
+desarrollo** más los documentos compilados que la sostienen. Una sola página autónoma
+—fuentes e imágenes embebidas, sin build, sin red— que funciona offline, por correo o
+en cualquier hosting estático.
 
-Seis documentos, un mismo sistema:
+### La regla que sostiene todo: dos canales, nunca mezclados
 
-| Documento | Qué resuelve |
-|---|---|
-| **Tracker** | El estado vivo: tres fases, hitos con fecha y estado, nota de María, log de muestras, rango y estándares de color |
-| **Quote** | Alcance por fase, honorarios, pass-through a coste, calendario de pago 40/40/20, supuestos y exclusiones |
-| **Invoice** | Facturación por hito, IVA, importe debido, datos bancarios y lo ya liquidado |
-| **Tech pack** | Por estilo: flat técnico, calidad base, BOM, POM graduado con tolerancias y notas de construcción |
-| **Fitting report** | Spec vs medido vs desviación vs tolerancia, veredicto por estilo, correcciones y *holds* |
-| **Handover** | Qué se lleva el cliente al cerrar: patrones, specs, aprobaciones de color y el archivo completo |
+| Canal | Qué dice | Cómo |
+|---|---|---|
+| **Registro** | en qué fase del oficio estás | *Sketched:* retícula de construcción, filete punteado, grafito · *Stitched:* trama diagonal, filete en pespunte, tinta · *BORN:* papel limpio, filete sólido, punto rojo |
+| **Marcador** | si ya ocurrió | contorno (no empieza) · pespunte (vivo) · sólido + punto rojo (firmado) |
 
-### El marcador de madurez
+El registro **nunca** dice si algo está terminado; el marcador **nunca** dice en qué fase
+estás. Separarlos es lo que permite responder las dos preguntas de un vistazo sin leyenda.
+Bajar por la bitácora es ver nacer la prenda.
 
-El estado no se comunica con semáforos, sino con **el propio lenguaje del logotipo**.
-Cada hito, cada línea de factura y cada punto de medida lleva su marca:
+### La bitácora
 
-- **contorno a lápiz** — todavía no empieza
-- **pespunte** — está vivo esta semana
-- **sólido + punto rojo** — hecho y firmado
+Entradas fechadas con **anatomía idéntica** —fecha, tipo, titular, cuerpo— para que la
+página se escanee, y **carga distinta según el tipo de información** para que la densidad
+siga al contenido y no a la plantilla. Nueve tipos:
 
-Un solo recurso estructural atraviesa los seis documentos.
+`Note` · `Decision` · `Materials` · `Colour` · `Release` · `Sample` · `Measure` ·
+`Approval` · `Watch`
 
-### Datos
+Una `Decision` muestra elegido contra considerado, el porqué y lo que costó o ahorró.
+Una `Measure` muestra **solo los puntos fuera de tolerancia**, con la desviación y si la
+causa es el patrón o la fábrica — el POM graduado completo vive en el tech pack, a un clic.
+Un `Watch` nunca aparece sin la acción que lo elimina.
 
-Todo sale de los bloques `PROJECT` / `STYLES` / `PHASES` / `QUOTE` / `INVOICE` /
-`FITTING` / `HANDOVER` en `tools/build_deliverables.py`. Se cambia ese bloque y la sala
-entera se re-renderiza — cabeceras, totales, tracker y tolerancias incluidos.
+### Documentos compilados
 
-La demo va montada sobre el entregable real aprobado de **LAYO** (capsule de seis
-estilos): style numbers, calidades, Pantones TCX, flats, renders 3D y fotografía de
-muestra salen de `source/BORN_LayoCapsule_DesignStage.pdf`.
+La bitácora cuenta la historia; los documentos tienen el detalle, y cada uno imprime solo
+a A4. **Tech pack** (flat, BOM, POM graduado con tolerancias, construcción, por estilo) ·
+**Fitting report** · **Quote** · **Invoice** · **Handover**.
 
-### Pipeline
+### La pestaña System
+
+Los registros, los estados, los nueve tipos de entrada, las seis reglas que mantienen el
+sistema honesto y el snippet para añadir una entrada. Es lo que permite al equipo de María
+producir entregas nuevas coherentes sin rediseñar nada.
+
+### Datos y pipeline
+
+Todo el contenido vive en `tools/room_data.py`, que **no sabe nada de cómo se ve nada**.
+`tools/build_room.py` es el motor. Abrir una sala nueva es copiar el primero, reemplazar
+`PROJECT`, `STYLES` y `ENTRIES`, y compilar.
 
 ```bash
-python3 tools/extract_layo.py         # deck aprobado -> deliverables/assets/*.jpg
-python3 tools/build_deliverables.py   # -> deliverables/index.html
+python3 tools/extract_layo.py    # deck aprobado -> deliverables/assets/*.jpg
+python3 tools/build_room.py      # -> deliverables/index.html
 ```
 
-`extract_layo.py` renderiza el deck, recorta flats, colorways, renders y fotos,
-elimina las barras del layout anterior y comprime a peso web. Requiere `pymupdf` y
-`pillow`.
-
-### Imprimir
-
-El botón **Print / PDF** imprime solo el documento abierto, a A4, sin la navegación
-ni el docket. El tech pack imprime los seis estilos, uno por página.
+La demo va montada sobre el entregable real de **LAYO** (capsule de seis estilos): style
+numbers, calidades, Pantones TCX, flats, renders 3D y fotografía de muestra salen de
+`source/BORN_LayoCapsule_DesignStage.pdf`. Requiere `pymupdf` y `pillow`.
 
 ---
 
