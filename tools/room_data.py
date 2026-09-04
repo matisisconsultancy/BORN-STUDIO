@@ -39,7 +39,10 @@ COLORWAYS = [
 # pom row = (code, point of measure, XS, S, M, L, XL, tolerance)
 STYLES = [
  dict(no="ALO006", name="Dual-Layer Cold Shoulder Long Sleeve Bra Top",
-   short="Cold Shoulder Bra Top", cat="Top", img="flat_alo006", photo=["photo_bra_f", "photo_bra_b"],
+   short="Cold Shoulder Bra Top", cat="Top", img="flat_alo006",
+   colourways=[('cw_bra_red', '19-1862 TCX', 'Jester Red', '#9E1B32'), ('cw_bra_black', '19-3911 TCX', 'Black Beauty', '#282A2D'), ('cw_bra_green', '14-6312 TCX', 'Cameo Green', '#AFC0AC')],
+   renders=[('render_bra_red', 'Jester Red'), ('render_bra_green', 'Cameo Green'), ('render_bra_black', 'Black Beauty')],
+   photos=[('photo_bra_red_f', 'Jester Red · front'), ('photo_bra_red_b', 'Jester Red · back'), ('photo_bra_blk_f', 'Black Beauty · front'), ('photo_bra_blk_b', 'Black Beauty · back'), ('photo_bra_f', 'Bolero layer · front'), ('photo_bra_b', 'Bolero layer · back')],  # gallery: drawn, coloured, visualised, born
    fabric="Performance rib knit · 78% nylon / 22% elastane · 280 g/m² · 4-way stretch",
    hand="Moisture-wicking, breathable, soft hand feel, lightweight support",
    details=["Long sleeve bra top with cold shoulder construction", "Dual-layer body construction",
@@ -70,7 +73,10 @@ STYLES = [
           "Straps cut on the wale, elastic-inserted; strap tension checked on a live fit, not the form."]),
 
  dict(no="LY-JK-149", name="Full-Zip Performance Training Jacket",
-   short="Training Jacket", cat="Outerwear", img="flat_jk149", photo=["photo_jacket_f", "photo_jacket_b"],
+   short="Training Jacket", cat="Outerwear", img="flat_jk149",
+   colourways=[('cw_jacket_black', '19-3911 TCX', 'Black Beauty', '#282A2D'), ('cw_jacket_peri', '17-3919 TCX', 'Purple Impression', '#7F84B7')],
+   renders=[('render_black', 'Black Beauty'), ('render_blue', 'Purple Impression')],
+   photos=[('photo_jacket_f', 'Black Beauty · front'), ('photo_jacket_b', 'Black Beauty · back')],  # gallery: drawn, coloured, visualised, born
    fabric="Interlock performance knit · 76% nylon / 24% elastane · 240 g/m² · 4-way stretch",
    hand="Flexibility, durability and shape retention across repeated wear",
    details=["High stand collar", "Full front zipper with chin guard", "Raglan sleeve",
@@ -104,7 +110,10 @@ STYLES = [
           "All topstitching tone-on-tone, 150D textured nylon; no contrast thread anywhere on the shell."]),
 
  dict(no="LY-6012156", name="Oasis PureLuxe High-Waisted 6\" Shorts",
-   short="PureLuxe 6\" Shorts", cat="Bottom", img="flat_6012156", photo=[],
+   short="PureLuxe 6\" Shorts", cat="Bottom", img="flat_6012156",
+   colourways=[('cw_jacket_black', '19-3911 TCX', 'Black Beauty', '#282A2D'), ('cw_jacket_peri', '17-3919 TCX', 'Purple Impression', '#7F84B7')],
+   renders=[('render_black', 'Black Beauty'), ('render_blue', 'Purple Impression')],
+   photos=[('photo_short_f', 'Black Beauty · front'), ('photo_short_b', 'Black Beauty · back, side pocket')],  # gallery: drawn, coloured, visualised, born
    fabric="PureLuxe interlock · 72% recycled nylon / 28% elastane · 210 g/m² · 4-way stretch",
    hand="Lightweight stretch engineered for mobility and structural stability",
    details=["High-rise waistband with twin-needle stitching", "Heart-shape yoke",
@@ -132,7 +141,10 @@ STYLES = [
           "Silicone logo applied after the waistband is closed, 4 cm from the CF, on the band face."]),
 
  dict(no="LY-HD-025", name="UrbanEase Cropped Zip Hoodie",
-   short="Cropped Zip Hoodie", cat="Top", img="flat_hd025", photo=["photo_hoodie_f", "photo_hoodie_b"],
+   short="Cropped Zip Hoodie", cat="Top", img="flat_hd025",
+   colourways=[('cw_hoodie_peri', '17-3919 TCX', 'Purple Impression', '#7F84B7'), ('cw_hoodie_whisper', '11-0701 TCX', 'Whisper White', '#EFEBE4')],
+   renders=[('render_periwinkle', 'Purple Impression'), ('render_whisper', 'Whisper White')],
+   photos=[('photo_hoodie_f', 'front'), ('photo_hoodie_b', 'back')],  # gallery: drawn, coloured, visualised, born
    fabric="Brushed-back French terry · 68% cotton / 27% polyester / 5% elastane · 320 g/m²",
    hand="Smooth exterior, brushed interior — warmth without bulk",
    details=["Oversized fit, relaxed body shape", "Cropped silhouette", "Dropped shoulders",
@@ -163,7 +175,10 @@ STYLES = [
           "Zip set with the terry relaxed, not tensioned — a tensioned zip tape ripples after the first wash."]),
 
  dict(no="WB082601", name="Ultra-High Waist Core Support Leggings",
-   short="Core Support Leggings", cat="Bottom", img="flat_wb082601", photo=[],
+   short="Core Support Leggings", cat="Bottom", img="flat_wb082601",
+   colourways=[('cw_hoodie_whisper', '11-0701 TCX', 'Whisper White', '#EFEBE4'), ('cw_hoodie_peri', '17-3919 TCX', 'Purple Impression', '#7F84B7'), ('cw_bra_red', '19-1862 TCX', 'Jester Red', '#9E1B32'), ('cw_bra_green', '14-6312 TCX', 'Cameo Green', '#AFC0AC')],
+   renders=[('render_whisper', 'Whisper White'), ('render_periwinkle', 'Purple Impression'), ('render_bra_red', 'Jester Red'), ('render_bra_green', 'Cameo Green')],
+   photos=[('photo_leg_white_f', 'Whisper White · front'), ('photo_leg_white_b', 'Whisper White · back')],  # gallery: drawn, coloured, visualised, born
    fabric="Second-skin interlock · 75% recycled nylon / 25% elastane · 260 g/m² · high recovery",
    hand="Smooth, second-skin feel with durability and recovery after repeated wear",
    details=["Ultra high-rise seamless extended waistband", "Minimal seam construction",
@@ -191,7 +206,10 @@ STYLES = [
           "Gusset flatlocked in, seams crossing at no more than two layers."]),
 
  dict(no="WB082608", name="Noir White-Trim High-Rise Compression Leggings",
-   short="White-Trim Compression Leggings", cat="Bottom", img="flat_wb082608", photo=[],
+   short="White-Trim Compression Leggings", cat="Bottom", img="flat_wb082608",
+   colourways=[('cw_bra_black', '19-3911 TCX', 'Black Beauty', '#282A2D')],
+   renders=[('render_bra_black', 'Black Beauty, blue trim')],
+   photos=[('photo_leg_trim_f', 'front'), ('photo_leg_trim_b', 'back')],  # gallery: drawn, coloured, visualised, born
    fabric="Matte compression knit · 79% nylon / 21% elastane · 290 g/m² · high compression",
    hand="Deep matte black with an unbroken, elongating line from hip to ankle",
    details=["High-rise waistband with contrast trim at its edge", "Front rise with flatseamer",

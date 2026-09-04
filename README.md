@@ -103,62 +103,72 @@ Netlify, Vercel…). Al ser un único archivo autónomo, no hay pasos de build.
 
 ## El Project Room — el sistema de entrega (`deliverables/`)
 
-`deliverables/index.html` es el link que se le pasa al cliente: una **bitácora del
-desarrollo** más los documentos compilados que la sostienen. Una sola página autónoma
-—fuentes e imágenes embebidas, sin build, sin red— que funciona offline, por correo o
-en cualquier hosting estático.
+`deliverables/index.html` es el link que se le pasa al cliente. Una sola página autónoma
+—fuentes e imágenes embebidas, sin build, sin red— que funciona offline, por correo o en
+cualquier hosting estático.
 
-### La regla que sostiene todo: dos canales, nunca mezclados
+### Siete secciones
+
+**The range** — portada, índice y una lámina por estilo: el flat técnico a ancho completo,
+la ficha, los callouts de construcción, los colorways y una **galería** con todas las
+vistas. **Logbook** — la bitácora fechada. **Tech pack** · **Fitting** · **Billing** ·
+**Handover** — los documentos, cada uno imprime solo a A4. **System** — cómo se arma una
+sala nueva.
+
+### La galería *es* el proceso
+
+La navegación de cada estilo son las fases del oficio: **Coloured · Visualised · Born**.
+Una tira de contactos bajo la lámina; se hace clic y la vista se funde. Clic en la lámina
+abre a pantalla completa con flechas y `Esc`. Están las **37 imágenes** del deck: 6 flats
+técnicos, 7 tableros de colorway, 8 renders 3D y 16 fotografías de muestra.
+
+### Dos canales, nunca mezclados
 
 | Canal | Qué dice | Cómo |
 |---|---|---|
-| **Registro** | en qué fase del oficio estás | *Sketched:* retícula de construcción, filete punteado, grafito · *Stitched:* trama diagonal, filete en pespunte, tinta · *BORN:* papel limpio, filete sólido, punto rojo |
-| **Marcador** | si ya ocurrió | contorno (no empieza) · pespunte (vivo) · sólido + punto rojo (firmado) |
+| **Registro** | en qué fase del oficio estás | *Sketched:* retícula de construcción, filete punteado, grafito · *Stitched:* trama diagonal, filete en pespunte, tinta · *BORN:* papel limpio, filete sólido |
+| **Marcador** | si ya ocurrió | contorno · pespunte · sólido + punto rojo |
 
-El registro **nunca** dice si algo está terminado; el marcador **nunca** dice en qué fase
-estás. Separarlos es lo que permite responder las dos preguntas de un vistazo sin leyenda.
-Bajar por la bitácora es ver nacer la prenda.
+El registro nunca dice si algo está terminado; el marcador nunca dice en qué fase estás.
+
+### Decisiones de diseño
+
+- **Los dibujos flotan, las fotografías se enmarcan.** Flats, colorways y renders van con
+  `mix-blend-mode: multiply` sobre el marfil: el blanco desaparece y la prenda queda sobre
+  el papel sin caja. Solo las fotografías llevan marco, porque solo ellas son de un objeto
+  que ya existe.
+- **Sin tarjetas.** La estructura sale del espacio, la alineación y la escala. Los filetes
+  son capilares y solo aparecen donde hay una división real. El borde se reserva para dos
+  cosas: la acción abierta del cliente y una hoja que se va a imprimir.
+- **Contraste de escala.** Bodoni a 12rem contra Space Mono a 11px, sin nada compitiendo
+  en medio.
+- **El rojo es escaso.** Solo marca lo vivo, lo que espera al cliente y lo fuera de
+  tolerancia.
 
 ### La bitácora
 
-Entradas fechadas con **anatomía idéntica** —fecha, tipo, titular, cuerpo— para que la
-página se escanee, y **carga distinta según el tipo de información** para que la densidad
-siga al contenido y no a la plantilla. Nueve tipos:
-
-`Note` · `Decision` · `Materials` · `Colour` · `Release` · `Sample` · `Measure` ·
-`Approval` · `Watch`
-
-Una `Decision` muestra elegido contra considerado, el porqué y lo que costó o ahorró.
-Una `Measure` muestra **solo los puntos fuera de tolerancia**, con la desviación y si la
-causa es el patrón o la fábrica — el POM graduado completo vive en el tech pack, a un clic.
-Un `Watch` nunca aparece sin la acción que lo elimina.
-
-### Documentos compilados
-
-La bitácora cuenta la historia; los documentos tienen el detalle, y cada uno imprime solo
-a A4. **Tech pack** (flat, BOM, POM graduado con tolerancias, construcción, por estilo) ·
-**Fitting report** · **Quote** · **Invoice** · **Handover**.
-
-### La pestaña System
-
-Los registros, los estados, los nueve tipos de entrada, las seis reglas que mantienen el
-sistema honesto y el snippet para añadir una entrada. Es lo que permite al equipo de María
-producir entregas nuevas coherentes sin rediseñar nada.
+Entradas fechadas con **anatomía idéntica** —fecha, tipo, titular, cuerpo— y **carga
+distinta según el tipo de información**. Nueve tipos: `Note` · `Decision` · `Materials` ·
+`Colour` · `Release` · `Sample` · `Measure` · `Approval` · `Watch`. Una `Decision` muestra
+elegido contra considerado, el porqué y lo que costó. Una `Measure` muestra solo los puntos
+fuera de tolerancia con su causa —patrón o fábrica— y enlaza al POM completo.
 
 ### Datos y pipeline
 
-Todo el contenido vive en `tools/room_data.py`, que **no sabe nada de cómo se ve nada**.
+El contenido vive en `tools/room_data.py`, que **no sabe nada de cómo se ve nada**.
 `tools/build_room.py` es el motor. Abrir una sala nueva es copiar el primero, reemplazar
 `PROJECT`, `STYLES` y `ENTRIES`, y compilar.
 
 ```bash
-python3 tools/extract_layo.py    # deck aprobado -> deliverables/assets/*.jpg
+python3 tools/extract_layo.py    # deck aprobado -> deliverables/assets/*.jpg (37)
 python3 tools/build_room.py      # -> deliverables/index.html
 ```
 
-La demo va montada sobre el entregable real de **LAYO** (capsule de seis estilos): style
-numbers, calidades, Pantones TCX, flats, renders 3D y fotografía de muestra salen de
-`source/BORN_LayoCapsule_DesignStage.pdf`. Requiere `pymupdf` y `pillow`.
+Cada imagen se emite **una sola vez** como regla de hoja de estilo y cada uso la referencia,
+así una foto que aparece en seis sitios pesa una. Requiere `pymupdf` y `pillow`.
+
+La demo va montada sobre el entregable real de **LAYO**: style numbers, calidades, Pantones
+TCX, flats, renders y fotografía salen de `source/BORN_LayoCapsule_DesignStage.pdf`.
 
 ---
 
