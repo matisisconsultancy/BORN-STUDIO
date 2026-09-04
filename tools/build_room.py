@@ -171,11 +171,17 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   color:var(--g3);margin-top:.6rem}
 
 /* ── cover ────────────────────────────────────────────────────────────────── */
-.cover{padding-block:clamp(2rem,5vw,4rem) clamp(2.4rem,5vw,4rem)}
-.cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
-  gap:var(--gap);align-items:center}
-@media(max-width:900px){.cover__in{grid-template-columns:1fr}}
-.cover h1{margin:.5rem 0 0;font-size:clamp(4.5rem,15vw,12rem)}
+.cover{overflow:hidden;isolation:isolate}
+.cover__in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  align-items:stretch;min-height:min(92vh,820px)}
+@media(max-width:900px){.cover__in{grid-template-columns:1fr;min-height:0}}
+.cover__t{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2.6rem,6vw,5rem) clamp(1.25rem,5vw,4.5rem);
+  max-width:calc(var(--max)/2 + 3rem);margin-left:auto;width:100%}
+.cover__r{background:var(--paper);display:flex;align-items:center;justify-content:center;
+  padding:clamp(1.4rem,3.5vw,3rem)}
+.cover__r .im{mix-blend-mode:multiply}
+.cover h1{margin:.6rem 0 0;font-size:clamp(4.2rem,11vw,10rem)}
 .cover .cap{font-family:var(--serif6);font-weight:600;font-size:clamp(1.3rem,2.7vw,2.1rem);
   line-height:1.14;letter-spacing:-.01em;margin-top:.35rem;max-width:16ch}
 .cover .lede{margin-top:1.5rem;max-width:44ch;font-size:1.06rem}
@@ -186,10 +192,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   text-transform:uppercase;color:var(--g3)}
 .cover__meta dd{font-family:var(--mono);font-size:.82rem;margin-top:.2rem;
   font-variant-numeric:tabular-nums}
-/* the garment runs off the edge of the sheet the way it runs off a marker */
-.cover__r{width:calc(100% + var(--pad) + max(0px,(100vw - var(--max))/2));
-  margin-right:calc(-1 * (var(--pad) + max(0px,(100vw - var(--max))/2)))}
-.cover__r .im{width:100%;max-height:76vh;background-position:center right}
+.cover__r .im{width:100%;max-height:74vh}
 /* the mark matures once, on load — sketched, stitched, born */
 .matur{position:relative;display:block;width:90px;height:19px}
 .matur > span{position:absolute;inset:0;opacity:0}
@@ -266,7 +269,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .toc .th .im{height:72px;width:118px;aspect-ratio:auto;background-position:right center}
 
 /* ── style spread ─────────────────────────────────────────────────────────── */
-.sp{padding-block:clamp(2.6rem,7vw,6rem) clamp(1.5rem,4vw,3rem);border-top:1px solid var(--ink)}
+.sp{padding-block:0 clamp(2.4rem,6vw,4.5rem)}
 .sp__h{display:grid;grid-template-columns:clamp(4.6rem,7.6vw,7.4rem) minmax(0,1fr) minmax(0,.56fr);
   gap:clamp(1rem,2.4vw,2.4rem) clamp(1.2rem,3vw,3rem);align-items:start;padding-top:1.6rem}
 @media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:.9rem}}
@@ -286,7 +289,9 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   color:var(--g3)}
 .sp__meta dd{font-size:.93rem;color:var(--ink)}
 .sp__body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap);
-  margin-top:clamp(2rem,4.5vw,3.4rem);align-items:start}
+  padding-top:clamp(2rem,4.5vw,3.4rem);align-items:start}
+.sp--flip .sp__body > div:first-child{order:2}
+@media(max-width:900px){.sp--flip .sp__body > div:first-child{order:0}}
 @media(max-width:900px){.sp__body{grid-template-columns:1fr}}
 .calls{list-style:none;display:grid;gap:0;margin-top:1rem}
 .calls li{padding:.62rem 0;border-bottom:1px solid var(--hair);display:flex;gap:.9rem;
@@ -388,6 +393,8 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .reg--sketched{--stroke:dotted;--strokec:var(--g4);--txt:var(--graphite)}
 .reg--stitched{--stroke:dashed;--strokec:var(--hair-2);--txt:var(--ink)}
 .reg--born{--stroke:solid;--strokec:var(--hair-2);--txt:var(--ink)}
+.reg--born .band{padding-block:clamp(3rem,6.5vw,5.2rem) clamp(2.4rem,5vw,3.6rem)}
+.reg--born .band::before,.reg--born .band::after{display:none}
 .band{padding-block:clamp(2.4rem,5.5vw,4.4rem) clamp(1.6rem,3.5vw,2.6rem);
   border-top:1px solid var(--ink);position:relative;overflow:hidden}
 .band::before{content:'';position:absolute;inset:0;pointer-events:none}
@@ -799,6 +806,97 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   pointer-events:none}
 .prog{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--red);z-index:1}
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTRASTO
+   BORN's own identity work does colour takeovers — the page turns Rojo
+   Valentino at the end of the brand book. So the document alternates ground
+   instead of sitting on one: paper, ink, red. Each garment gets a poster that
+   seduces and a sheet that specifies. Nothing on this page is timid, and
+   nothing on it is imprecise.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.bleed{width:100vw;margin-left:calc(50% - 50vw);position:relative}
+.field--ink,.field--red{
+  --hair:rgba(242,238,230,.22);--hair-2:rgba(242,238,230,.42);
+  --graphite:rgba(242,238,230,.66);--g2:rgba(242,238,230,.80);
+  --g3:rgba(242,238,230,.60);--g4:rgba(242,238,230,.42);
+  color:var(--paper)}
+.field--ink{background:var(--ink)}
+.field--red{background:var(--red)}
+.field--ink .d1,.field--ink .d2,.field--ink .d3,.field--ink h1,.field--ink h2,
+.field--red .d1,.field--red .d2,.field--red .d3,.field--red h1,.field--red h2{color:var(--paper)}
+.field--ink .p,.field--red .p{color:rgba(242,238,230,.82)}
+.field--ink .sub,.field--red .sub{color:rgba(242,238,230,.74)}
+.field--ink .m--r{color:var(--red)}
+.field--red .m--r{color:var(--paper)}
+.field--ink .p-ink,.field--red .p-ink{fill:var(--paper)}
+.field--ink .p-sk,.field--ink .p-skc,.field--red .p-sk,.field--red .p-skc{stroke:rgba(242,238,230,.7)}
+.field--ink .p-st,.field--red .p-st{stroke:var(--paper)}
+.field--red .p-bo{fill:var(--paper)}
+.field--ink .mk,.field--red .mk{color:var(--paper)}
+
+/* type that is drawn rather than filled — the sketched state at poster scale */
+.outline,.field--ink .outline,.field--red .outline{
+  -webkit-text-stroke:1.6px var(--paper);color:transparent}
+@media(max-width:760px){.outline{-webkit-text-stroke-width:1.1px}}
+@media(max-width:760px){.outline{-webkit-text-stroke-width:1px}}
+
+/* ── the poster: every garment opens with one ────────────────────────────── */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero__in{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,1fr);
+  align-items:stretch;min-height:min(88vh,760px)}
+.hero__t{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2.4rem,6vw,5rem) clamp(1.25rem,5vw,4.5rem);
+  max-width:calc(var(--max)/2 + 2rem);margin-left:auto;width:100%;position:relative;z-index:2}
+.hero--flip .hero__t{order:2;margin-left:0;margin-right:auto}
+.hero--flip .hero__img{order:1}
+.hero__ix{font-family:var(--serif);font-weight:900;line-height:.68;letter-spacing:-.06em;
+  font-size:clamp(5rem,15vw,13rem);color:var(--red);margin-left:-.055em;
+  margin-bottom:-.10em;pointer-events:none}
+.hero--flip .hero__ix{color:var(--paper)}
+.hero__nm{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.2rem,5.2vw,4.6rem);line-height:.88;letter-spacing:-.028em;
+  margin:0;max-width:11ch;position:relative}
+.hero__full{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;
+  color:rgba(242,238,230,.66);margin-top:.9rem}
+.hero__sub{font-family:var(--serif6);font-weight:600;font-size:clamp(1rem,1.7vw,1.28rem);
+  line-height:1.3;max-width:30ch;margin-top:.9rem}
+.hero__spec{font-family:var(--mono);font-size:.76rem;letter-spacing:.02em;line-height:2.1;
+  margin-top:clamp(1.4rem,3vw,2.2rem);padding-top:.9rem;border-top:1px solid var(--hair-2);
+  font-variant-numeric:tabular-nums}
+.hero__spec b{font-weight:400;color:var(--paper)}
+
+.hero__img{position:relative;background:var(--paper);display:flex;align-items:center;
+  justify-content:center;padding:clamp(1.5rem,4vw,3.4rem)}
+.hero__img .im{width:100%;max-height:74vh}
+.hero__img .im{mix-blend-mode:multiply}
+
+/* ── the three acts: paper, then ink, then Rojo Valentino ────────────────── */
+.act{padding-block:clamp(3rem,8vw,6.5rem);position:relative;overflow:hidden}
+.act__in{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(1.6rem,4vw,4rem);align-items:end}
+@media(max-width:880px){.act__in{grid-template-columns:1fr;gap:1.6rem}}
+.act__n{font-family:var(--serif);font-weight:900;font-size:clamp(4rem,13vw,11rem);
+  line-height:.7;letter-spacing:-.06em;margin-left:-.06em}
+.act__nm{font-family:var(--serif);font-weight:900;font-size:clamp(2.4rem,6.5vw,5.4rem);
+  line-height:.9;letter-spacing:-.03em;margin-top:.5rem}
+.act__ln{font-family:var(--serif6);font-weight:600;font-size:clamp(1.1rem,2.1vw,1.6rem);
+  margin-top:.6rem}
+.act__lg{width:min(320px,80%);margin-top:clamp(1.4rem,3vw,2.2rem)}
+.act__lg svg{width:100%;height:auto}
+.act__f{display:flex;align-items:center;gap:.7rem;margin-top:clamp(1.4rem,3vw,2rem);
+  padding-top:.9rem;border-top:1px solid var(--hair-2);font-size:.85rem}
+.act__f .wk{margin-left:auto;font-family:var(--mono);font-size:.78rem}
+.act--sketched{background:var(--paper)}
+.act--sketched .act__tex{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(74,69,79,.11) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(74,69,79,.11) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(120% 80% at 20% 40%,#000,transparent);
+  mask-image:radial-gradient(120% 80% at 20% 40%,#000,transparent)}
+.act--stitched .act__tex{position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(45deg,rgba(242,238,230,.10) 0 1px,transparent 1px 13px)}
+.act--born .act__tex{display:none}
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -811,12 +909,23 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   .nav button{scroll-snap-align:start}
   .top .matur{width:78px;height:17px}
 }
+@media(max-width:900px){
+  .hero__in,.cover__in{grid-template-columns:1fr}
+  .hero__t,.hero--flip .hero__t{order:2;margin:0;max-width:none;
+    padding:clamp(1.8rem,6vw,2.6rem) var(--pad) clamp(2.2rem,7vw,3rem)}
+  .hero__img,.hero--flip .hero__img{order:1;padding:1.4rem var(--pad)}
+  .hero__img .im{max-height:52vh}
+  .hero__ix{font-size:clamp(4.4rem,26vw,8rem)}
+  .hero__nm{font-size:clamp(1.9rem,9vw,3rem);max-width:none}
+  .act__in{align-items:start}
+}
 @media(max-width:760px){
   body{font-size:15px;line-height:1.62}
   .p{max-width:none}
   .cover .lede{font-size:1rem}
   .cover__in{gap:1.6rem}
-  .cover__r{order:-1;width:calc(100% + var(--pad));margin-right:calc(-1 * var(--pad))}
+  .cover__r{order:-1;padding:1.6rem var(--pad)}
+  .cover__t{padding:2rem var(--pad) 2.6rem}
   .cover__r .im{max-height:46vh;background-position:center}
   .cover h1{font-size:clamp(3.6rem,20vw,6rem)}
   .cover .cap{font-size:clamp(1.15rem,5.6vw,1.6rem);max-width:none}
@@ -876,6 +985,11 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   .sec--rule,.tw,table.t tr,.e,.dec,.alr,.sp,figure{page-break-inside:avoid}
   .band,.sp{page-break-before:always}
   .band::before,.reg--sketched .band::before{display:none}
+  .ink,.field--ink,.field--red,.hero,.act,.hero__img{background:#fff!important;color:#000!important}
+  .field--ink *,.field--red *,.hero *,.act *{color:#000!important}
+  .outline,.field--ink .outline{-webkit-text-stroke:0;color:#000!important}
+  .act__tex,.bleed{width:auto;margin-left:0}
+  .hero__in{min-height:0}
   .ink{background:#fff;color:#000}
   .ink .d2,.ink .d3,.chip .n{color:#000}
   .chip{background:#fff}
@@ -1000,7 +1114,8 @@ def band(key):
     ph = next(p for p in PHASES if p["key"] == key)
     logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
             "born": SVG["state_born"]}[key]
-    return f"""<div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
+    red = ' field--red' if key == 'born' else ''
+    return f"""<div class="band{red}"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase {r['n']}</p><h2 class="d2">{r['name']}</h2>
    <p class="ln">{r['line']}</p><div class="lg">{logo}</div></div>
  <div><p class="df">{r['defn']}</p>
@@ -1673,25 +1788,35 @@ def gallery(st, gid):
             f'{phase_rail()}'
             f'<div class="strip">{"".join(thumbs)}</div></div>')
 
+def hero(st, n):
+    """A poster that seduces, sitting on a sheet that specifies. The side the
+    garment takes alternates down the document, so the rhythm never settles."""
+    flip = n % 2 == 0
+    q = st["fabric"].split(" · ")
+    nm = st["short"].upper()
+    spec = " &nbsp;·&nbsp; ".join([f"<b>{st['no']}</b>", st["cat"], q[1], q[2],
+                                   f"{PROJECT['size_range']}"])
+    return f"""<div class="hero bleed field--ink{' hero--flip' if flip else ''}">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">{n:02d}<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">{nm}</h2>
+   <p class="hero__full">{st['name']}</p>
+   <p class="hero__sub">{st['hand']}.</p>
+   <p class="hero__spec">{spec}<br>{q[0]}</p>
+  </div>
+  <div class="hero__img">{im(st['renders'][0][0], st['name'], 'float')}</div>
+ </div>
+</div>"""
+
 def spread(st, n):
     calls = "".join(f'<li><span>{j+1:02d}</span>{d}</li>' for j, d in enumerate(st["details"]))
-    q = st["fabric"].split(" · ")
-    meta = [("Style no.", st["no"]), ("Category", st["cat"]), ("Base quality", q[0]),
-            ("Composition", q[1]), ("Weight", q[2]),
-            ("Colourways", f'{len(st["colourways"])} of 5 standards'),
-            ("Size range", f'{PROJECT["size_range"]} &middot; base {PROJECT["base_size"]}')]
-    rows = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in meta)
     cwl = "".join(
         f'<li><i style="background:{hx}"></i><span class="nm">{nm}</span>'
         f'<span class="cd">{code}</span></li>' for _, code, nm, hx in st["colourways"])
-    return f"""<section class="sp w" id="s-{st['no']}">
- <div class="sp__h">
-  <p class="sp__ix">{n:02d}<em>.</em></p>
-  <div class="sp__nm">{GRAIN}<h2 class="d2">{st['name']}</h2>
-   <p class="sp__code">{st['no']}</p></div>
-  <dl class="sp__meta">{rows}</dl>
- </div>
- <div class="sp__body">
+    return f"""<section class="sp{' sp--flip' if n % 2 == 0 else ''}" id="s-{st['no']}">
+ {hero(st, n)}
+ <div class="w sp__body">
   <div><p class="p">{st['hand']}.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls">{calls}</ul>
@@ -1713,38 +1838,38 @@ PHASE_WORK = {
 }
 
 def process():
-    """The three states, shown in the registers the rest of the document uses.
-    It reads as the studio's method and works as the legend for everything after."""
-    cols = ""
+    """Paper, then ink, then Rojo Valentino. The colour of the ground is the
+    argument: an idea on paper, tested in the dark, born in colour."""
+    acts = ""
     for key in ("sketched", "stitched", "born"):
         r = REGISTERS[key]
         ph = next(p for p in PHASES if p["key"] == key)
         work, span = PHASE_WORK[key]
-        live = ph["state"] == "stitched"
-        done = ph["state"] == "born"
+        live, done = ph["state"] == "stitched", ph["state"] == "born"
         state = "done" if done else ("now" if live else "next")
-        where = ("Complete" if done else "Where the capsule is now" if live else "Ahead")
+        where = "Complete" if done else "Where the capsule is now" if live else "Ahead"
         logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
                 "born": SVG["state_born"]}[key]
-        cols += f"""<article class="ph3 ph3--{key}{' is-now' if live else ''}">
- <div class="ph3__tex"><div class="ph3__lg">{logo}</div></div>
- <p class="n">Phase {r['n']}</p>
- <h3 class="d3">{r['name']}</h3>
- <p class="ln">{r['line']}</p>
- <p class="p">{work}</p>
- <p class="ph3__f">{mk(state)}<span>{where}</span><span class="wk">{span}</span></p>
-</article>"""
+        field = {"sketched": "", "stitched": " field--ink", "born": " field--red"}[key]
+        acts += f"""<div class="act act--{key}{field} bleed">
+ <div class="act__tex" aria-hidden="true"></div>
+ <div class="w act__in">
+  <div><p class="act__n">{r['n']}</p><h3 class="act__nm">{r['name']}</h3>
+   <p class="act__ln">{r['line']}</p>
+   <div class="act__lg">{logo}</div></div>
+  <div><p class="p" style="font-size:1.04rem">{work}</p>
+   <p class="act__f">{mk(state)}<span>{where}</span><span class="wk">{span}</span></p></div>
+ </div>
+</div>"""
     return f"""<div class="w proc">
  <div class="proc__h">
   <div>{GRAIN}<p class="m m--r">The process</p>
    <h2 class="d2">Every garment<br>lives three states.</h2></div>
-  <p class="p">The mark itself changes with the phase &mdash; outline while it is being
-   drawn, topstitch while it is being tested, solid and in colour once it goes out into
-   the world. That language runs through this whole document, so you can always tell how
-   settled a piece of information is without being told.</p>
+  <p class="p">The mark changes with the phase &mdash; outline while it is being drawn,
+   topstitch while it is being tested, solid and in colour once it goes out into the
+   world. So does the ground you are reading it on.</p>
  </div>
- <div class="proc__g">{cols}</div>
-</div>"""
+</div>{acts}"""
 
 def range_panel():
     toc = "".join(
@@ -1759,14 +1884,14 @@ def range_panel():
         for c, nm, h, _ in COLORWAYS)
     spreads = "".join(spread(st, n) for n, st in enumerate(STYLES, 1))
     return f"""<section class="panel active" id="p-range" role="tabpanel" aria-labelledby="t-range">
- <div class="w cover"><div class="cover__in">
-  <div>
+ <div class="cover bleed field--ink"><div class="cover__in">
+  <div class="cover__t">
    <p class="m m--r">{PROJECT['studio_long']}</p>
    <h1 class="d1">{PROJECT['client']}</h1>
    <p class="cap">{PROJECT['capsule']}</p>
-   <p class="p lede">Six styles, five colour standards, {PROJECT['units']:,} units. Drawn,
-    coloured, visualised and made &mdash; every drawing, every colourway and every sample
-    photograph the studio produced for this capsule is in this document.</p>
+   <p class="p lede">Six styles, five colour standards, {PROJECT['units']:,} units.
+    Drawn, coloured, visualised and made &mdash; every drawing, every colourway and every
+    sample photograph the studio produced for this capsule is in this document.</p>
    <dl class="cover__meta">
     <div><dt>Drop</dt><dd>{PROJECT['drop']}</dd></div>
     <div><dt>Reference</dt><dd>{PROJECT['ref']}</dd></div>
@@ -1775,8 +1900,8 @@ def range_panel():
     <div><dt>Size range</dt><dd>{PROJECT['size_range']}</dd></div>
    </dl>
   </div>
-  <figure class="cover__r">{im('render_motion',
-    'Jester Red bra top and leggings, 3D visualisation in motion', 'float')}</figure>
+  <div class="cover__r">{im('render_motion',
+    'Jester Red bra top and leggings, 3D visualisation in motion', 'float')}</div>
  </div></div>
 
  <div class="w toc">
@@ -1784,8 +1909,8 @@ def range_panel():
   {toc}
  </div>
 
-{process()}
- {spreads}
+</div>{process()}<div class="w">
+ </div>{spreads}
 
  <div class="ink"><div class="w">
   <p class="m m--r">Colour</p>

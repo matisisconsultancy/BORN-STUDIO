@@ -97,11 +97,17 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   color:var(--g3);margin-top:.6rem}
 
 /* ── cover ────────────────────────────────────────────────────────────────── */
-.cover{padding-block:clamp(2rem,5vw,4rem) clamp(2.4rem,5vw,4rem)}
-.cover__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
-  gap:var(--gap);align-items:center}
-@media(max-width:900px){.cover__in{grid-template-columns:1fr}}
-.cover h1{margin:.5rem 0 0;font-size:clamp(4.5rem,15vw,12rem)}
+.cover{overflow:hidden;isolation:isolate}
+.cover__in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  align-items:stretch;min-height:min(92vh,820px)}
+@media(max-width:900px){.cover__in{grid-template-columns:1fr;min-height:0}}
+.cover__t{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2.6rem,6vw,5rem) clamp(1.25rem,5vw,4.5rem);
+  max-width:calc(var(--max)/2 + 3rem);margin-left:auto;width:100%}
+.cover__r{background:var(--paper);display:flex;align-items:center;justify-content:center;
+  padding:clamp(1.4rem,3.5vw,3rem)}
+.cover__r .im{mix-blend-mode:multiply}
+.cover h1{margin:.6rem 0 0;font-size:clamp(4.2rem,11vw,10rem)}
 .cover .cap{font-family:var(--serif6);font-weight:600;font-size:clamp(1.3rem,2.7vw,2.1rem);
   line-height:1.14;letter-spacing:-.01em;margin-top:.35rem;max-width:16ch}
 .cover .lede{margin-top:1.5rem;max-width:44ch;font-size:1.06rem}
@@ -112,10 +118,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   text-transform:uppercase;color:var(--g3)}
 .cover__meta dd{font-family:var(--mono);font-size:.82rem;margin-top:.2rem;
   font-variant-numeric:tabular-nums}
-/* the garment runs off the edge of the sheet the way it runs off a marker */
-.cover__r{width:calc(100% + var(--pad) + max(0px,(100vw - var(--max))/2));
-  margin-right:calc(-1 * (var(--pad) + max(0px,(100vw - var(--max))/2)))}
-.cover__r .im{width:100%;max-height:76vh;background-position:center right}
+.cover__r .im{width:100%;max-height:74vh}
 /* the mark matures once, on load — sketched, stitched, born */
 .matur{position:relative;display:block;width:90px;height:19px}
 .matur > span{position:absolute;inset:0;opacity:0}
@@ -192,7 +195,7 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .toc .th .im{height:72px;width:118px;aspect-ratio:auto;background-position:right center}
 
 /* ── style spread ─────────────────────────────────────────────────────────── */
-.sp{padding-block:clamp(2.6rem,7vw,6rem) clamp(1.5rem,4vw,3rem);border-top:1px solid var(--ink)}
+.sp{padding-block:0 clamp(2.4rem,6vw,4.5rem)}
 .sp__h{display:grid;grid-template-columns:clamp(4.6rem,7.6vw,7.4rem) minmax(0,1fr) minmax(0,.56fr);
   gap:clamp(1rem,2.4vw,2.4rem) clamp(1.2rem,3vw,3rem);align-items:start;padding-top:1.6rem}
 @media(max-width:900px){.sp__h{grid-template-columns:1fr;gap:.9rem}}
@@ -212,7 +215,9 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
   color:var(--g3)}
 .sp__meta dd{font-size:.93rem;color:var(--ink)}
 .sp__body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap);
-  margin-top:clamp(2rem,4.5vw,3.4rem);align-items:start}
+  padding-top:clamp(2rem,4.5vw,3.4rem);align-items:start}
+.sp--flip .sp__body > div:first-child{order:2}
+@media(max-width:900px){.sp--flip .sp__body > div:first-child{order:0}}
 @media(max-width:900px){.sp__body{grid-template-columns:1fr}}
 .calls{list-style:none;display:grid;gap:0;margin-top:1rem}
 .calls li{padding:.62rem 0;border-bottom:1px solid var(--hair);display:flex;gap:.9rem;
@@ -314,6 +319,8 @@ figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;text-tra
 .reg--sketched{--stroke:dotted;--strokec:var(--g4);--txt:var(--graphite)}
 .reg--stitched{--stroke:dashed;--strokec:var(--hair-2);--txt:var(--ink)}
 .reg--born{--stroke:solid;--strokec:var(--hair-2);--txt:var(--ink)}
+.reg--born .band{padding-block:clamp(3rem,6.5vw,5.2rem) clamp(2.4rem,5vw,3.6rem)}
+.reg--born .band::before,.reg--born .band::after{display:none}
 .band{padding-block:clamp(2.4rem,5.5vw,4.4rem) clamp(1.6rem,3.5vw,2.6rem);
   border-top:1px solid var(--ink);position:relative;overflow:hidden}
 .band::before{content:'';position:absolute;inset:0;pointer-events:none}
@@ -725,6 +732,97 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   pointer-events:none}
 .prog{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--red);z-index:1}
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTRASTO
+   BORN's own identity work does colour takeovers — the page turns Rojo
+   Valentino at the end of the brand book. So the document alternates ground
+   instead of sitting on one: paper, ink, red. Each garment gets a poster that
+   seduces and a sheet that specifies. Nothing on this page is timid, and
+   nothing on it is imprecise.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.bleed{width:100vw;margin-left:calc(50% - 50vw);position:relative}
+.field--ink,.field--red{
+  --hair:rgba(242,238,230,.22);--hair-2:rgba(242,238,230,.42);
+  --graphite:rgba(242,238,230,.66);--g2:rgba(242,238,230,.80);
+  --g3:rgba(242,238,230,.60);--g4:rgba(242,238,230,.42);
+  color:var(--paper)}
+.field--ink{background:var(--ink)}
+.field--red{background:var(--red)}
+.field--ink .d1,.field--ink .d2,.field--ink .d3,.field--ink h1,.field--ink h2,
+.field--red .d1,.field--red .d2,.field--red .d3,.field--red h1,.field--red h2{color:var(--paper)}
+.field--ink .p,.field--red .p{color:rgba(242,238,230,.82)}
+.field--ink .sub,.field--red .sub{color:rgba(242,238,230,.74)}
+.field--ink .m--r{color:var(--red)}
+.field--red .m--r{color:var(--paper)}
+.field--ink .p-ink,.field--red .p-ink{fill:var(--paper)}
+.field--ink .p-sk,.field--ink .p-skc,.field--red .p-sk,.field--red .p-skc{stroke:rgba(242,238,230,.7)}
+.field--ink .p-st,.field--red .p-st{stroke:var(--paper)}
+.field--red .p-bo{fill:var(--paper)}
+.field--ink .mk,.field--red .mk{color:var(--paper)}
+
+/* type that is drawn rather than filled — the sketched state at poster scale */
+.outline,.field--ink .outline,.field--red .outline{
+  -webkit-text-stroke:1.6px var(--paper);color:transparent}
+@media(max-width:760px){.outline{-webkit-text-stroke-width:1.1px}}
+@media(max-width:760px){.outline{-webkit-text-stroke-width:1px}}
+
+/* ── the poster: every garment opens with one ────────────────────────────── */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero__in{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,1fr);
+  align-items:stretch;min-height:min(88vh,760px)}
+.hero__t{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2.4rem,6vw,5rem) clamp(1.25rem,5vw,4.5rem);
+  max-width:calc(var(--max)/2 + 2rem);margin-left:auto;width:100%;position:relative;z-index:2}
+.hero--flip .hero__t{order:2;margin-left:0;margin-right:auto}
+.hero--flip .hero__img{order:1}
+.hero__ix{font-family:var(--serif);font-weight:900;line-height:.68;letter-spacing:-.06em;
+  font-size:clamp(5rem,15vw,13rem);color:var(--red);margin-left:-.055em;
+  margin-bottom:-.10em;pointer-events:none}
+.hero--flip .hero__ix{color:var(--paper)}
+.hero__nm{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.2rem,5.2vw,4.6rem);line-height:.88;letter-spacing:-.028em;
+  margin:0;max-width:11ch;position:relative}
+.hero__full{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;
+  color:rgba(242,238,230,.66);margin-top:.9rem}
+.hero__sub{font-family:var(--serif6);font-weight:600;font-size:clamp(1rem,1.7vw,1.28rem);
+  line-height:1.3;max-width:30ch;margin-top:.9rem}
+.hero__spec{font-family:var(--mono);font-size:.76rem;letter-spacing:.02em;line-height:2.1;
+  margin-top:clamp(1.4rem,3vw,2.2rem);padding-top:.9rem;border-top:1px solid var(--hair-2);
+  font-variant-numeric:tabular-nums}
+.hero__spec b{font-weight:400;color:var(--paper)}
+
+.hero__img{position:relative;background:var(--paper);display:flex;align-items:center;
+  justify-content:center;padding:clamp(1.5rem,4vw,3.4rem)}
+.hero__img .im{width:100%;max-height:74vh}
+.hero__img .im{mix-blend-mode:multiply}
+
+/* ── the three acts: paper, then ink, then Rojo Valentino ────────────────── */
+.act{padding-block:clamp(3rem,8vw,6.5rem);position:relative;overflow:hidden}
+.act__in{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(1.6rem,4vw,4rem);align-items:end}
+@media(max-width:880px){.act__in{grid-template-columns:1fr;gap:1.6rem}}
+.act__n{font-family:var(--serif);font-weight:900;font-size:clamp(4rem,13vw,11rem);
+  line-height:.7;letter-spacing:-.06em;margin-left:-.06em}
+.act__nm{font-family:var(--serif);font-weight:900;font-size:clamp(2.4rem,6.5vw,5.4rem);
+  line-height:.9;letter-spacing:-.03em;margin-top:.5rem}
+.act__ln{font-family:var(--serif6);font-weight:600;font-size:clamp(1.1rem,2.1vw,1.6rem);
+  margin-top:.6rem}
+.act__lg{width:min(320px,80%);margin-top:clamp(1.4rem,3vw,2.2rem)}
+.act__lg svg{width:100%;height:auto}
+.act__f{display:flex;align-items:center;gap:.7rem;margin-top:clamp(1.4rem,3vw,2rem);
+  padding-top:.9rem;border-top:1px solid var(--hair-2);font-size:.85rem}
+.act__f .wk{margin-left:auto;font-family:var(--mono);font-size:.78rem}
+.act--sketched{background:var(--paper)}
+.act--sketched .act__tex{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(74,69,79,.11) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(74,69,79,.11) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(120% 80% at 20% 40%,#000,transparent);
+  mask-image:radial-gradient(120% 80% at 20% 40%,#000,transparent)}
+.act--stitched .act__tex{position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(45deg,rgba(242,238,230,.10) 0 1px,transparent 1px 13px)}
+.act--born .act__tex{display:none}
+
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
    given and how wide type is set. Nothing is hidden that carries meaning. */
@@ -737,12 +835,23 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   .nav button{scroll-snap-align:start}
   .top .matur{width:78px;height:17px}
 }
+@media(max-width:900px){
+  .hero__in,.cover__in{grid-template-columns:1fr}
+  .hero__t,.hero--flip .hero__t{order:2;margin:0;max-width:none;
+    padding:clamp(1.8rem,6vw,2.6rem) var(--pad) clamp(2.2rem,7vw,3rem)}
+  .hero__img,.hero--flip .hero__img{order:1;padding:1.4rem var(--pad)}
+  .hero__img .im{max-height:52vh}
+  .hero__ix{font-size:clamp(4.4rem,26vw,8rem)}
+  .hero__nm{font-size:clamp(1.9rem,9vw,3rem);max-width:none}
+  .act__in{align-items:start}
+}
 @media(max-width:760px){
   body{font-size:15px;line-height:1.62}
   .p{max-width:none}
   .cover .lede{font-size:1rem}
   .cover__in{gap:1.6rem}
-  .cover__r{order:-1;width:calc(100% + var(--pad));margin-right:calc(-1 * var(--pad))}
+  .cover__r{order:-1;padding:1.6rem var(--pad)}
+  .cover__t{padding:2rem var(--pad) 2.6rem}
   .cover__r .im{max-height:46vh;background-position:center}
   .cover h1{font-size:clamp(3.6rem,20vw,6rem)}
   .cover .cap{font-size:clamp(1.15rem,5.6vw,1.6rem);max-width:none}
@@ -802,6 +911,11 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   .sec--rule,.tw,table.t tr,.e,.dec,.alr,.sp,figure{page-break-inside:avoid}
   .band,.sp{page-break-before:always}
   .band::before,.reg--sketched .band::before{display:none}
+  .ink,.field--ink,.field--red,.hero,.act,.hero__img{background:#fff!important;color:#000!important}
+  .field--ink *,.field--red *,.hero *,.act *{color:#000!important}
+  .outline,.field--ink .outline{-webkit-text-stroke:0;color:#000!important}
+  .act__tex,.bleed{width:auto;margin-left:0}
+  .hero__in{min-height:0}
   .ink{background:#fff;color:#000}
   .ink .d2,.ink .d3,.chip .n{color:#000}
   .chip{background:#fff}
@@ -867,14 +981,14 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
  <nav class="nav" role="tablist" aria-label="Sections"><button role="tab" id="t-range" aria-controls="p-range" data-doc="range" aria-selected="true">The range</button><button role="tab" id="t-logbook" aria-controls="p-logbook" data-doc="logbook" aria-selected="false">Logbook</button><button role="tab" id="t-techpack" aria-controls="p-techpack" data-doc="techpack" aria-selected="false">Tech pack</button><button role="tab" id="t-fitting" aria-controls="p-fitting" data-doc="fitting" aria-selected="false">Fitting</button><button role="tab" id="t-billing" aria-controls="p-billing" data-doc="billing" aria-selected="false">Billing</button><button role="tab" id="t-handover" aria-controls="p-handover" data-doc="handover" aria-selected="false">Handover</button><button role="tab" id="t-system" aria-controls="p-system" data-doc="system" aria-selected="false">System</button>
   <button class="pr" id="printBtn" type="button">Print</button></nav>
 </div></header><main><section class="panel active" id="p-range" role="tabpanel" aria-labelledby="t-range">
- <div class="w cover"><div class="cover__in">
-  <div>
+ <div class="cover bleed field--ink"><div class="cover__in">
+  <div class="cover__t">
    <p class="m m--r">BORN Studio — Fashion Product Development</p>
    <h1 class="d1">LAYO</h1>
    <p class="cap">Performance Luxury Capsule</p>
-   <p class="p lede">Six styles, five colour standards, 1,800 units. Drawn,
-    coloured, visualised and made &mdash; every drawing, every colourway and every sample
-    photograph the studio produced for this capsule is in this document.</p>
+   <p class="p lede">Six styles, five colour standards, 1,800 units.
+    Drawn, coloured, visualised and made &mdash; every drawing, every colourway and every
+    sample photograph the studio produced for this capsule is in this document.</p>
    <dl class="cover__meta">
     <div><dt>Drop</dt><dd>Drop 02</dd></div>
     <div><dt>Reference</dt><dd>BRN-LAYO-02</dd></div>
@@ -883,7 +997,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
     <div><dt>Size range</dt><dd>XS – XL</dd></div>
    </dl>
   </div>
-  <figure class="cover__r"><span class="im i-render_motion float" style="--r:0.786" role="img" aria-label="Jester Red bra top and leggings, 3D visualisation in motion"></span></figure>
+  <div class="cover__r"><span class="im i-render_motion float" style="--r:0.786" role="img" aria-label="Jester Red bra top and leggings, 3D visualisation in motion"></span></div>
  </div></div>
 
  <div class="w toc">
@@ -891,46 +1005,56 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
   <a href="#s-ALO006"><span class="ix">01</span><span><span class="nm">Cold Shoulder Bra Top</span><span class="no">ALO006</span></span><span class="cat">Top</span><span class="th"><span class="im i-render_bra_red th float" style="--r:0.6793" role="img" aria-label=""></span></span></a><a href="#s-LY-JK-149"><span class="ix">02</span><span><span class="nm">Training Jacket</span><span class="no">LY-JK-149</span></span><span class="cat">Outerwear</span><span class="th"><span class="im i-render_black th float" style="--r:0.9873" role="img" aria-label=""></span></span></a><a href="#s-LY-6012156"><span class="ix">03</span><span><span class="nm">PureLuxe 6" Shorts</span><span class="no">LY-6012156</span></span><span class="cat">Bottom</span><span class="th"><span class="im i-render_black th float" style="--r:0.9873" role="img" aria-label=""></span></span></a><a href="#s-LY-HD-025"><span class="ix">04</span><span><span class="nm">Cropped Zip Hoodie</span><span class="no">LY-HD-025</span></span><span class="cat">Top</span><span class="th"><span class="im i-render_periwinkle th float" style="--r:0.816" role="img" aria-label=""></span></span></a><a href="#s-WB082601"><span class="ix">05</span><span><span class="nm">Core Support Leggings</span><span class="no">WB082601</span></span><span class="cat">Bottom</span><span class="th"><span class="im i-render_whisper th float" style="--r:0.7833" role="img" aria-label=""></span></span></a><a href="#s-WB082608"><span class="ix">06</span><span><span class="nm">White-Trim Compression Leggings</span><span class="no">WB082608</span></span><span class="cat">Bottom</span><span class="th"><span class="im i-render_bra_black th float" style="--r:0.722" role="img" aria-label=""></span></span></a>
  </div>
 
-<div class="w proc">
+</div><div class="w proc">
  <div class="proc__h">
   <div><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><p class="m m--r">The process</p>
    <h2 class="d2">Every garment<br>lives three states.</h2></div>
-  <p class="p">The mark itself changes with the phase &mdash; outline while it is being
-   drawn, topstitch while it is being tested, solid and in colour once it goes out into
-   the world. That language runs through this whole document, so you can always tell how
-   settled a piece of information is without being told.</p>
+  <p class="p">The mark changes with the phase &mdash; outline while it is being drawn,
+   topstitch while it is being tested, solid and in colour once it goes out into the
+   world. So does the ground you are reading it on.</p>
  </div>
- <div class="proc__g"><article class="ph3 ph3--sketched">
- <div class="ph3__tex"><div class="ph3__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
- <p class="n">Phase 01</p>
- <h3 class="d3">Sketched</h3>
- <p class="ln">The idea on paper</p>
- <p class="p">Material selection, technical sketches with construction callouts, colour development against physical chips, 3D visualisation, and a factory-ready tech pack.</p>
- <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="wk">1–3 weeks</span></p>
-</article><article class="ph3 ph3--stitched is-now">
- <div class="ph3__tex"><div class="ph3__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
- <p class="n">Phase 02</p>
- <h3 class="d3">Stitched</h3>
- <p class="ln">Tested with thread and needle</p>
- <p class="p">Factory pairing, lab dip management, sample rounds with documented fit sessions, and tech pack revisions carried through to the approved sample.</p>
- <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="wk">2–6 months</span></p>
-</article><article class="ph3 ph3--born">
- <div class="ph3__tex"><div class="ph3__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
- <p class="n">Phase 03</p>
- <h3 class="d3">BORN</h3>
- <p class="ln">It goes out into the world</p>
- <p class="p">Size set and PPS sign-off, bulk oversight, inline QC, final AQL inspection and a documented handover with the full production archive.</p>
- <p class="ph3__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="wk">4–8 weeks</span></p>
-</article></div>
+</div><div class="act act--sketched bleed">
+ <div class="act__tex" aria-hidden="true"></div>
+ <div class="w act__in">
+  <div><p class="act__n">01</p><h3 class="act__nm">Sketched</h3>
+   <p class="act__ln">The idea on paper</p>
+   <div class="act__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
+  <div><p class="p" style="font-size:1.04rem">Material selection, technical sketches with construction callouts, colour development against physical chips, 3D visualisation, and a factory-ready tech pack.</p>
+   <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="wk">1–3 weeks</span></p></div>
+ </div>
+</div><div class="act act--stitched field--ink bleed">
+ <div class="act__tex" aria-hidden="true"></div>
+ <div class="w act__in">
+  <div><p class="act__n">02</p><h3 class="act__nm">Stitched</h3>
+   <p class="act__ln">Tested with thread and needle</p>
+   <div class="act__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
+  <div><p class="p" style="font-size:1.04rem">Factory pairing, lab dip management, sample rounds with documented fit sessions, and tech pack revisions carried through to the approved sample.</p>
+   <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="wk">2–6 months</span></p></div>
+ </div>
+</div><div class="act act--born field--red bleed">
+ <div class="act__tex" aria-hidden="true"></div>
+ <div class="w act__in">
+  <div><p class="act__n">03</p><h3 class="act__nm">BORN</h3>
+   <p class="act__ln">It goes out into the world</p>
+   <div class="act__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
+  <div><p class="p" style="font-size:1.04rem">Size set and PPS sign-off, bulk oversight, inline QC, final AQL inspection and a documented handover with the full production archive.</p>
+   <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="wk">4–8 weeks</span></p></div>
+ </div>
+</div><div class="w">
+ </div><section class="sp" id="s-ALO006">
+ <div class="hero bleed field--ink">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">01<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">COLD SHOULDER BRA TOP</h2>
+   <p class="hero__full">Dual-Layer Cold Shoulder Long Sleeve Bra Top</p>
+   <p class="hero__sub">Moisture-wicking, breathable, soft hand feel, lightweight support.</p>
+   <p class="hero__spec"><b>ALO006</b> &nbsp;·&nbsp; Top &nbsp;·&nbsp; 78% nylon / 22% elastane &nbsp;·&nbsp; 280 g/m² &nbsp;·&nbsp; XS – XL<br>Performance rib knit</p>
+  </div>
+  <div class="hero__img"><span class="im i-render_bra_red float" style="--r:0.6793" role="img" aria-label="Dual-Layer Cold Shoulder Long Sleeve Bra Top"></span></div>
+ </div>
 </div>
- <section class="sp w" id="s-ALO006">
- <div class="sp__h">
-  <p class="sp__ix">01<em>.</em></p>
-  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Dual-Layer Cold Shoulder Long Sleeve Bra Top</h2>
-   <p class="sp__code">ALO006</p></div>
-  <dl class="sp__meta"><div><dt>Style no.</dt><dd>ALO006</dd></div><div><dt>Category</dt><dd>Top</dd></div><div><dt>Base quality</dt><dd>Performance rib knit</dd></div><div><dt>Composition</dt><dd>78% nylon / 22% elastane</dd></div><div><dt>Weight</dt><dd>280 g/m²</dd></div><div><dt>Colourways</dt><dd>3 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
- </div>
- <div class="sp__body">
+ <div class="w sp__body">
   <div><p class="p">Moisture-wicking, breathable, soft hand feel, lightweight support.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls"><li><span>01</span>Long sleeve bra top with cold shoulder construction</li><li><span>02</span>Dual-layer body construction</li><li><span>03</span>Fixed shoulder straps</li><li><span>04</span>Cross-back straps</li><li><span>05</span>Raglan sleeves</li><li><span>06</span>Elastic binding band</li><li><span>07</span>Thumb holes</li></ul>
@@ -938,14 +1062,20 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#9E1B32"></i><span class="nm">Jester Red</span><span class="cd">19-1862 TCX</span></li><li><i style="background:#282A2D"></i><span class="nm">Black Beauty</span><span class="cd">19-3911 TCX</span></li><li><i style="background:#AFC0AC"></i><span class="nm">Cameo Green</span><span class="cd">14-6312 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="ALO006"><div class="gal__stage" data-stage="ALO006" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_alo006 float" style="--r:1.62" role="img" aria-label="Cold Shoulder Bra Top — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_bra_red float" style="--r:0.6153" role="img" aria-label="Cold Shoulder Bra Top — Jester Red &middot; 19-1862 TCX"></span><figcaption>Jester Red &middot; 19-1862 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_bra_black float" style="--r:0.6293" role="img" aria-label="Cold Shoulder Bra Top — Black Beauty &middot; 19-3911 TCX"></span><figcaption>Black Beauty &middot; 19-3911 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-cw_bra_green float" style="--r:0.6267" role="img" aria-label="Cold Shoulder Bra Top — Cameo Green &middot; 14-6312 TCX"></span><figcaption>Cameo Green &middot; 14-6312 TCX</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_bra_red float" style="--r:0.6793" role="img" aria-label="Cold Shoulder Bra Top — Jester Red &middot; 3D visualisation"></span><figcaption>Jester Red &middot; 3D visualisation</figcaption></figure><figure class="" data-i="5" data-phase="sketched"><span class="im i-render_bra_green float" style="--r:0.74" role="img" aria-label="Cold Shoulder Bra Top — Cameo Green &middot; 3D visualisation"></span><figcaption>Cameo Green &middot; 3D visualisation</figcaption></figure><figure class="" data-i="6" data-phase="sketched"><span class="im i-render_bra_black float" style="--r:0.722" role="img" aria-label="Cold Shoulder Bra Top — Black Beauty &middot; 3D visualisation"></span><figcaption>Black Beauty &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="7" data-phase="stitched"><span class="im i-photo_bra_red_f" style="--r:0.7413" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Jester Red · front"></span><figcaption>SMS 2 &middot; Jester Red · front</figcaption></figure><figure class=" ph" data-i="8" data-phase="stitched"><span class="im i-photo_bra_red_b" style="--r:0.7407" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Jester Red · back"></span><figcaption>SMS 2 &middot; Jester Red · back</figcaption></figure><figure class=" ph" data-i="9" data-phase="stitched"><span class="im i-photo_bra_blk_f" style="--r:0.7853" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Black Beauty · front"></span><figcaption>SMS 2 &middot; Black Beauty · front</figcaption></figure><figure class=" ph" data-i="10" data-phase="stitched"><span class="im i-photo_bra_blk_b" style="--r:0.7407" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Black Beauty · back"></span><figcaption>SMS 2 &middot; Black Beauty · back</figcaption></figure><figure class=" ph" data-i="11" data-phase="stitched"><span class="im i-photo_bra_f" style="--r:0.6787" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Bolero layer · front"></span><figcaption>SMS 2 &middot; Bolero layer · front</figcaption></figure><figure class=" ph" data-i="12" data-phase="stitched"><span class="im i-photo_bra_b" style="--r:0.6787" role="img" aria-label="Cold Shoulder Bra Top — SMS 2 &middot; Bolero layer · back"></span><figcaption>SMS 2 &middot; Bolero layer · back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="ALO006" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_alo006 th" style="--r:1.62" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="ALO006" data-i="1" aria-pressed="false" title="Jester Red &middot; 19-1862 TCX"><span class="im i-cw_bra_red th" style="--r:0.6153" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="2" aria-pressed="false" title="Black Beauty &middot; 19-3911 TCX"><span class="im i-cw_bra_black th" style="--r:0.6293" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="3" aria-pressed="false" title="Cameo Green &middot; 14-6312 TCX"><span class="im i-cw_bra_green th" style="--r:0.6267" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="ALO006" data-i="4" aria-pressed="false" title="Jester Red &middot; 3D visualisation"><span class="im i-render_bra_red th" style="--r:0.6793" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="5" aria-pressed="false" title="Cameo Green &middot; 3D visualisation"><span class="im i-render_bra_green th" style="--r:0.74" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="6" aria-pressed="false" title="Black Beauty &middot; 3D visualisation"><span class="im i-render_bra_black th" style="--r:0.722" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="ALO006" data-i="7" aria-pressed="false" title="SMS 2 &middot; Jester Red · front"><span class="im i-photo_bra_red_f th" style="--r:0.7413" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="8" aria-pressed="false" title="SMS 2 &middot; Jester Red · back"><span class="im i-photo_bra_red_b th" style="--r:0.7407" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="9" aria-pressed="false" title="SMS 2 &middot; Black Beauty · front"><span class="im i-photo_bra_blk_f th" style="--r:0.7853" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="10" aria-pressed="false" title="SMS 2 &middot; Black Beauty · back"><span class="im i-photo_bra_blk_b th" style="--r:0.7407" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="11" aria-pressed="false" title="SMS 2 &middot; Bolero layer · front"><span class="im i-photo_bra_f th" style="--r:0.6787" role="img" aria-label=""></span></button><button data-g="ALO006" data-i="12" aria-pressed="false" title="SMS 2 &middot; Bolero layer · back"><span class="im i-photo_bra_b th" style="--r:0.6787" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp w" id="s-LY-JK-149">
- <div class="sp__h">
-  <p class="sp__ix">02<em>.</em></p>
-  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Full-Zip Performance Training Jacket</h2>
-   <p class="sp__code">LY-JK-149</p></div>
-  <dl class="sp__meta"><div><dt>Style no.</dt><dd>LY-JK-149</dd></div><div><dt>Category</dt><dd>Outerwear</dd></div><div><dt>Base quality</dt><dd>Interlock performance knit</dd></div><div><dt>Composition</dt><dd>76% nylon / 24% elastane</dd></div><div><dt>Weight</dt><dd>240 g/m²</dd></div><div><dt>Colourways</dt><dd>2 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
+</section><section class="sp sp--flip" id="s-LY-JK-149">
+ <div class="hero bleed field--ink hero--flip">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">02<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">TRAINING JACKET</h2>
+   <p class="hero__full">Full-Zip Performance Training Jacket</p>
+   <p class="hero__sub">Flexibility, durability and shape retention across repeated wear.</p>
+   <p class="hero__spec"><b>LY-JK-149</b> &nbsp;·&nbsp; Outerwear &nbsp;·&nbsp; 76% nylon / 24% elastane &nbsp;·&nbsp; 240 g/m² &nbsp;·&nbsp; XS – XL<br>Interlock performance knit</p>
+  </div>
+  <div class="hero__img"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="Full-Zip Performance Training Jacket"></span></div>
  </div>
- <div class="sp__body">
+</div>
+ <div class="w sp__body">
   <div><p class="p">Flexibility, durability and shape retention across repeated wear.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls"><li><span>01</span>High stand collar</li><li><span>02</span>Full front zipper with chin guard</li><li><span>03</span>Raglan sleeve</li><li><span>04</span>Princess seam shaping</li><li><span>05</span>Ergonomic contour paneling</li><li><span>06</span>Invisible zipper pockets</li><li><span>07</span>Silicone zipper pull</li><li><span>08</span>Tone-on-tone stitching</li><li><span>09</span>Clean bonded hem</li><li><span>10</span>Clean bonded cuffs</li><li><span>11</span>Silicone logo</li></ul>
@@ -953,14 +1083,20 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#282A2D"></i><span class="nm">Black Beauty</span><span class="cd">19-3911 TCX</span></li><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="LY-JK-149"><div class="gal__stage" data-stage="LY-JK-149" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_jk149 float" style="--r:1.7642" role="img" aria-label="Training Jacket — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_jacket_black float" style="--r:1.1202" role="img" aria-label="Training Jacket — Black Beauty &middot; 19-3911 TCX"></span><figcaption>Black Beauty &middot; 19-3911 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_jacket_peri float" style="--r:1.0925" role="img" aria-label="Training Jacket — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="Training Jacket — Black Beauty &middot; 3D visualisation"></span><figcaption>Black Beauty &middot; 3D visualisation</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_blue float" style="--r:1.3711" role="img" aria-label="Training Jacket — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="5" data-phase="stitched"><span class="im i-photo_jacket_f" style="--r:0.7407" role="img" aria-label="Training Jacket — SMS 2 &middot; Black Beauty · front"></span><figcaption>SMS 2 &middot; Black Beauty · front</figcaption></figure><figure class=" ph" data-i="6" data-phase="stitched"><span class="im i-photo_jacket_b" style="--r:0.7407" role="img" aria-label="Training Jacket — SMS 2 &middot; Black Beauty · back"></span><figcaption>SMS 2 &middot; Black Beauty · back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="LY-JK-149" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_jk149 th" style="--r:1.7642" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="LY-JK-149" data-i="1" aria-pressed="false" title="Black Beauty &middot; 19-3911 TCX"><span class="im i-cw_jacket_black th" style="--r:1.1202" role="img" aria-label=""></span></button><button data-g="LY-JK-149" data-i="2" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_jacket_peri th" style="--r:1.0925" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="LY-JK-149" data-i="3" aria-pressed="false" title="Black Beauty &middot; 3D visualisation"><span class="im i-render_black th" style="--r:0.9873" role="img" aria-label=""></span></button><button data-g="LY-JK-149" data-i="4" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_blue th" style="--r:1.3711" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="LY-JK-149" data-i="5" aria-pressed="false" title="SMS 2 &middot; Black Beauty · front"><span class="im i-photo_jacket_f th" style="--r:0.7407" role="img" aria-label=""></span></button><button data-g="LY-JK-149" data-i="6" aria-pressed="false" title="SMS 2 &middot; Black Beauty · back"><span class="im i-photo_jacket_b th" style="--r:0.7407" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp w" id="s-LY-6012156">
- <div class="sp__h">
-  <p class="sp__ix">03<em>.</em></p>
-  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Oasis PureLuxe High-Waisted 6" Shorts</h2>
-   <p class="sp__code">LY-6012156</p></div>
-  <dl class="sp__meta"><div><dt>Style no.</dt><dd>LY-6012156</dd></div><div><dt>Category</dt><dd>Bottom</dd></div><div><dt>Base quality</dt><dd>PureLuxe interlock</dd></div><div><dt>Composition</dt><dd>72% recycled nylon / 28% elastane</dd></div><div><dt>Weight</dt><dd>210 g/m²</dd></div><div><dt>Colourways</dt><dd>2 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
+</section><section class="sp" id="s-LY-6012156">
+ <div class="hero bleed field--ink">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">03<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">PURELUXE 6" SHORTS</h2>
+   <p class="hero__full">Oasis PureLuxe High-Waisted 6" Shorts</p>
+   <p class="hero__sub">Lightweight stretch engineered for mobility and structural stability.</p>
+   <p class="hero__spec"><b>LY-6012156</b> &nbsp;·&nbsp; Bottom &nbsp;·&nbsp; 72% recycled nylon / 28% elastane &nbsp;·&nbsp; 210 g/m² &nbsp;·&nbsp; XS – XL<br>PureLuxe interlock</p>
+  </div>
+  <div class="hero__img"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="Oasis PureLuxe High-Waisted 6" Shorts"></span></div>
  </div>
- <div class="sp__body">
+</div>
+ <div class="w sp__body">
   <div><p class="p">Lightweight stretch engineered for mobility and structural stability.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls"><li><span>01</span>High-rise waistband with twin-needle stitching</li><li><span>02</span>Heart-shape yoke</li><li><span>03</span>Integrated pocket design</li><li><span>04</span>Crotch with twin-needle stitching</li><li><span>05</span>Back rise with twin-needle stitching</li><li><span>06</span>Hem with twin-needle stitching</li><li><span>07</span>Silicone logo</li></ul>
@@ -968,14 +1104,20 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#282A2D"></i><span class="nm">Black Beauty</span><span class="cd">19-3911 TCX</span></li><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="LY-6012156"><div class="gal__stage" data-stage="LY-6012156" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_6012156 float" style="--r:2.1422" role="img" aria-label="PureLuxe 6" Shorts — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_jacket_black float" style="--r:1.1202" role="img" aria-label="PureLuxe 6" Shorts — Black Beauty &middot; 19-3911 TCX"></span><figcaption>Black Beauty &middot; 19-3911 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_jacket_peri float" style="--r:1.0925" role="img" aria-label="PureLuxe 6" Shorts — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-render_black float" style="--r:0.9873" role="img" aria-label="PureLuxe 6" Shorts — Black Beauty &middot; 3D visualisation"></span><figcaption>Black Beauty &middot; 3D visualisation</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_blue float" style="--r:1.3711" role="img" aria-label="PureLuxe 6" Shorts — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="5" data-phase="stitched"><span class="im i-photo_short_f" style="--r:0.7873" role="img" aria-label="PureLuxe 6" Shorts — SMS 2 &middot; Black Beauty · front"></span><figcaption>SMS 2 &middot; Black Beauty · front</figcaption></figure><figure class=" ph" data-i="6" data-phase="stitched"><span class="im i-photo_short_b" style="--r:0.6827" role="img" aria-label="PureLuxe 6" Shorts — SMS 2 &middot; Black Beauty · back, side pocket"></span><figcaption>SMS 2 &middot; Black Beauty · back, side pocket</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="LY-6012156" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_6012156 th" style="--r:2.1422" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="LY-6012156" data-i="1" aria-pressed="false" title="Black Beauty &middot; 19-3911 TCX"><span class="im i-cw_jacket_black th" style="--r:1.1202" role="img" aria-label=""></span></button><button data-g="LY-6012156" data-i="2" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_jacket_peri th" style="--r:1.0925" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="LY-6012156" data-i="3" aria-pressed="false" title="Black Beauty &middot; 3D visualisation"><span class="im i-render_black th" style="--r:0.9873" role="img" aria-label=""></span></button><button data-g="LY-6012156" data-i="4" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_blue th" style="--r:1.3711" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="LY-6012156" data-i="5" aria-pressed="false" title="SMS 2 &middot; Black Beauty · front"><span class="im i-photo_short_f th" style="--r:0.7873" role="img" aria-label=""></span></button><button data-g="LY-6012156" data-i="6" aria-pressed="false" title="SMS 2 &middot; Black Beauty · back, side pocket"><span class="im i-photo_short_b th" style="--r:0.6827" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp w" id="s-LY-HD-025">
- <div class="sp__h">
-  <p class="sp__ix">04<em>.</em></p>
-  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">UrbanEase Cropped Zip Hoodie</h2>
-   <p class="sp__code">LY-HD-025</p></div>
-  <dl class="sp__meta"><div><dt>Style no.</dt><dd>LY-HD-025</dd></div><div><dt>Category</dt><dd>Top</dd></div><div><dt>Base quality</dt><dd>Brushed-back French terry</dd></div><div><dt>Composition</dt><dd>68% cotton / 27% polyester / 5% elastane</dd></div><div><dt>Weight</dt><dd>320 g/m²</dd></div><div><dt>Colourways</dt><dd>2 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
+</section><section class="sp sp--flip" id="s-LY-HD-025">
+ <div class="hero bleed field--ink hero--flip">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">04<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">CROPPED ZIP HOODIE</h2>
+   <p class="hero__full">UrbanEase Cropped Zip Hoodie</p>
+   <p class="hero__sub">Smooth exterior, brushed interior — warmth without bulk.</p>
+   <p class="hero__spec"><b>LY-HD-025</b> &nbsp;·&nbsp; Top &nbsp;·&nbsp; 68% cotton / 27% polyester / 5% elastane &nbsp;·&nbsp; 320 g/m² &nbsp;·&nbsp; XS – XL<br>Brushed-back French terry</p>
+  </div>
+  <div class="hero__img"><span class="im i-render_periwinkle float" style="--r:0.816" role="img" aria-label="UrbanEase Cropped Zip Hoodie"></span></div>
  </div>
- <div class="sp__body">
+</div>
+ <div class="w sp__body">
   <div><p class="p">Smooth exterior, brushed interior — warmth without bulk.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls"><li><span>01</span>Oversized fit, relaxed body shape</li><li><span>02</span>Cropped silhouette</li><li><span>03</span>Dropped shoulders</li><li><span>04</span>Double-layer hood</li><li><span>05</span>Full front zipper</li><li><span>06</span>Front kangaroo pocket</li><li><span>07</span>Rib cuffs and rib hem</li><li><span>08</span>Silicone logo</li></ul>
@@ -983,14 +1125,20 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li><li><i style="background:#EFEBE4"></i><span class="nm">Whisper White</span><span class="cd">11-0701 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="LY-HD-025"><div class="gal__stage" data-stage="LY-HD-025" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_hd025 float" style="--r:1.7614" role="img" aria-label="Cropped Zip Hoodie — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_hoodie_peri float" style="--r:0.742" role="img" aria-label="Cropped Zip Hoodie — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_hoodie_whisper float" style="--r:0.7993" role="img" aria-label="Cropped Zip Hoodie — Whisper White &middot; 11-0701 TCX"></span><figcaption>Whisper White &middot; 11-0701 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-render_periwinkle float" style="--r:0.816" role="img" aria-label="Cropped Zip Hoodie — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-render_whisper float" style="--r:0.7833" role="img" aria-label="Cropped Zip Hoodie — Whisper White &middot; 3D visualisation"></span><figcaption>Whisper White &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="5" data-phase="stitched"><span class="im i-photo_hoodie_f" style="--r:1.0274" role="img" aria-label="Cropped Zip Hoodie — SMS 2 &middot; front"></span><figcaption>SMS 2 &middot; front</figcaption></figure><figure class=" ph" data-i="6" data-phase="stitched"><span class="im i-photo_hoodie_b" style="--r:0.938" role="img" aria-label="Cropped Zip Hoodie — SMS 2 &middot; back"></span><figcaption>SMS 2 &middot; back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="LY-HD-025" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_hd025 th" style="--r:1.7614" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="LY-HD-025" data-i="1" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_hoodie_peri th" style="--r:0.742" role="img" aria-label=""></span></button><button data-g="LY-HD-025" data-i="2" aria-pressed="false" title="Whisper White &middot; 11-0701 TCX"><span class="im i-cw_hoodie_whisper th" style="--r:0.7993" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="LY-HD-025" data-i="3" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_periwinkle th" style="--r:0.816" role="img" aria-label=""></span></button><button data-g="LY-HD-025" data-i="4" aria-pressed="false" title="Whisper White &middot; 3D visualisation"><span class="im i-render_whisper th" style="--r:0.7833" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="LY-HD-025" data-i="5" aria-pressed="false" title="SMS 2 &middot; front"><span class="im i-photo_hoodie_f th" style="--r:1.0274" role="img" aria-label=""></span></button><button data-g="LY-HD-025" data-i="6" aria-pressed="false" title="SMS 2 &middot; back"><span class="im i-photo_hoodie_b th" style="--r:0.938" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp w" id="s-WB082601">
- <div class="sp__h">
-  <p class="sp__ix">05<em>.</em></p>
-  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Ultra-High Waist Core Support Leggings</h2>
-   <p class="sp__code">WB082601</p></div>
-  <dl class="sp__meta"><div><dt>Style no.</dt><dd>WB082601</dd></div><div><dt>Category</dt><dd>Bottom</dd></div><div><dt>Base quality</dt><dd>Second-skin interlock</dd></div><div><dt>Composition</dt><dd>75% recycled nylon / 25% elastane</dd></div><div><dt>Weight</dt><dd>260 g/m²</dd></div><div><dt>Colourways</dt><dd>4 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
+</section><section class="sp" id="s-WB082601">
+ <div class="hero bleed field--ink">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">05<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">CORE SUPPORT LEGGINGS</h2>
+   <p class="hero__full">Ultra-High Waist Core Support Leggings</p>
+   <p class="hero__sub">Smooth, second-skin feel with durability and recovery after repeated wear.</p>
+   <p class="hero__spec"><b>WB082601</b> &nbsp;·&nbsp; Bottom &nbsp;·&nbsp; 75% recycled nylon / 25% elastane &nbsp;·&nbsp; 260 g/m² &nbsp;·&nbsp; XS – XL<br>Second-skin interlock</p>
+  </div>
+  <div class="hero__img"><span class="im i-render_whisper float" style="--r:0.7833" role="img" aria-label="Ultra-High Waist Core Support Leggings"></span></div>
  </div>
- <div class="sp__body">
+</div>
+ <div class="w sp__body">
   <div><p class="p">Smooth, second-skin feel with durability and recovery after repeated wear.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls"><li><span>01</span>Ultra high-rise seamless extended waistband</li><li><span>02</span>Minimal seam construction</li><li><span>03</span>Front rise with 4-needle 6-thread flatlock</li><li><span>04</span>Back rise with 4-needle 6-thread flatlock</li><li><span>05</span>Crotch with 4-needle 6-thread flatlock</li><li><span>06</span>Flatlock hem finish</li><li><span>07</span>Silicone logo</li></ul>
@@ -998,14 +1146,20 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
    <ul class="cwl"><li><i style="background:#EFEBE4"></i><span class="nm">Whisper White</span><span class="cd">11-0701 TCX</span></li><li><i style="background:#7F84B7"></i><span class="nm">Purple Impression</span><span class="cd">17-3919 TCX</span></li><li><i style="background:#9E1B32"></i><span class="nm">Jester Red</span><span class="cd">19-1862 TCX</span></li><li><i style="background:#AFC0AC"></i><span class="nm">Cameo Green</span><span class="cd">14-6312 TCX</span></li></ul></div>
   <div><div class="gal" data-gal="WB082601"><div class="gal__stage" data-stage="WB082601" role="button" tabindex="0" aria-label="Open this view full size"><figure class="on" data-i="0" data-phase="sketched"><span class="im i-flat_wb082601 float" style="--r:1.9231" role="img" aria-label="Core Support Leggings — Technical flat &middot; front, back and side"></span><figcaption>Technical flat &middot; front, back and side</figcaption></figure><figure class="" data-i="1" data-phase="sketched"><span class="im i-cw_hoodie_whisper float" style="--r:0.7993" role="img" aria-label="Core Support Leggings — Whisper White &middot; 11-0701 TCX"></span><figcaption>Whisper White &middot; 11-0701 TCX</figcaption></figure><figure class="" data-i="2" data-phase="sketched"><span class="im i-cw_hoodie_peri float" style="--r:0.742" role="img" aria-label="Core Support Leggings — Purple Impression &middot; 17-3919 TCX"></span><figcaption>Purple Impression &middot; 17-3919 TCX</figcaption></figure><figure class="" data-i="3" data-phase="sketched"><span class="im i-cw_bra_red float" style="--r:0.6153" role="img" aria-label="Core Support Leggings — Jester Red &middot; 19-1862 TCX"></span><figcaption>Jester Red &middot; 19-1862 TCX</figcaption></figure><figure class="" data-i="4" data-phase="sketched"><span class="im i-cw_bra_green float" style="--r:0.6267" role="img" aria-label="Core Support Leggings — Cameo Green &middot; 14-6312 TCX"></span><figcaption>Cameo Green &middot; 14-6312 TCX</figcaption></figure><figure class="" data-i="5" data-phase="sketched"><span class="im i-render_whisper float" style="--r:0.7833" role="img" aria-label="Core Support Leggings — Whisper White &middot; 3D visualisation"></span><figcaption>Whisper White &middot; 3D visualisation</figcaption></figure><figure class="" data-i="6" data-phase="sketched"><span class="im i-render_periwinkle float" style="--r:0.816" role="img" aria-label="Core Support Leggings — Purple Impression &middot; 3D visualisation"></span><figcaption>Purple Impression &middot; 3D visualisation</figcaption></figure><figure class="" data-i="7" data-phase="sketched"><span class="im i-render_bra_red float" style="--r:0.6793" role="img" aria-label="Core Support Leggings — Jester Red &middot; 3D visualisation"></span><figcaption>Jester Red &middot; 3D visualisation</figcaption></figure><figure class="" data-i="8" data-phase="sketched"><span class="im i-render_bra_green float" style="--r:0.74" role="img" aria-label="Core Support Leggings — Cameo Green &middot; 3D visualisation"></span><figcaption>Cameo Green &middot; 3D visualisation</figcaption></figure><figure class=" ph" data-i="9" data-phase="stitched"><span class="im i-photo_leg_white_f" style="--r:0.7053" role="img" aria-label="Core Support Leggings — SMS 2 &middot; Whisper White · front"></span><figcaption>SMS 2 &middot; Whisper White · front</figcaption></figure><figure class=" ph" data-i="10" data-phase="stitched"><span class="im i-photo_leg_white_b" style="--r:0.786" role="img" aria-label="Core Support Leggings — SMS 2 &middot; Whisper White · back"></span><figcaption>SMS 2 &middot; Whisper White · back</figcaption></figure></div><p class="gal__hint">Open full size to zoom in on the construction</p><div class="rail" aria-hidden="true"><span class="rail__n" data-p="sketched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Sketched"><title>Sketched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Sketched</span></span><span class="rail__r"></span><span class="rail__n" data-p="stitched"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="Stitched"><title>Stitched</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">Stitched</span></span><span class="rail__r"></span><span class="rail__n" data-p="born"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="BORN"><title>BORN</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span class="rail__l">BORN</span></span></div><div class="strip"><div class="strip__g"><p class="m">Drawn</p><div class="strip__t"><button data-g="WB082601" data-i="0" aria-pressed="true" title="Technical flat &middot; front, back and side"><span class="im i-flat_wb082601 th" style="--r:1.9231" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Coloured</p><div class="strip__t"><button data-g="WB082601" data-i="1" aria-pressed="false" title="Whisper White &middot; 11-0701 TCX"><span class="im i-cw_hoodie_whisper th" style="--r:0.7993" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="2" aria-pressed="false" title="Purple Impression &middot; 17-3919 TCX"><span class="im i-cw_hoodie_peri th" style="--r:0.742" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="3" aria-pressed="false" title="Jester Red &middot; 19-1862 TCX"><span class="im i-cw_bra_red th" style="--r:0.6153" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="4" aria-pressed="false" title="Cameo Green &middot; 14-6312 TCX"><span class="im i-cw_bra_green th" style="--r:0.6267" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Visualised</p><div class="strip__t"><button data-g="WB082601" data-i="5" aria-pressed="false" title="Whisper White &middot; 3D visualisation"><span class="im i-render_whisper th" style="--r:0.7833" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="6" aria-pressed="false" title="Purple Impression &middot; 3D visualisation"><span class="im i-render_periwinkle th" style="--r:0.816" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="7" aria-pressed="false" title="Jester Red &middot; 3D visualisation"><span class="im i-render_bra_red th" style="--r:0.6793" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="8" aria-pressed="false" title="Cameo Green &middot; 3D visualisation"><span class="im i-render_bra_green th" style="--r:0.74" role="img" aria-label=""></span></button></div></div><div class="strip__g"><p class="m">Sampled</p><div class="strip__t"><button data-g="WB082601" data-i="9" aria-pressed="false" title="SMS 2 &middot; Whisper White · front"><span class="im i-photo_leg_white_f th" style="--r:0.7053" role="img" aria-label=""></span></button><button data-g="WB082601" data-i="10" aria-pressed="false" title="SMS 2 &middot; Whisper White · back"><span class="im i-photo_leg_white_b th" style="--r:0.786" role="img" aria-label=""></span></button></div></div></div></div></div>
  </div>
-</section><section class="sp w" id="s-WB082608">
- <div class="sp__h">
-  <p class="sp__ix">06<em>.</em></p>
-  <div class="sp__nm"><svg class="grain" viewBox="0 0 74 9" aria-hidden="true"><path d="M1 1v7M73 1v7M1 4.5h72M6 1.5 1.5 4.5 6 7.5M68 1.5 72.5 4.5 68 7.5"/></svg><h2 class="d2">Noir White-Trim High-Rise Compression Leggings</h2>
-   <p class="sp__code">WB082608</p></div>
-  <dl class="sp__meta"><div><dt>Style no.</dt><dd>WB082608</dd></div><div><dt>Category</dt><dd>Bottom</dd></div><div><dt>Base quality</dt><dd>Matte compression knit</dd></div><div><dt>Composition</dt><dd>79% nylon / 21% elastane</dd></div><div><dt>Weight</dt><dd>290 g/m²</dd></div><div><dt>Colourways</dt><dd>1 of 5 standards</dd></div><div><dt>Size range</dt><dd>XS – XL &middot; base M</dd></div></dl>
+</section><section class="sp sp--flip" id="s-WB082608">
+ <div class="hero bleed field--ink hero--flip">
+ <div class="hero__in">
+  <div class="hero__t">
+   <p class="hero__ix">06<span style="color:var(--red)">.</span></p>
+   <h2 class="hero__nm outline">WHITE-TRIM COMPRESSION LEGGINGS</h2>
+   <p class="hero__full">Noir White-Trim High-Rise Compression Leggings</p>
+   <p class="hero__sub">Deep matte black with an unbroken, elongating line from hip to ankle.</p>
+   <p class="hero__spec"><b>WB082608</b> &nbsp;·&nbsp; Bottom &nbsp;·&nbsp; 79% nylon / 21% elastane &nbsp;·&nbsp; 290 g/m² &nbsp;·&nbsp; XS – XL<br>Matte compression knit</p>
+  </div>
+  <div class="hero__img"><span class="im i-render_bra_black float" style="--r:0.722" role="img" aria-label="Noir White-Trim High-Rise Compression Leggings"></span></div>
  </div>
- <div class="sp__body">
+</div>
+ <div class="w sp__body">
   <div><p class="p">Deep matte black with an unbroken, elongating line from hip to ankle.</p>
    <p class="m" style="margin-top:1.7rem">Construction</p>
    <ul class="calls"><li><span>01</span>High-rise waistband with contrast trim at its edge</li><li><span>02</span>Front rise with flatseamer</li><li><span>03</span>Flat-seam crotch</li><li><span>04</span>Flat-seam side</li><li><span>05</span>Flatlock hem finish</li><li><span>06</span>Silicone logo</li></ul>
@@ -1193,7 +1347,7 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
  <div class="e__s"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg></div>
  <div class="e__b"><p class="e__k">Approval</p><h3 class="e__h">Final approved sample.</h3>
   <p class="e__p">The sample the whole bulk run is judged against. Sealed, signed and held by both sides.</p></div>
-</article></div></section><section class="reg reg--born"><div class="band"><div class="tex" aria-hidden="true"></div><div class="w band__in">
+</article></div></section><section class="reg reg--born"><div class="band field--red"><div class="tex" aria-hidden="true"></div><div class="w band__in">
  <div><p class="n">Phase 03</p><h2 class="d2">BORN</h2>
    <p class="ln">It goes out into the world</p><div class="lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
  <div><p class="df">Solid, in colour, signed. Clean paper and nothing provisional left on the page.</p>

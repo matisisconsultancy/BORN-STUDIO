@@ -149,6 +149,22 @@ en un teléfono se lee "RAGLAN SLEEVES" sin hacer nada.
 
 El registro nunca dice si algo está terminado; el marcador nunca dice en qué fase estás.
 
+### Contrasto: el terreno cambia
+
+El brandbook de BORN hace tomas de color a sangre — *"the page turns Rojo Valentino at the
+end"*. El entregable hace lo mismo, y es lo que lo saca de plano:
+
+- **La portada abre en tinta**, partida contra marfil, con la prenda en el lado claro.
+- **El proceso son tres actos y el fondo es el argumento:** papel → tinta → Rojo Valentino.
+  Una idea en papel, probada en la oscuridad, nacida en color.
+- **Cada prenda abre con un póster a sangre:** el número a 15vw en rojo besando el nombre en
+  versales Didone **en contorno** —el estado *sketched* a escala de cartel—, la prenda sobre
+  una plancha marfil, y debajo la línea de especificación en mono. El lado que ocupa la
+  prenda **alterna** en cada estilo, y la hoja técnica de abajo alterna con él: el documento
+  zigzaguea.
+- **El póster seduce, la hoja especifica.** Ningún tecnicismo se pierde: el código, la
+  composición, el gramaje y el rango de tallas van en el póster mismo.
+
 ### El lenguaje: la hoja de patrón
 
 El vocabulario no es "editorial" en general — es **patronaje**. Es lo que hace que esto no
