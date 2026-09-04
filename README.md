@@ -101,4 +101,60 @@ Netlify, Vercel…). Al ser un único archivo autónomo, no hay pasos de build.
 
 ---
 
+## Entregables a cliente — el Project Room (`deliverables/`)
+
+`deliverables/index.html` es el **link que se le pasa al cliente**: una sola página
+autónoma (fuentes embebidas, sin build, sin red) donde el cliente ve el estado real
+del desarrollo y descarga o imprime cada documento en A4.
+
+Seis documentos, un mismo sistema:
+
+| Documento | Qué resuelve |
+|---|---|
+| **Tracker** | El estado vivo: tres fases, hitos con fecha y estado, nota de María, log de muestras, rango y estándares de color |
+| **Quote** | Alcance por fase, honorarios, pass-through a coste, calendario de pago 40/40/20, supuestos y exclusiones |
+| **Invoice** | Facturación por hito, IVA, importe debido, datos bancarios y lo ya liquidado |
+| **Tech pack** | Por estilo: flat técnico, calidad base, BOM, POM graduado con tolerancias y notas de construcción |
+| **Fitting report** | Spec vs medido vs desviación vs tolerancia, veredicto por estilo, correcciones y *holds* |
+| **Handover** | Qué se lleva el cliente al cerrar: patrones, specs, aprobaciones de color y el archivo completo |
+
+### El marcador de madurez
+
+El estado no se comunica con semáforos, sino con **el propio lenguaje del logotipo**.
+Cada hito, cada línea de factura y cada punto de medida lleva su marca:
+
+- **contorno a lápiz** — todavía no empieza
+- **pespunte** — está vivo esta semana
+- **sólido + punto rojo** — hecho y firmado
+
+Un solo recurso estructural atraviesa los seis documentos.
+
+### Datos
+
+Todo sale de los bloques `PROJECT` / `STYLES` / `PHASES` / `QUOTE` / `INVOICE` /
+`FITTING` / `HANDOVER` en `tools/build_deliverables.py`. Se cambia ese bloque y la sala
+entera se re-renderiza — cabeceras, totales, tracker y tolerancias incluidos.
+
+La demo va montada sobre el entregable real aprobado de **LAYO** (capsule de seis
+estilos): style numbers, calidades, Pantones TCX, flats, renders 3D y fotografía de
+muestra salen de `source/BORN_LayoCapsule_DesignStage.pdf`.
+
+### Pipeline
+
+```bash
+python3 tools/extract_layo.py         # deck aprobado -> deliverables/assets/*.jpg
+python3 tools/build_deliverables.py   # -> deliverables/index.html
+```
+
+`extract_layo.py` renderiza el deck, recorta flats, colorways, renders y fotos,
+elimina las barras del layout anterior y comprime a peso web. Requiere `pymupdf` y
+`pillow`.
+
+### Imprimir
+
+El botón **Print / PDF** imprime solo el documento abierto, a A4, sin la navegación
+ni el docket. El tech pack imprime los seis estilos, uno por página.
+
+---
+
 Estrategia y marca — **Matisis Consultancy** · para María, fundadora de BORN Studio.
