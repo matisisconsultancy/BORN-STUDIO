@@ -189,6 +189,20 @@ Y el documento **cruza contigo**:
   el tech pack es *Sketched*, el fitting report y la facturación son *Stitched*, el handover
   es *BORN*.
 
+### El rojo cierra
+
+Cada pestaña **abre a sangre y cierra en Rojo Valentino**:
+
+- El **encabezado de cada documento** es un campo a sangre en tinta —en rojo para la factura
+  y el handover— con el título en versales Didone a escala de cartel y la fase declarada
+  debajo.
+- El **importe debido** de la factura es un campo rojo a sangre con la cifra a 10vw. Es el
+  número más alto del documento, porque lo es.
+- El **veredicto** del fitting report es un campo en tinta a sangre.
+- Y **todas las pestañas terminan con la página volviéndose roja**: un degradado de papel a
+  Rojo Valentino que sostiene el wordmark, una frase de cierre propia de cada documento y la
+  firma del estudio. Es el mismo gesto con el que cierra el brandbook.
+
 ### El lenguaje: la hoja de patrón
 
 El vocabulario no es "editorial" en general — es **patronaje**. Es lo que hace que esto no

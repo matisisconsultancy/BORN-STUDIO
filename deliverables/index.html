@@ -880,7 +880,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
 .pnow b{font-weight:400;color:var(--pink,var(--ink))}
 .pnow__ln{width:26px;height:0;border-top:var(--pw,1px) var(--pline,dotted) var(--pcol,var(--g4));
   transition:border-color .4s var(--ease)}
-@media(max-width:1000px){.pnow{margin-left:0;order:3;font-size:.72rem}}
+@media(max-width:1000px){.pnow{margin-left:auto;order:1;font-size:.72rem}
+  .pnow__ln{width:18px}}
 body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .top{transition:none}
 .prog{background:var(--pink,var(--red));transition:background-color .4s var(--ease)}
@@ -895,6 +896,66 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   letter-spacing:.04em;color:var(--graphite)}
 @media(max-width:620px){.pstrip{flex-wrap:wrap;gap:.45rem .7rem}
   .pstrip .pstrip__t{margin-left:0;width:100%}}
+
+/* ── every document opens on ink and closes in Rojo Valentino ────────────── */
+.docopen{padding-block:clamp(2.6rem,6vw,5rem) clamp(1.6rem,3.5vw,2.6rem)}
+.docopen__in{padding-left:var(--pad);padding-right:var(--pad)}
+.docopen .type{font-family:var(--serif6);font-weight:600;font-size:1.05rem;color:var(--red)}
+.docopen--red .type{color:var(--paper);opacity:.75}
+.docopen h1{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.1rem,6vw,5rem);line-height:.88;letter-spacing:-.03em;
+  margin:.55rem 0 .3rem;max-width:17ch}
+.docopen .who{font-size:.95rem;color:rgba(242,238,230,.72)}
+.docopen__b{display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;
+  flex-wrap:wrap;margin-top:clamp(1.6rem,3.5vw,2.6rem);padding-top:1rem;
+  border-top:1px solid rgba(242,238,230,.3)}
+.docopen__m{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;line-height:2;
+  font-variant-numeric:tabular-nums;text-align:right}
+.docopen__m b{font-weight:400;color:var(--paper)}
+.docopen .pstrip{border-bottom:0;margin:0;padding:0;gap:.65rem}
+.docopen .pstrip b,.docopen .pstrip .mk{color:var(--paper)}
+.docopen .pstrip span{color:rgba(242,238,230,.66)}
+.docopen .pstrip__t{display:none}
+
+/* the page turns red at the end, the way the brand book does */
+.closer{background:linear-gradient(180deg,var(--from,var(--paper)) 0,var(--red) 46%);
+  padding-block:clamp(4rem,10vw,8rem) clamp(2.6rem,6vw,4.5rem);color:var(--paper);
+  text-align:center}
+.closer__in{display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.closer .wm{width:min(300px,58%)}
+.closer .wm svg{width:100%;height:auto}
+.closer .wm .p-ink{fill:var(--paper)}
+.closer .wm .p-bo{fill:var(--paper)}
+.closer h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.5rem,3.6vw,2.6rem);
+  line-height:1.02;letter-spacing:-.02em;color:var(--paper);max-width:20ch;text-wrap:balance}
+.closer p{font-size:.95rem;color:rgba(242,238,230,.82);max-width:52ch}
+.closer .sig{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;
+  color:rgba(242,238,230,.7);margin-top:.8rem;padding-top:.9rem;
+  border-top:1px solid rgba(242,238,230,.32)}
+.closer .dot{width:11px;height:11px;border-radius:50%;background:var(--paper);margin-top:.4rem}
+
+/* the amount due is the loudest number in the document */
+.duefield{padding-block:clamp(2.6rem,6vw,4.4rem)}
+.duefield__in{padding-left:var(--pad);padding-right:var(--pad);display:flex;
+  justify-content:space-between;align-items:flex-end;gap:1.6rem 2.4rem;flex-wrap:wrap}
+.duefield .l{font-family:var(--serif6);font-weight:600;font-size:1.05rem;
+  color:rgba(242,238,230,.8)}
+.duefield .v{font-family:var(--serif);font-weight:900;font-size:clamp(3rem,10vw,8rem);
+  line-height:.82;letter-spacing:-.045em;color:var(--paper);margin-top:.3rem}
+.duefield .d{font-family:var(--mono);font-size:.8rem;line-height:2.1;
+  color:rgba(242,238,230,.82);text-align:right}
+@media(max-width:700px){.duefield .d{text-align:left}}
+
+/* a verdict is a field, not a box */
+.vfield{padding-block:clamp(2.2rem,5vw,3.6rem)}
+.vfield__in{padding-left:var(--pad);padding-right:var(--pad);display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.4rem 2.6rem;align-items:end}
+@media(max-width:820px){.vfield__in{grid-template-columns:1fr}}
+.vfield .l{font-family:var(--serif6);font-weight:600;font-size:1rem;color:rgba(242,238,230,.75)}
+.vfield h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,4.4vw,3.2rem);
+  line-height:.96;letter-spacing:-.025em;color:var(--paper);margin-top:.4rem}
+.vfield p{font-size:.92rem;color:rgba(242,238,230,.8)}
+
 
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
@@ -1312,6 +1373,12 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
    approval &mdash; the chip is.</p>
   <div class="chips"><div class="chip"><i style="background:#EFEBE4"></i><div class="b"><p class="c">11-0701 TCX</p><p class="n">Whisper White</p></div></div><div class="chip"><i style="background:#282A2D"></i><div class="b"><p class="c">19-3911 TCX</p><p class="n">Black Beauty</p></div></div><div class="chip"><i style="background:#9E1B32"></i><div class="b"><p class="c">19-1862 TCX</p><p class="n">Jester Red</p></div></div><div class="chip"><i style="background:#7F84B7"></i><div class="b"><p class="c">17-3919 TCX</p><p class="n">Purple Impression</p></div></div><div class="chip"><i style="background:#AFC0AC"></i><div class="b"><p class="c">14-6312 TCX</p><p class="n">Cameo Green</p></div></div></div>
  </div></div>
+ <div class="closer bleed" style="--from:var(--ink)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>Sketched. Stitched. <span style="opacity:.72">BORN.</span></h2>
+ <p>Six styles drawn, coloured, visualised and made. Every image the studio produced for this capsule is in this document.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div>
 </section><section class="panel" id="p-logbook" role="tabpanel" aria-labelledby="t-logbook"><div class="w stand"><div class="stand__g">
  <div>
   <p class="m m--r">Logbook &middot; LAYO — Performance Luxury</p>
@@ -1513,14 +1580,20 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
  <div class="e__b"><p class="e__k">Release</p><h3 class="e__h">Ex-factory, and everything transfers to LAYO.</h3>
   <p class="e__p">Patterns, specifications, supplier references, colour approvals and the full development record. Nothing held back.</p><div class="pay"><div class="rel"><span class="nm">Handover &middot; HO-2026-031
   <span class="nt">Patterns · specs · suppliers · record</span></span><button class="golink" data-go="handover">Open &rarr;</button></div></div></div>
-</article></div></section></section><section class="panel ph-sketched" data-phase-region="sketched" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
+</article></div></section><div class="closer bleed" style="--from:var(--red)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>From idea to life.</h2>
+ <p>Every decision, every sample and every measurement, with the date it happened and the reason behind it.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div></section><section class="panel ph-sketched" data-phase-region="sketched" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
+ <div class="docopen bleed field--ink"><div class="doc docopen__in">
+ <p class="type">Tech pack</p>
+ <h1>Factory-ready specification</h1>
+ <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p>
+ <div class="docopen__b"><div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b><span>Phase 01 &middot; The idea on paper</span><span class="pstrip__t">The specification the factory builds from</span></div>
+  <div class="docopen__m"><div>Revision <b>v2.0</b></div><div>Released <b>14 Aug 2026</b></div><div>Styles <b>6</b></div></div></div>
+</div></div>
  <div class="doc"><div class="sheet">
-  <div class="mast">
- <div class="mast__l"><p class="type">Tech pack</p><h1>Factory-ready specification</h1>
-  <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
- <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>Revision <b>v2.0</b></div><div>Released <b>14 Aug 2026</b></div><div>Styles <b>6</b></div></div></div>
-</div>
-  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b><span>Phase 01 &middot; The idea on paper</span><span class="pstrip__t">The specification the factory builds from</span></div>
   <dl class="dl"><div><dt>Client</dt><dd>LAYO — Performance Luxury</dd></div><div><dt>Capsule</dt><dd>Performance Luxury Capsule &middot; Drop 02</dd></div><div><dt>Size range</dt><dd>XS – XL</dd></div><div><dt>Base size</dt><dd>M</dd></div><div><dt>Colour standards</dt><dd>5 TCX</dd></div><div><dt>Units</dt><dd>1,800</dd></div></dl>
 
   <div class="sec"><p class="eyebrow">Revision history</p>
@@ -1729,20 +1802,29 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Tech pack v2.0 &middot; 6 styles</span><span>BRN-LAYO-02</span></div>
  </div></div>
+ <div class="closer bleed" style="--from:var(--paper)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>Sew to the spec,<br>not to the sketch.</h2>
+ <p>Where the two disagree the points of measure win, and BORN gets a call before anything is cut.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div>
 </section><section class="panel ph-stitched" data-phase-region="stitched" id="p-fitting" role="tabpanel" aria-labelledby="t-fitting">
+ <div class="docopen bleed field--ink"><div class="doc docopen__in">
+ <p class="type">Fitting report</p>
+ <h1>SMS 2 &middot; fit session 02</h1>
+ <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p>
+ <div class="docopen__b"><div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Measured against thread and needle</span></div>
+  <div class="docopen__m"><div>No. <b>FIT-02</b></div><div>Session <b>4 Sep 2026</b></div><div>Size <b>M</b></div></div></div>
+</div></div>
  <div class="doc"><div class="sheet">
-  <div class="mast">
- <div class="mast__l"><p class="type">Fitting report</p><h1>SMS 2 &middot; fit session 02</h1>
-  <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
- <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>FIT-02</b></div><div>Session <b>4 Sep 2026</b></div><div>Size <b>M</b></div></div></div>
-</div>
-  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Measured against thread and needle</span></div>
   <dl class="dl"><div><dt>Sample round</dt><dd>SMS 2</dd></div><div><dt>Received</dt><dd>28 Aug 2026</dd></div><div><dt>Measured against</dt><dd>Tech pack v2.0</dd></div><div><dt>Form</dt><dd>Alvanon EU 38 · live fit 176 cm / 86-70-94</dd></div><div><dt>Present</dt><dd>María (BORN Studio) · Layo Ade-Ojo (LAYO)</dd></div><div><dt>Styles fitted</dt><dd>6</dd></div></dl>
 
-  <div class="sec"><p class="eyebrow">Verdict</p>
-   <div class="due"><div><p class="l">Outcome</p><p class="v" style="font-size:clamp(1.4rem,3vw,2rem)">Correct and approve to size set.</p></div>
-    <p class="d" style="max-width:34ch;text-align:left">No third full sample round. Corrections go into tech pack v2.1; the size set is cut to v2.1 and delivered by 18 September. Two of the five corrections are factory settings, not pattern changes, so they cost nothing but a re-press.</p></div>
-  </div>
+  </div></div>
+ <div class="vfield bleed field--ink"><div class="doc vfield__in">
+   <div><p class="l">Verdict</p><h2>Correct and approve to size set.</h2></div>
+   <p>No third full sample round. Corrections go into tech pack v2.1; the size set is cut to v2.1 and delivered by 18 September. Two of the five corrections are factory settings, not pattern changes, so they cost nothing but a re-press.</p>
+ </div></div>
+ <div class="doc"><div class="sheet">
 
   <div class="sec sec--rule"><p class="eyebrow">Across the range</p>
    <div class="tw"><table class="t"><thead><tr><th>Style no.</th><th>Style</th>
@@ -1816,14 +1898,21 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Fitting report FIT-02 &middot; 4 Sep 2026</span><span>BRN-LAYO-02</span></div>
  </div></div>
+ <div class="closer bleed" style="--from:var(--paper)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>Corrected,<br>and approved to size set.</h2>
+ <p>Three pattern corrections and two factory settings. No third sample round, and the ex-factory date holds.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div>
 </section><section class="panel ph-stitched" data-phase-region="stitched" id="p-billing" role="tabpanel" aria-labelledby="t-billing">
+ <div class="docopen bleed field--ink"><div class="doc docopen__in">
+ <p class="type">Quote</p>
+ <h1>Development of a six-style capsule</h1>
+ <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p>
+ <div class="docopen__b"><div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Billed as the work is made</span></div>
+  <div class="docopen__m"><div>No. <b>Q-2026-031</b></div><div>Issued <b>9 Feb 2026</b></div><div>Valid to <b>11 Mar 2026</b></div></div></div>
+</div></div>
  <div class="doc"><div class="sheet">
-  <div class="mast">
- <div class="mast__l"><p class="type">Quote</p><h1>Development of a six-style capsule</h1>
-  <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
- <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>Q-2026-031</b></div><div>Issued <b>9 Feb 2026</b></div><div>Valid to <b>11 Mar 2026</b></div></div></div>
-</div>
-  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Billed as the work is made</span></div>
   <dl class="dl"><div><dt>Client</dt><dd>LAYO — Performance Luxury</dd></div><div><dt>Attention</dt><dd>Layo Ade-Ojo, Founder</dd></div><div><dt>Scope</dt><dd>6 styles &middot; 5 colour standards</dd></div><div><dt>Size range</dt><dd>XS – XL</dd></div><div><dt>Currency</dt><dd>EUR, excl. VAT</dd></div><div><dt>Terms</dt><dd>Net 15</dd></div></dl>
 
   <div class="sec"><p class="eyebrow">Scope and fees</p>
@@ -1867,12 +1956,14 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
    <div><div class="ln"></div><div class="lb">Date</div></div>
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Quote Q-2026-031 &middot; valid to 11 Mar 2026</span><span>BRN-LAYO-02</span></div>
- </div></div><div class="doc" style="padding-top:0"><div class="sheet" style="border-top:1px solid var(--ink);padding-top:clamp(2rem,4vw,3.4rem)">
-  <div class="mast">
- <div class="mast__l"><p class="type">Invoice</p><h1>Milestone 2 of 3 — SMS 2 delivered</h1>
-  <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
- <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>INV-2026-078</b></div><div>Issued <b>4 Sep 2026</b></div><div>Due <b>19 Sep 2026</b></div></div></div>
-</div>
+ </div></div><div class="docopen bleed field--red docopen--red"><div class="doc docopen__in">
+ <p class="type">Invoice</p>
+ <h1>Milestone 2 of 3 — SMS 2 delivered</h1>
+ <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p>
+ <div class="docopen__b"><div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><b>Stitched</b><span>Phase 02 &middot; Tested with thread and needle</span><span class="pstrip__t">Billed as the work is made</span></div>
+  <div class="docopen__m"><div>No. <b>INV-2026-078</b></div><div>Issued <b>4 Sep 2026</b></div><div>Due <b>19 Sep 2026</b></div></div></div>
+</div></div>
+ <div class="doc"><div class="sheet">
   <dl class="dl"><div><dt>Bill to</dt><dd>LAYO — Performance Luxury</dd></div><div><dt>Attention</dt><dd>Layo Ade-Ojo</dd></div><div><dt>Against</dt><dd>Quote Q-2026-031</dd></div><div><dt>Project</dt><dd>BRN-LAYO-02</dd></div><div><dt>Terms</dt><dd>Net 15</dd></div><div><dt>Currency</dt><dd>EUR</dd></div></dl>
 
   <div class="sec">
@@ -1884,11 +1975,13 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
    </tbody></table></div>
   </div>
 
-  <div class="sec sec--rule"><div class="due">
-    <div><p class="l">Amount due</p><p class="v">€9,220.20</p></div>
-    <p class="d">Payable by 19 Sep 2026<br>Net 15 from the issue date<br>
-     Overdue balances accrue 1.5% per month</p>
   </div></div>
+ <div class="duefield bleed field--red"><div class="doc duefield__in">
+   <div><p class="l">Amount due</p><p class="v">€9,220.20</p></div>
+   <p class="d">Payable by 19 Sep 2026<br>Net 15 from the issue date<br>
+    Overdue balances accrue 1.5% per month</p>
+ </div></div>
+ <div class="doc"><div class="sheet">
 
   <div class="sec sec--rule"><div class="two">
    <div><p class="eyebrow">Payment details</p>
@@ -1908,15 +2001,21 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
     against the right milestone.</p>
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Invoice INV-2026-078 &middot; due 19 Sep 2026</span><span>BRN-LAYO-02</span></div>
- </div></div></section><section class="panel ph-born" data-phase-region="born" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
+ </div></div>
+ <div class="closer bleed" style="--from:var(--paper)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>Made to be BORN.</h2>
+ <p>Milestone three issues at ex-factory. Quote the invoice reference on the transfer so it reconciles against the right milestone.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div></section><section class="panel ph-born" data-phase-region="born" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
+ <div class="docopen bleed field--red docopen--red"><div class="doc docopen__in">
+ <p class="type">Handover</p>
+ <h1>What LAYO owns at the end</h1>
+ <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p>
+ <div class="docopen__b"><div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b><span>Phase 03 &middot; It goes out into the world</span><span class="pstrip__t">Everything transfers, and the project closes</span></div>
+  <div class="docopen__m"><div>No. <b>HO-2026-031</b></div><div>Issues <b>11 Dec 2026</b></div><div>Status <b>Issues at ex-factory</b></div></div></div>
+</div></div>
  <div class="doc"><div class="sheet">
-  <div class="mast">
- <div class="mast__l"><p class="type">Handover</p><h1>What LAYO owns at the end</h1>
-  <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
- <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>No. <b>HO-2026-031</b></div><div>Issues <b>11 Dec 2026</b></div><div>Status <b>Issues at ex-factory</b></div></div></div>
-</div>
-  <div class="pstrip"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><b>BORN</b><span>Phase 03 &middot; It goes out into the world</span><span class="pstrip__t">Everything transfers, and the project closes</span></div>
-
   <div class="sec"><p class="body">This is the document that closes the project. It issues at
    ex-factory with the production figures filled in, and it lists everything that transfers to
    LAYO &mdash; patterns, specifications, supplier references, colour approvals and the full
@@ -1962,14 +2061,21 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>Handover HO-2026-031</span><span>BRN-LAYO-02</span></div>
  </div></div>
+ <div class="closer bleed" style="--from:var(--paper)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>Everything is made<br>to be BORN.</h2>
+ <p>Patterns, specifications, supplier references, colour approvals and the full development record. Nothing is held back.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div>
 </section><section class="panel" id="p-system" role="tabpanel" aria-labelledby="t-system">
+ <div class="docopen bleed field--ink"><div class="doc docopen__in">
+ <p class="type">The system</p>
+ <h1>How a room is built</h1>
+ <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p>
+ <div class="docopen__b"><span></span>
+  <div class="docopen__m"><div>For <b>BORN Studio</b></div><div>Version <b>1.0</b></div><div>Applies to <b>Every project</b></div></div></div>
+</div></div>
  <div class="doc"><div class="sheet">
-  <div class="mast">
- <div class="mast__l"><p class="type">The system</p><h1>How a room is built</h1>
-  <p class="who">LAYO — Performance Luxury &middot; Performance Luxury Capsule &middot; Drop 02</p></div>
- <div class="mast__r"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg><div class="meta"><div>For <b>BORN Studio</b></div><div>Version <b>1.0</b></div><div>Applies to <b>Every project</b></div></div></div>
-</div>
-
   <div class="sec"><p class="body">A room is not designed per client. It is assembled from
    the pieces below, so two projects delivered a year apart read as the same studio and a
    client who has seen one can read the next without being taught it again.</p>
@@ -2055,6 +2161,12 @@ $ python3 tools/build_room.py</pre>
   </div>
   <div class="dfoot"><span>BORN Studio — Fashion Product Development</span><span>The system &middot; v1.0</span><span>BRN-LAYO-02</span></div>
  </div></div>
+ <div class="closer bleed" style="--from:var(--paper)"><div class="doc closer__in">
+ <div class="wm"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></div>
+ <h2>One studio,<br>every project.</h2>
+ <p>Copy the content file, replace the project, and the room opens for the next client in the same language.</p>
+ <p class="sig">BORN Studio — Fashion Product Development &middot; BRN-LAYO-02 &middot; From idea to life</p>
+</div></div>
 </section></main><div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label="Full size"><button class="lbx__x" id="lbX" type="button">Close &times;</button><button class="lbx__a p" id="lbP" type="button" aria-label="Previous">&#8249;</button><figure style="width:100%;max-width:1500px"><div class="lbx__box" id="lbBox"><span class="im" id="lbI" role="img"></span></div><div class="lbx__bar"><span class="lbx__z"><button type="button" id="lbOut" aria-label="Zoom out">&minus;</button><span id="lbZ">100%</span><button type="button" id="lbIn" aria-label="Zoom in">+</button></span><figcaption id="lbC"></figcaption></div></figure><button class="lbx__a n" id="lbN" type="button" aria-label="Next">&#8250;</button></div><script>
 (function(){
   var $=function(q,c){return (c||document).querySelector(q);},

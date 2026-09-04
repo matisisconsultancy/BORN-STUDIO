@@ -954,7 +954,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
 .pnow b{font-weight:400;color:var(--pink,var(--ink))}
 .pnow__ln{width:26px;height:0;border-top:var(--pw,1px) var(--pline,dotted) var(--pcol,var(--g4));
   transition:border-color .4s var(--ease)}
-@media(max-width:1000px){.pnow{margin-left:0;order:3;font-size:.72rem}}
+@media(max-width:1000px){.pnow{margin-left:auto;order:1;font-size:.72rem}
+  .pnow__ln{width:18px}}
 body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .top{transition:none}
 .prog{background:var(--pink,var(--red));transition:background-color .4s var(--ease)}
@@ -969,6 +970,66 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   letter-spacing:.04em;color:var(--graphite)}
 @media(max-width:620px){.pstrip{flex-wrap:wrap;gap:.45rem .7rem}
   .pstrip .pstrip__t{margin-left:0;width:100%}}
+
+/* ── every document opens on ink and closes in Rojo Valentino ────────────── */
+.docopen{padding-block:clamp(2.6rem,6vw,5rem) clamp(1.6rem,3.5vw,2.6rem)}
+.docopen__in{padding-left:var(--pad);padding-right:var(--pad)}
+.docopen .type{font-family:var(--serif6);font-weight:600;font-size:1.05rem;color:var(--red)}
+.docopen--red .type{color:var(--paper);opacity:.75}
+.docopen h1{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.1rem,6vw,5rem);line-height:.88;letter-spacing:-.03em;
+  margin:.55rem 0 .3rem;max-width:17ch}
+.docopen .who{font-size:.95rem;color:rgba(242,238,230,.72)}
+.docopen__b{display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;
+  flex-wrap:wrap;margin-top:clamp(1.6rem,3.5vw,2.6rem);padding-top:1rem;
+  border-top:1px solid rgba(242,238,230,.3)}
+.docopen__m{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;line-height:2;
+  font-variant-numeric:tabular-nums;text-align:right}
+.docopen__m b{font-weight:400;color:var(--paper)}
+.docopen .pstrip{border-bottom:0;margin:0;padding:0;gap:.65rem}
+.docopen .pstrip b,.docopen .pstrip .mk{color:var(--paper)}
+.docopen .pstrip span{color:rgba(242,238,230,.66)}
+.docopen .pstrip__t{display:none}
+
+/* the page turns red at the end, the way the brand book does */
+.closer{background:linear-gradient(180deg,var(--from,var(--paper)) 0,var(--red) 46%);
+  padding-block:clamp(4rem,10vw,8rem) clamp(2.6rem,6vw,4.5rem);color:var(--paper);
+  text-align:center}
+.closer__in{display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.closer .wm{width:min(300px,58%)}
+.closer .wm svg{width:100%;height:auto}
+.closer .wm .p-ink{fill:var(--paper)}
+.closer .wm .p-bo{fill:var(--paper)}
+.closer h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.5rem,3.6vw,2.6rem);
+  line-height:1.02;letter-spacing:-.02em;color:var(--paper);max-width:20ch;text-wrap:balance}
+.closer p{font-size:.95rem;color:rgba(242,238,230,.82);max-width:52ch}
+.closer .sig{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;
+  color:rgba(242,238,230,.7);margin-top:.8rem;padding-top:.9rem;
+  border-top:1px solid rgba(242,238,230,.32)}
+.closer .dot{width:11px;height:11px;border-radius:50%;background:var(--paper);margin-top:.4rem}
+
+/* the amount due is the loudest number in the document */
+.duefield{padding-block:clamp(2.6rem,6vw,4.4rem)}
+.duefield__in{padding-left:var(--pad);padding-right:var(--pad);display:flex;
+  justify-content:space-between;align-items:flex-end;gap:1.6rem 2.4rem;flex-wrap:wrap}
+.duefield .l{font-family:var(--serif6);font-weight:600;font-size:1.05rem;
+  color:rgba(242,238,230,.8)}
+.duefield .v{font-family:var(--serif);font-weight:900;font-size:clamp(3rem,10vw,8rem);
+  line-height:.82;letter-spacing:-.045em;color:var(--paper);margin-top:.3rem}
+.duefield .d{font-family:var(--mono);font-size:.8rem;line-height:2.1;
+  color:rgba(242,238,230,.82);text-align:right}
+@media(max-width:700px){.duefield .d{text-align:left}}
+
+/* a verdict is a field, not a box */
+.vfield{padding-block:clamp(2.2rem,5vw,3.6rem)}
+.vfield__in{padding-left:var(--pad);padding-right:var(--pad);display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.4rem 2.6rem;align-items:end}
+@media(max-width:820px){.vfield__in{grid-template-columns:1fr}}
+.vfield .l{font-family:var(--serif6);font-weight:600;font-size:1rem;color:rgba(242,238,230,.75)}
+.vfield h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,4.4vw,3.2rem);
+  line-height:.96;letter-spacing:-.025em;color:var(--paper);margin-top:.4rem}
+.vfield p{font-size:.92rem;color:rgba(242,238,230,.8)}
+
 
 /* ── smaller screens ──────────────────────────────────────────────────────
    The document keeps every word; what changes is how much room each part is
@@ -1304,13 +1365,27 @@ def pstrip(doc):
             f'<span>Phase {r["n"]} &middot; {r["line"]}</span>'
             f'<span class="pstrip__t">{note}</span></div>')
 
-def masthead(doctype, title, meta):
+def masthead(doctype, title, meta, doc=None, red=False):
+    """Documents open the way the garments do — a full-bleed field, the title at
+    poster scale, and the phase the document belongs to stated in its own line."""
     rows = "".join(f"<div>{k} <b>{v}</b></div>" for k, v in meta)
-    return f"""<div class="mast">
- <div class="mast__l"><p class="type">{doctype}</p><h1>{title}</h1>
-  <p class="who">{PROJECT['client_long']} &middot; {PROJECT['capsule']} &middot; {PROJECT['drop']}</p></div>
- <div class="mast__r">{SVG['wm_solo']}<div class="meta">{rows}</div></div>
-</div>"""
+    field = "field--red docopen--red" if red else "field--ink"
+    return f"""<div class="docopen bleed {field}"><div class="doc docopen__in">
+ <p class="type">{doctype}</p>
+ <h1>{title}</h1>
+ <p class="who">{PROJECT['client_long']} &middot; {PROJECT['capsule']} &middot; {PROJECT['drop']}</p>
+ <div class="docopen__b">{pstrip(doc) if doc else '<span></span>'}
+  <div class="docopen__m">{rows}</div></div>
+</div></div>"""
+
+def closer(line, note, frm="var(--paper)"):
+    """The page turns Rojo Valentino at the end. Every panel closes on it."""
+    return f"""<div class="closer bleed" style="--from:{frm}"><div class="doc closer__in">
+ <div class="wm">{SVG['wm_solo']}</div>
+ <h2>{line}</h2>
+ <p>{note}</p>
+ <p class="sig">{PROJECT['studio_long']} &middot; {PROJECT['ref']} &middot; From idea to life</p>
+</div></div>"""
 
 def sheetfoot(extra=""):
     return (f'<div class="dfoot"><span>{PROJECT["studio_long"]}</span>'
@@ -1339,10 +1414,9 @@ def quote():
         f'<div><div class="pc">{pc}</div><div class="wh">{wh}</div>'
         f'<div class="am">{money(a)}</div></div>' for wh, pc, a in QUOTE["schedule"])
     return f"""<section class="panel ph-stitched" data-phase-region="stitched" id="p-billing" role="tabpanel" aria-labelledby="t-billing">
+ {masthead("Quote", "Development of a six-style capsule",
+            [("No.", QUOTE["no"]), ("Issued", date(QUOTE["issued"])), ("Valid to", date(QUOTE["valid"]))], "billing")}
  <div class="doc"><div class="sheet">
-  {masthead("Quote", "Development of a six-style capsule",
-            [("No.", QUOTE["no"]), ("Issued", date(QUOTE["issued"])), ("Valid to", date(QUOTE["valid"]))])}
-  {pstrip("billing")}
   {dl([("Client", PROJECT["client_long"]), ("Attention", f"{PROJECT['contact']}, {PROJECT['contact_role']}"),
        ("Scope", "6 styles &middot; 5 colour standards"), ("Size range", PROJECT["size_range"]),
        ("Currency", f"{PROJECT['currency']}, excl. VAT"), ("Terms", PROJECT["terms"])])}
@@ -1403,9 +1477,10 @@ def invoice():
     tot = sub + vat
     paid = "".join(f'<tr><td class="c">{date(d)}</td><td>{t}</td><td class="n">{money(v)}</td></tr>'
                    for d, t, v in INVOICE["paid"])
-    return f"""<div class="doc" style="padding-top:0"><div class="sheet" style="border-top:1px solid var(--ink);padding-top:clamp(2rem,4vw,3.4rem)">
-  {masthead("Invoice", INVOICE["milestone"],
-            [("No.", INVOICE["no"]), ("Issued", date(INVOICE["issued"])), ("Due", date(INVOICE["due"]))])}
+    return f"""{masthead("Invoice", INVOICE["milestone"],
+            [("No.", INVOICE["no"]), ("Issued", date(INVOICE["issued"])), ("Due", date(INVOICE["due"]))],
+            "billing", red=True)}
+ <div class="doc"><div class="sheet">
   {dl([("Bill to", PROJECT["client_long"]), ("Attention", PROJECT["contact"]),
        ("Against", f"Quote {INVOICE['ref']}"), ("Project", PROJECT["ref"]),
        ("Terms", PROJECT["terms"]), ("Currency", PROJECT["currency"])])}
@@ -1419,11 +1494,13 @@ def invoice():
    </tbody></table></div>
   </div>
 
-  <div class="sec sec--rule"><div class="due">
-    <div><p class="l">Amount due</p><p class="v">{money(tot)}</p></div>
-    <p class="d">Payable by {date(INVOICE['due'])}<br>{PROJECT['terms']} from the issue date<br>
-     Overdue balances accrue 1.5% per month</p>
   </div></div>
+ <div class="duefield bleed field--red"><div class="doc duefield__in">
+   <div><p class="l">Amount due</p><p class="v">{money(tot)}</p></div>
+   <p class="d">Payable by {date(INVOICE['due'])}<br>{PROJECT['terms']} from the issue date<br>
+    Overdue balances accrue 1.5% per month</p>
+ </div></div>
+ <div class="doc"><div class="sheet">
 
   <div class="sec sec--rule"><div class="two">
    <div><p class="eyebrow">Payment details</p>
@@ -1445,7 +1522,8 @@ def invoice():
     against the right milestone.</p>
   </div>
   {sheetfoot(f"Invoice {INVOICE['no']} &middot; due {date(INVOICE['due'])}")}
- </div></div>"""
+ </div></div>
+ {closer("Made to be BORN.", "Milestone three issues at ex-factory. Quote the invoice reference on the transfer so it reconciles against the right milestone.")}"""
 
 # ═══════════════════════════════════════════════════════════════ tech pack ═══
 def techpack():
@@ -1499,10 +1577,9 @@ def techpack():
  </div>
 </div>""")
     return f"""<section class="panel ph-sketched" data-phase-region="sketched" id="p-techpack" role="tabpanel" aria-labelledby="t-techpack">
+ {masthead("Tech pack", "Factory-ready specification",
+            [("Revision", "v2.0"), ("Released", date("2026-08-14")), ("Styles", "6")], "techpack")}
  <div class="doc"><div class="sheet">
-  {masthead("Tech pack", "Factory-ready specification",
-            [("Revision", "v2.0"), ("Released", date("2026-08-14")), ("Styles", "6")])}
-  {pstrip("techpack")}
   {dl([("Client", PROJECT["client_long"]), ("Capsule", f"{PROJECT['capsule']} &middot; {PROJECT['drop']}"),
        ("Size range", PROJECT["size_range"]), ("Base size", PROJECT["base_size"]),
        ("Colour standards", "5 TCX"), ("Units", f"{PROJECT['units']:,}")])}
@@ -1533,6 +1610,7 @@ def techpack():
   </div>
   {sheetfoot("Tech pack v2.0 &middot; 6 styles")}
  </div></div>
+ {closer("Sew to the spec,<br>not to the sketch.", "Where the two disagree the points of measure win, and BORN gets a call before anything is cut.")}
 </section>"""
 
 # ═════════════════════════════════════════════════════════════════ fitting ═══
@@ -1583,18 +1661,19 @@ def fitting():
         for sn, pt, txt, owner in FITTING["corrections"])
     holds = "".join(f'<li>{h}</li>' for h in FITTING["holds"])
     return f"""<section class="panel ph-stitched" data-phase-region="stitched" id="p-fitting" role="tabpanel" aria-labelledby="t-fitting">
+ {masthead("Fitting report", f"{FITTING['sample']} &middot; fit session 02",
+            [("No.", FITTING["no"]), ("Session", date(FITTING["session"])), ("Size", FITTING["size"])], "fitting")}
  <div class="doc"><div class="sheet">
-  {masthead("Fitting report", f"{FITTING['sample']} &middot; fit session 02",
-            [("No.", FITTING["no"]), ("Session", date(FITTING["session"])), ("Size", FITTING["size"])])}
-  {pstrip("fitting")}
   {dl([("Sample round", FITTING["sample"]), ("Received", date(FITTING["received"])),
        ("Measured against", FITTING["spec"]), ("Form", FITTING["form"]),
        ("Present", FITTING["present"]), ("Styles fitted", "6")])}
 
-  <div class="sec"><p class="eyebrow">Verdict</p>
-   <div class="due"><div><p class="l">Outcome</p><p class="v" style="font-size:clamp(1.4rem,3vw,2rem)">{FITTING['verdict']}</p></div>
-    <p class="d" style="max-width:34ch;text-align:left">{FITTING['verdict_note']}</p></div>
-  </div>
+  </div></div>
+ <div class="vfield bleed field--ink"><div class="doc vfield__in">
+   <div><p class="l">Verdict</p><h2>{FITTING['verdict']}</h2></div>
+   <p>{FITTING['verdict_note']}</p>
+ </div></div>
+ <div class="doc"><div class="sheet">
 
   <div class="sec sec--rule"><p class="eyebrow">Across the range</p>
    <div class="tw"><table class="t"><thead><tr><th>Style no.</th><th>Style</th>
@@ -1626,6 +1705,7 @@ def fitting():
   </div>
   {sheetfoot(f"Fitting report {FITTING['no']} &middot; {date(FITTING['session'])}")}
  </div></div>
+ {closer("Corrected,<br>and approved to size set.", "Three pattern corrections and two factory settings. No third sample round, and the ex-factory date holds.")}
 </section>"""
 
 # ════════════════════════════════════════════════════════════════ handover ═══
@@ -1647,11 +1727,9 @@ def handover():
                        ("render_black", "19-3911 Black Beauty"),
                        ("render_blue", "17-3919 · jacket and short")])
     return f"""<section class="panel ph-born" data-phase-region="born" id="p-handover" role="tabpanel" aria-labelledby="t-handover">
+ {masthead("Handover", "What LAYO owns at the end",
+            [("No.", HANDOVER["no"]), ("Issues", date(HANDOVER["due"])), ("Status", HANDOVER["status"])], "handover", red=True)}
  <div class="doc"><div class="sheet">
-  {masthead("Handover", "What LAYO owns at the end",
-            [("No.", HANDOVER["no"]), ("Issues", date(HANDOVER["due"])), ("Status", HANDOVER["status"])])}
-  {pstrip("handover")}
-
   <div class="sec"><p class="body">This is the document that closes the project. It issues at
    ex-factory with the production figures filled in, and it lists everything that transfers to
    LAYO &mdash; patterns, specifications, supplier references, colour approvals and the full
@@ -1697,6 +1775,7 @@ def handover():
   </div>
   {sheetfoot(f"Handover {HANDOVER['no']}")}
  </div></div>
+ {closer("Everything is made<br>to be BORN.", "Patterns, specifications, supplier references, colour approvals and the full development record. Nothing is held back.")}
 </section>"""
 
 
@@ -1755,10 +1834,9 @@ def system():
           ("now", "Live", "Stitch dashes. It is happening this week and may still move."),
           ("done", "Signed off", "Solid, with the red dot. It happened and it is recorded.")])
     return f"""<section class="panel" id="p-system" role="tabpanel" aria-labelledby="t-system">
- <div class="doc"><div class="sheet">
-  {masthead("The system", "How a room is built",
+ {masthead("The system", "How a room is built",
             [("For", "BORN Studio"), ("Version", "1.0"), ("Applies to", "Every project")])}
-
+ <div class="doc"><div class="sheet">
   <div class="sec"><p class="body">A room is not designed per client. It is assembled from
    the pieces below, so two projects delivered a year apart read as the same studio and a
    client who has seen one can read the next without being taught it again.</p>
@@ -1827,6 +1905,7 @@ def system():
   </div>
   {sheetfoot("The system &middot; v1.0")}
  </div></div>
+ {closer("One studio,<br>every project.", "Copy the content file, replace the project, and the room opens for the next client in the same language.")}
 </section>"""
 
 
@@ -2023,6 +2102,9 @@ def range_panel():
    approval &mdash; the chip is.</p>
   <div class="chips">{chips}</div>
  </div></div>
+ {closer('Sketched. Stitched. <span style="opacity:.72">BORN.</span>',
+   'Six styles drawn, coloured, visualised and made. Every image the studio produced for this capsule is in this document.',
+   'var(--ink)')}
 </section>"""
 
 # ══════════════════════════════════════════════════════════════════════ JS ═══
@@ -2261,7 +2343,10 @@ JS = r"""<script>
 
 # ══════════════════════════════════════════════════════════════════ output ═══
 LOGBOOK = ('<section class="panel" id="p-logbook" role="tabpanel" '
-           'aria-labelledby="t-logbook">' + standfirst() + logbook() + '</section>')
+           'aria-labelledby="t-logbook">' + standfirst() + logbook()
+           + closer("From idea to life.",
+                    "Every decision, every sample and every measurement, with the date it "
+                    "happened and the reason behind it.", "var(--red)") + '</section>')
 BILLING = quote() + invoice() + "</section>"
 LIGHTBOX = ('<div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label="Full size">'
             '<button class="lbx__x" id="lbX" type="button">Close &times;</button>'
