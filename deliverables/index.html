@@ -880,8 +880,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
 .pnow b{font-weight:400;color:var(--pink,var(--ink))}
 .pnow__ln{width:26px;height:0;border-top:var(--pw,1px) var(--pline,dotted) var(--pcol,var(--g4));
   transition:border-color .4s var(--ease)}
-@media(max-width:1000px){.pnow{margin-left:auto;order:1;font-size:.72rem}
-  .pnow__ln{width:18px}}
+@media(max-width:1000px){.pnow{margin-left:auto;order:0;font-size:.72rem}
+  .pnow__ln{width:18px}.nav{width:100%;order:1}}
 body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .top{transition:none}
 .prog{background:var(--pink,var(--red));transition:background-color .4s var(--ease)}
@@ -955,6 +955,124 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .vfield h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,4.4vw,3.2rem);
   line-height:.96;letter-spacing:-.025em;color:var(--paper);margin-top:.4rem}
 .vfield p{font-size:.92rem;color:rgba(242,238,230,.8)}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE ROOM OPENS
+   A front door that states what this is, three phases you scroll *through*
+   rather than past, a marker you can drag along the rule, and a page that
+   turns Rojo Valentino as you reach the end of it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── the front door ──────────────────────────────────────────────────────── */
+.door{min-height:calc(100vh - var(--topH));display:grid;align-content:center;
+  justify-items:center;text-align:center;gap:clamp(1rem,2.4vw,1.8rem);
+  padding-block:clamp(3rem,10vh,7rem);position:relative;overflow:hidden}
+.door__grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(74,69,79,.09) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(74,69,79,.09) 1px,transparent 1px);
+  background-size:38px 38px;
+  -webkit-mask-image:radial-gradient(58% 46% at 50% 46%,#000,transparent);
+  mask-image:radial-gradient(58% 46% at 50% 46%,#000,transparent)}
+.door > *{position:relative}
+.door__wm{width:min(340px,62vw);height:auto;position:relative}
+.door__wm > span{display:block}
+.door__wm > span:not(:first-child){position:absolute;inset:0}
+.door__wm svg{width:100%;height:auto}
+.door__wm > span{opacity:0;transition:opacity .5s var(--ease)}
+.door__wm > span.on{opacity:1}
+.door h1{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.3rem,8.4vw,7rem);line-height:.86;letter-spacing:-.04em;
+  max-width:12ch}
+.door .lede{font-family:var(--serif6);font-weight:600;
+  font-size:clamp(1.05rem,2.1vw,1.5rem);line-height:1.34;color:var(--g2);max-width:34ch}
+.door__ph{display:flex;align-items:center;gap:clamp(.6rem,2vw,1.4rem);flex-wrap:wrap;
+  justify-content:center;margin-top:clamp(.6rem,2vw,1.2rem)}
+.door__ph span{display:flex;align-items:center;gap:.45rem;font-size:.85rem;color:var(--graphite)}
+.door__ph i{width:clamp(18px,4vw,44px);height:0;display:block}
+.door__ph i:nth-of-type(1){border-top:1px dotted var(--g4)}
+.door__ph i:nth-of-type(2){border-top:1.2px dashed var(--hair-2)}
+.door__cue{font-size:.8rem;color:var(--graphite);display:flex;align-items:center;gap:.5rem;
+  margin-top:clamp(1rem,3vh,2.4rem)}
+.door__cue b{font-weight:400;display:block;width:1px;height:34px;background:var(--hair-2);
+  position:relative;overflow:hidden}
+.door__cue b::after{content:'';position:absolute;inset:0;background:var(--red);
+  transform:translateY(-100%)}
+@media(prefers-reduced-motion:no-preference){
+  .door__cue b::after{animation:drop 2.4s var(--ease) infinite}
+  @keyframes drop{0%{transform:translateY(-100%)}55%{transform:translateY(0)}
+    100%{transform:translateY(100%)}}}
+
+/* ── three states you scroll through ─────────────────────────────────────── */
+.acts{position:relative}
+html.js .acts{height:330vh}
+.acts__stage{display:grid;grid-template-rows:1fr auto;gap:1.5rem;
+  padding-block:clamp(2rem,5vh,3.4rem);background:var(--paper);
+  transition:background-color .18s linear,color .3s linear}
+html.js .acts__stage{position:sticky;top:var(--topH);height:calc(100vh - var(--topH));
+  overflow:hidden}
+.acts__tex{position:absolute;inset:0;pointer-events:none;opacity:0;
+  transition:opacity .5s var(--ease)}
+.acts__tex--grid{background-image:linear-gradient(rgba(74,69,79,.13) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(74,69,79,.13) 1px,transparent 1px);background-size:34px 34px}
+.acts__tex--hatch{background-image:repeating-linear-gradient(45deg,rgba(242,238,230,.11) 0 1px,transparent 1px 13px)}
+.acts__in{display:grid;align-content:center;position:relative}
+.acts__s{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:clamp(1.4rem,4vw,4rem);align-items:center}
+@media(max-width:880px){.acts__s{grid-template-columns:1fr;gap:1.2rem;align-content:center}}
+html.js .acts__s{opacity:0;transition:opacity .32s var(--ease),transform .5s var(--ease);
+  transform:translateY(14px);pointer-events:none}
+html.js .acts__s.on{opacity:1;transform:none;pointer-events:auto}
+.acts__n{font-family:var(--serif);font-weight:900;font-size:clamp(3.4rem,11vw,9rem);
+  line-height:.7;letter-spacing:-.06em;margin-left:-.06em}
+.acts__nm{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,6vw,5rem);
+  line-height:.9;letter-spacing:-.03em;margin-top:.4rem}
+.acts__ln{font-family:var(--serif6);font-weight:600;font-size:clamp(1.05rem,2vw,1.5rem);
+  margin-top:.5rem;opacity:.85}
+.acts__lg{width:min(300px,74%);margin-top:clamp(1rem,2.5vw,1.8rem)}
+.acts__lg svg{width:100%;height:auto}
+.acts__s[data-phase=stitched] .p-st{stroke:rgba(242,238,230,.88)}
+.acts__s[data-phase=stitched] .p-sk,.acts__s[data-phase=stitched] .p-skc{stroke:rgba(242,238,230,.6)}
+.acts__s[data-phase=born] .p-bo,.acts__s[data-phase=born] .p-ink{fill:var(--paper)}
+.acts__body{font-size:clamp(.98rem,1.4vw,1.1rem);line-height:1.6;max-width:44ch}
+.acts__f{display:flex;align-items:center;gap:.7rem;margin-top:1.4rem;padding-top:.9rem;
+  border-top:1px solid currentColor;font-size:.85rem;opacity:.78}
+.acts__f .wk{margin-left:auto;font-family:var(--mono);font-size:.78rem}
+.acts__rail{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.acts__rail span{display:flex;align-items:center;gap:.45rem;font-size:.8rem;opacity:.45;
+  transition:opacity .4s var(--ease)}
+.acts__rail span.on{opacity:1}
+.acts__rail i{flex:1 1 auto;height:0;border-top:1px solid currentColor;opacity:.32}
+@media(prefers-reduced-motion:reduce){
+  html.js .acts{height:auto}
+  html.js .acts__stage{position:static;height:auto}
+  html.js .acts__s{opacity:1;transform:none;position:relative;grid-area:auto;
+    margin-bottom:3rem;pointer-events:auto}}
+
+/* ── the marker you can drag along the rule ──────────────────────────────── */
+.nav{position:relative}
+.notch{position:absolute;bottom:-1px;left:0;width:0;height:0;
+  border-left:7px solid transparent;border-right:7px solid transparent;
+  border-bottom:8px solid var(--red);cursor:grab;touch-action:none;
+  transform:translateX(-7px);transition:transform .42s var(--ease);z-index:2}
+.notch::before{content:'';position:absolute;left:-13px;right:-13px;top:-14px;bottom:-8px}
+.notch.dragging{cursor:grabbing;transition:none}
+.notch.dragging::after{content:'';position:absolute;left:50%;bottom:9px;width:1px;height:13px;
+  background:var(--red);transform:translateX(-50%)}
+.nav button[aria-selected=true]::after{display:none}
+.nav.armed button{color:var(--graphite)}
+.nav.armed button.near{color:var(--ink)}
+
+/* ── the page turns red at the end ───────────────────────────────────────── */
+.top{background:var(--top-bg,rgba(242,238,230,.93))}
+.top.turned .nav button,.top.turned .pnow,.top.turned .pr,.top.turned .pnow b{color:var(--paper)}
+.top.turned .nav button[aria-selected=true]{color:var(--paper)}
+.top.turned .p-ink{fill:var(--paper)}
+.top.turned .p-bo{fill:var(--paper)}
+.top.turned .notch{border-bottom-color:var(--paper)}
+.top.turned .prog{background:var(--paper)}
+.top.turned::after{opacity:.5}
+.top,.top .nav button,.top .pnow{transition:background-color .35s linear,color .35s linear}
 
 
 /* ── smaller screens ──────────────────────────────────────────────────────
@@ -1049,6 +1167,13 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   .field--ink *,.field--red *,.hero *,.act *{color:#000!important}
   .outline,.field--ink .outline{-webkit-text-stroke:0;color:#000!important}
   .act__tex,.bleed{width:auto;margin-left:0}
+  .acts,html.js .acts{height:auto!important}
+  .acts__stage,html.js .acts__stage{position:static!important;height:auto!important;
+    background:#fff!important;color:#000!important;overflow:visible}
+  .acts__s,html.js .acts__s{opacity:1!important;transform:none!important;
+    position:relative;grid-area:auto;margin-bottom:2rem}
+  .acts__tex,.acts__rail,.door__cue,.door__grid,.notch{display:none!important}
+  .door{min-height:0;page-break-after:always}
   .hero__in{min-height:0}
   .ink{background:#fff;color:#000}
   .ink .d2,.ink .d3,.chip .n{color:#000}
@@ -1115,8 +1240,24 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
  <p class="pnow" id="pnow" aria-live="polite"><span class="pnow__ln"></span>
   <svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><b>Sketched</b></p>
  <nav class="nav" role="tablist" aria-label="Sections"><button role="tab" id="t-range" aria-controls="p-range" data-doc="range" aria-selected="true">The range</button><button role="tab" id="t-logbook" aria-controls="p-logbook" data-doc="logbook" aria-selected="false">Logbook</button><button role="tab" id="t-techpack" aria-controls="p-techpack" data-doc="techpack" aria-selected="false">Tech pack</button><button role="tab" id="t-fitting" aria-controls="p-fitting" data-doc="fitting" aria-selected="false">Fitting</button><button role="tab" id="t-billing" aria-controls="p-billing" data-doc="billing" aria-selected="false">Billing</button><button role="tab" id="t-handover" aria-controls="p-handover" data-doc="handover" aria-selected="false">Handover</button><button role="tab" id="t-system" aria-controls="p-system" data-doc="system" aria-selected="false">System</button>
-  <button class="pr" id="printBtn" type="button">Print</button></nav>
+  <button class="pr" id="printBtn" type="button">Print</button>
+  <span class="notch" id="notch" role="slider" tabindex="0" aria-label="Section marker"
+   aria-valuemin="1" aria-valuemax="7" aria-valuenow="1"></span></nav>
 </div></header><main><section class="panel active" id="p-range" role="tabpanel" aria-labelledby="t-range">
+<div class="w door">
+ <div class="door__grid" aria-hidden="true"></div>
+ <div class="door__wm" id="doorwm" aria-label="BORN Studio">
+  <span data-i="0"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></span>
+  <span data-i="1"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></span>
+  <span data-i="2" class="on"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN."><path fill="#1B1720" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 205.12 232)"/><path fill="#1B1720" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 386.62 232)"/><path fill="#1B1720" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 569.12 232)"/><path fill="#1B1720" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 736.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 922.88 232)"/></svg></span>
+ </div>
+ <p class="m m--r">BORN Studio — Fashion Product Development</p>
+ <h1>The Project Room</h1>
+ <p class="lede">One link that holds the whole development. Every decision, every sample and
+  every measurement, with the date it happened and the reason behind it.</p>
+ <p class="door__ph"><span><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg>Sketched</span><i></i><span><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg>Stitched</span><i></i><span><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg>BORN</span></p>
+ <p class="door__cue"><b></b>Scroll to open LAYO</p>
+</div>
  <div class="cover bleed field--ink"><div class="cover__in">
   <div class="cover__t">
    <p class="m m--r">BORN Studio — Fashion Product Development</p>
@@ -1147,36 +1288,32 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
    <h2 class="d2">Every garment<br>lives three states.</h2></div>
   <p class="p">The mark changes with the phase &mdash; outline while it is being drawn,
    topstitch while it is being tested, solid and in colour once it goes out into the
-   world. So does the ground you are reading it on.</p>
+   world. So does the ground you are reading it on. <b>Keep scrolling and you will watch
+   it happen.</b></p>
  </div>
-</div><div class="act act--sketched bleed ph-sketched" data-phase-region="sketched">
- <div class="act__tex" aria-hidden="true"></div>
- <div class="w act__in">
-  <div><p class="act__n">01</p><h3 class="act__nm">Sketched</h3>
-   <p class="act__ln">The idea on paper</p>
-   <div class="act__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
-  <div><p class="p" style="font-size:1.04rem">Material selection, technical sketches with construction callouts, colour development against physical chips, 3D visualisation, and a factory-ready tech pack.</p>
-   <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="wk">1–3 weeks</span></p></div>
+</div><section class="acts bleed" id="acts">
+ <div class="acts__stage" id="actstage">
+  <div class="acts__tex acts__tex--grid" data-tex="0" aria-hidden="true"></div>
+  <div class="acts__tex acts__tex--hatch" data-tex="1" aria-hidden="true"></div>
+  <div class="w acts__in"><div class="acts__s on" data-i="0" data-phase="sketched">
+ <div><p class="acts__n">01</p><h3 class="acts__nm">Sketched</h3>
+  <p class="acts__ln">The idea on paper</p><div class="acts__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-sk" style="stroke-width:7.60" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M419.0 0.0L397.3 0.0M33.0 0.0L54.7 0.0M52.0 -19.0L52.0 2.7M52.0 50.0L52.0 28.3M33.0 31.0L54.7 31.0M165.0 31.0L143.3 31.0M146.0 12.0L146.0 33.7M146.0 677.0L146.0 655.3M165.0 658.0L143.3 658.0M33.0 658.0L54.7 658.0M52.0 639.0L52.0 660.7M52.0 708.0L52.0 686.3M33.0 689.0L54.7 689.0M421.0 689.0L399.3 689.0M403.0 658.0L381.3 658.0M218.0 658.0L239.7 658.0M237.0 677.0L237.0 655.3M237.0 346.0L237.0 367.7M218.0 365.0L239.7 365.0M218.0 335.0L239.7 335.0M237.0 354.0L237.0 332.3M237.0 12.0L237.0 33.7M218.0 31.0L239.7 31.0" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-sk" style="stroke-width:7.60" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-skc" style="stroke-width:6.20" d="M479.9 38.4L467.5 56.2M267.1 342.6L279.5 324.8M297.0 327.0L275.3 327.0M198.0 327.0L219.7 327.0M216.9 346.0L217.0 324.3M219.1 12.0L219.0 33.7M200.0 31.0L221.7 31.0M331.0 31.0L309.3 31.0M312.0 50.0L312.0 28.3M312.0 -19.0L312.0 2.7M331.0 0.0L309.3 0.0M15.0 0.0L36.7 0.0M34.0 -19.0L34.0 2.7M34.0 50.0L34.0 28.3M15.0 31.0L36.7 31.0M146.0 31.0L124.3 31.0M127.0 12.0L127.0 33.7M127.0 677.0L127.0 655.3M146.0 658.0L124.3 658.0M15.0 658.0L36.7 658.0M34.0 639.0L34.0 660.7M34.0 708.0L34.0 686.3M15.0 689.0L36.7 689.0M356.0 689.0L334.3 689.0M374.7 347.3L387.6 329.9M602.3 38.7L589.4 56.1M662.0 48.0L662.0 26.3M662.0 -20.0L662.0 1.7M430.4 -20.0L431.1 1.7M432.6 50.0L431.9 28.3M413.0 31.0L434.7 31.0M479.0 31.0L457.3 31.0M344.0 658.0L322.3 658.0M200.0 658.0L221.7 658.0M219.1 677.0L219.0 655.3M216.9 337.0L217.0 358.7M198.0 356.0L219.7 356.0M323.0 356.0L301.3 356.0" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-sk" style="stroke-width:7.60" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path class="p-skc" style="stroke-width:6.20" d="M708.0 708.0L708.0 686.3M708.0 639.0L708.0 660.7M616.1 -36.0L616.0 -14.3M635.0 -17.0L613.3 -17.0M574.0 -17.0L595.7 -17.0M603.3 -32.9L591.6 -14.8M159.7 650.9L171.4 632.8M170.0 654.0L170.0 632.3M263.0 50.0L263.0 28.3M263.0 -19.0L263.0 2.7M282.0 0.0L260.3 0.0M23.0 0.0L44.7 0.0M42.0 -19.0L42.0 2.7M42.0 50.0L42.0 28.3M136.0 654.0L136.0 632.3M125.0 658.0L103.3 658.0M31.0 658.0L52.7 658.0M50.0 639.0L50.0 660.7M50.0 708.0L50.0 686.3M31.0 689.0L52.7 689.0M269.0 689.0L247.3 689.0M239.7 705.0L251.4 686.8M591.3 158.0L579.6 176.2M581.0 155.0L581.0 176.7M487.0 639.0L487.0 660.7M487.0 708.0L487.0 686.3M468.0 689.0L489.7 689.0M727.0 689.0L705.3 689.0" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
+ <div><p class="acts__body">Material selection, technical sketches with construction callouts, colour development against physical chips, 3D visualisation, and a factory-ready tech pack.</p>
+  <p class="acts__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg><span>Complete</span><span class="wk">1–3 weeks</span></p></div>
+</div><div class="acts__s" data-i="1" data-phase="stitched">
+ <div><p class="acts__n">02</p><h3 class="acts__nm">Stitched</h3>
+  <p class="acts__ln">Tested with thread and needle</p><div class="acts__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
+ <div><p class="acts__body">Factory pairing, lab dip management, sample rounds with documented fit sessions, and tech pack revisions carried through to the approved sample.</p>
+  <p class="acts__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="wk">2–6 months</span></p></div>
+</div><div class="acts__s" data-i="2" data-phase="born">
+ <div><p class="acts__n">03</p><h3 class="acts__nm">BORN</h3>
+  <p class="acts__ln">It goes out into the world</p><div class="acts__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
+ <div><p class="acts__body">Size set and PPS sign-off, bulk oversight, inline QC, final AQL inspection and a documented handover with the full production archive.</p>
+  <p class="acts__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="wk">4–8 weeks</span></p></div>
+</div></div>
+  <div class="w acts__rail" id="actrail"><span data-i="0" class="on"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="done"><title>Done</title><rect x="1" y="1" width="9" height="9" fill="currentColor"/><circle cx="11.5" cy="11.5" r="2.4" fill="#C4122E"/></svg>Sketched</span><i></i><span data-i="1"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg>Stitched</span><i></i><span data-i="2"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg>BORN</span></div>
  </div>
-</div><div class="act act--stitched field--ink bleed ph-stitched" data-phase-region="stitched">
- <div class="act__tex" aria-hidden="true"></div>
- <div class="w act__in">
-  <div><p class="act__n">02</p><h3 class="act__nm">Stitched</h3>
-   <p class="act__ln">Tested with thread and needle</p>
-   <div class="act__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-st" style="stroke-width:5.20" fill="url(#hatch)" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
-  <div><p class="p" style="font-size:1.04rem">Factory pairing, lab dip management, sample rounds with documented fit sessions, and tech pack revisions carried through to the approved sample.</p>
-   <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="now"><title>Now</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.6 2"/></svg><span>Where the capsule is now</span><span class="wk">2–6 months</span></p></div>
- </div>
-</div><div class="act act--born field--red bleed ph-born" data-phase-region="born">
- <div class="act__tex" aria-hidden="true"></div>
- <div class="w act__in">
-  <div><p class="act__n">03</p><h3 class="act__nm">BORN</h3>
-   <p class="act__ln">It goes out into the world</p>
-   <div class="act__lg"><svg class="wm" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BORN"><path class="p-bo" d="M637 173Q635 0 400 0H52V31H146V658H52V689H402Q497 689 551.5 643.0Q606 597 606.0 525.0Q606 453 562.0 409.0Q518 365 449 353Q515 352 570 312Q639 262 637 173ZM507 519Q507 658 384 658H237V365H368Q416 365 456 397Q507 439 507 519ZM474 57Q528 93 527.0 177.5Q526 262 471 304Q430 335 369 335H237V31H377Q434 31 474 57Z" transform="matrix(0.25000 0 0 -0.25000 238.12 232)"/><path class="p-bo" d="M581 607Q663 509 663.0 350.5Q663 192 577.0 89.0Q491 -14 362.5 -14.0Q234 -14 142 91Q52 197 54.0 352.5Q56 508 142.5 607.5Q229 707 364.5 707.0Q500 707 581 607ZM363 21Q456 21 504.0 110.0Q552 199 552.0 346.5Q552 494 510 578Q460 676 356.5 676.0Q253 676 205 583Q165 504 165 347Q165 21 363 21Z" transform="matrix(0.25000 0 0 -0.25000 422.62 232)"/><path class="p-bo" d="M469 54 278 327H217L219 31H312V0H34V31H127V658H34V689H337Q458 689 521.0 641.0Q584 593 584.0 513.0Q584 433 528 383Q474 338 386 332L591 54Q607 34 662 29V-1Q589 2 431 -1L432 31H460Q474 34 474.0 41.5Q474 49 469 54ZM304 356Q486 356 482 513Q478 658 325 658H219L217 356Z" transform="matrix(0.25000 0 0 -0.25000 608.12 232)"/><path class="p-bo" d="M708 689V658Q650 658 640 648Q614 622 614 571L616 -17H593L170 635V117Q170 65 195 41Q205 31 263 31V0H42V31Q98 31 108 40Q136 64 136 117V635Q133 658 106 658H50V689H250L581 174V571Q581 622 553 649Q542 658 487 658V689Z" transform="matrix(0.25000 0 0 -0.25000 778.62 232)"/><path fill="#C4122E" d="M144.5 114.0Q171 114 189.5 95.5Q208 77 208.0 50.5Q208 24 190.0 5.5Q172 -13 144.5 -13.0Q117 -13 98.5 5.5Q80 24 80.0 50.5Q80 77 99.0 95.5Q118 114 144.5 114.0Z" transform="matrix(0.25000 0 0 -0.25000 964.88 232)"/><!--DOT-ADDED--></svg></div></div>
-  <div><p class="p" style="font-size:1.04rem">Size set and PPS sign-off, bulk oversight, inline QC, final AQL inspection and a documented handover with the full production archive.</p>
-   <p class="act__f"><svg class="mk" viewBox="0 0 14 14" role="img" aria-label="next"><title>Next</title><rect x="1.6" y="1.6" width="9.8" height="9.8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2.2" opacity=".5"/></svg><span>Ahead</span><span class="wk">4–8 weeks</span></p></div>
- </div>
-</div><div class="w">
+</section><div class="w">
  </div><section class="sp ph-sketched"
  data-phase-region="sketched" id="s-ALO006">
  <div class="hero bleed field--ink">
@@ -2169,6 +2306,7 @@ $ python3 tools/build_room.py</pre>
 </div></div>
 </section></main><div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label="Full size"><button class="lbx__x" id="lbX" type="button">Close &times;</button><button class="lbx__a p" id="lbP" type="button" aria-label="Previous">&#8249;</button><figure style="width:100%;max-width:1500px"><div class="lbx__box" id="lbBox"><span class="im" id="lbI" role="img"></span></div><div class="lbx__bar"><span class="lbx__z"><button type="button" id="lbOut" aria-label="Zoom out">&minus;</button><span id="lbZ">100%</span><button type="button" id="lbIn" aria-label="Zoom in">+</button></span><figcaption id="lbC"></figcaption></div></figure><button class="lbx__a n" id="lbN" type="button" aria-label="Next">&#8250;</button></div><script>
 (function(){
+  document.documentElement.classList.add('js');
   var $=function(q,c){return (c||document).querySelector(q);},
       $$=function(q,c){return [].slice.call((c||document).querySelectorAll(q));};
 
@@ -2184,7 +2322,7 @@ $ python3 tools/build_room.py</pre>
     });
     if(!found)return;
     history.replaceState(null,'','#'+key);
-    setTimeout(readPhase,40);
+    setTimeout(function(){readPhase();settle();},40);
     if(!keep)window.scrollTo(0,0);
   }
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.doc);});});
@@ -2395,6 +2533,117 @@ $ python3 tools/build_room.py</pre>
     pk.forEach(function(c){c.addEventListener('click',function(){set(c.dataset.s);});});
     set(pk[0].dataset.s);
   });
+
+  // ── the mark matures when the room opens ─────────────────────────────────
+  var dwm=$('#doorwm');
+  if(dwm&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var ds=$$('span',dwm); ds.forEach(function(d){d.classList.remove('on');});
+    ds[0].classList.add('on');
+    [1,2].forEach(function(i){setTimeout(function(){
+      ds[i-1].classList.remove('on');ds[i].classList.add('on');},520+i*620);});
+  }
+
+  // ── three states you scroll through ──────────────────────────────────────
+  var PAPER=[242,238,230],INK=[27,23,32],RED=[196,18,46];
+  function lerp(a,b,t){return [0,1,2].map(function(i){
+    return Math.round(a[i]+(b[i]-a[i])*t);});}
+  function rgb(c){return 'rgb('+c[0]+','+c[1]+','+c[2]+')';}
+  var acts=$('#acts'),stage=$('#actstage'),
+      slides=acts?$$('.acts__s',acts):[],rails=$$('#actrail span'),
+      texA=acts?$('[data-tex="0"]',acts):null,texB=acts?$('[data-tex="1"]',acts):null,
+      reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function paintActs(){
+    if(!acts||!stage||reduce)return;
+    var r=acts.getBoundingClientRect(),span=r.height-innerHeight;
+    if(span<=0)return;
+    var p=Math.min(1,Math.max(0,-r.top/span));
+    // each ground holds while its state is on screen and crosses quickly between,
+    // so nothing is ever read against a half-mixed colour
+    var bg;
+    if(p<.20)bg=PAPER;
+    else if(p<.30)bg=lerp(PAPER,INK,(p-.20)/.10);
+    else if(p<.62)bg=INK;
+    else if(p<.72)bg=lerp(INK,RED,(p-.62)/.10);
+    else bg=RED;
+    stage.style.backgroundColor=rgb(bg);
+    stage.style.color=p>.25?'rgb(242,238,230)':'rgb(27,23,32)';
+    if(texA)texA.style.opacity=String(Math.max(0,1-p/.18));
+    if(texB)texB.style.opacity=String(p>.32&&p<.62?1:0);
+    var idx=p<.26?0:(p<.66?1:2);
+    slides.forEach(function(sl,i){sl.classList.toggle('on',i===idx);});
+    rails.forEach(function(sp,i){sp.classList.toggle('on',i===idx);});
+  }
+
+  // ── the page turns Rojo Valentino as the closer arrives ──────────────────
+  var topbar=$('.top');
+  function paintTurn(){
+    var cl=$('.panel.active .closer'),t=0;
+    if(cl){
+      var r=cl.getBoundingClientRect();
+      t=Math.min(1,Math.max(0,(innerHeight*.78-r.top)/(innerHeight*.46)));
+    }
+    topbar.style.setProperty('--top-bg',t>0?rgb(lerp([247,244,238],RED,t)):'');
+    topbar.classList.toggle('turned',t>.55);
+  }
+
+  // ── the marker slides, and you can drag it ───────────────────────────────
+  var nav=$('.nav'),notch=$('#notch'),ndrag=false;
+  function centreOf(btn){
+    var nr=nav.getBoundingClientRect(),br=btn.getBoundingClientRect();
+    return br.left-nr.left+br.width/2;
+  }
+  function place(x){notch.style.transform='translateX('+(x-7)+'px)';}
+  function settle(){
+    if(!notch||!nav)return;
+    var a=tabs.filter(function(t){return t.getAttribute('aria-selected')==='true';})[0];
+    if(a){place(centreOf(a));notch.setAttribute('aria-valuenow',String(tabs.indexOf(a)+1));}
+  }
+  function nearest(x){
+    var best=tabs[0],bd=1e9;
+    tabs.forEach(function(t){var d=Math.abs(centreOf(t)-x);if(d<bd){bd=d;best=t;}});
+    return best;
+  }
+  if(notch&&nav){
+    notch.addEventListener('pointerdown',function(e){
+      e.preventDefault();ndrag=true;notch.classList.add('dragging');
+      nav.classList.add('armed');notch.setPointerCapture(e.pointerId);
+    });
+    notch.addEventListener('pointermove',function(e){
+      if(!ndrag)return;
+      var nr=nav.getBoundingClientRect(),
+          x=Math.min(nr.width,Math.max(0,e.clientX-nr.left));
+      place(x);
+      var n=nearest(x);
+      tabs.forEach(function(t){t.classList.toggle('near',t===n);});
+    });
+    ['pointerup','pointercancel'].forEach(function(ev){
+      notch.addEventListener(ev,function(e){
+        if(!ndrag)return;ndrag=false;
+        notch.classList.remove('dragging');nav.classList.remove('armed');
+        var nr=nav.getBoundingClientRect(),
+            x=Math.min(nr.width,Math.max(0,e.clientX-nr.left));
+        tabs.forEach(function(t){t.classList.remove('near');});
+        show(nearest(x).dataset.doc);settle();
+      });
+    });
+    notch.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(!d)return;e.preventDefault();
+      var a=tabs.filter(function(t){return t.getAttribute('aria-selected')==='true';})[0],
+          i=(tabs.indexOf(a)+d+tabs.length)%tabs.length;
+      show(tabs[i].dataset.doc);settle();
+    });
+    addEventListener('resize',settle);
+    setTimeout(settle,90);
+  }
+
+  var raf=false;
+  function frame(){paintActs();paintTurn();raf=false;}
+  addEventListener('scroll',function(){
+    if(raf)return;raf=true;requestAnimationFrame(frame);
+  },{passive:true});
+  addEventListener('resize',function(){requestAnimationFrame(frame);},{passive:true});
+  setTimeout(frame,120);
 
   $('#printBtn').addEventListener('click',function(){window.print();});
 })();

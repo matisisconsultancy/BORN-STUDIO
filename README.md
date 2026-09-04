@@ -189,6 +189,21 @@ Y el documento **cruza contigo**:
   el tech pack es *Sketched*, el fitting report y la facturación son *Stitched*, el handover
   es *BORN*.
 
+### La sala se abre
+
+- **Puerta de entrada.** Antes del cliente, una pantalla que dice qué es esto: *The Project
+  Room*, con el wordmark madurando al llegar —sketched, stitched, born— que es el argumento
+  entero del estudio en tres segundos.
+- **Las tres fases se recorren, no se pasan.** La sección se fija en pantalla y el fondo se
+  transforma con el scroll: papel con retícula de construcción → tinta con trama diagonal →
+  **Rojo Valentino**. Cada estado sostiene su terreno mientras se lee y cruza rápido entre
+  uno y otro, así que nada se lee nunca sobre un color a medias.
+- **La flecha del menú se arrastra.** El piquete rojo bajo la navegación es un control real:
+  se agarra y se desliza por la regla graduada, los destinos se iluminan al pasar, y al
+  soltar salta al más cercano y abre esa sección. También responde a las flechas del teclado.
+- **La página se vuelve roja al llegar al pie.** No solo el cierre: la cabecera entera cruza
+  a Rojo Valentino con el wordmark y la navegación en negativo. El viewport completo se tiñe.
+
 ### El rojo cierra
 
 Cada pestaña **abre a sangre y cierra en Rojo Valentino**:

@@ -954,8 +954,8 @@ table.t tr.grp .gt{font-size:.84rem;color:var(--red)}
 .pnow b{font-weight:400;color:var(--pink,var(--ink))}
 .pnow__ln{width:26px;height:0;border-top:var(--pw,1px) var(--pline,dotted) var(--pcol,var(--g4));
   transition:border-color .4s var(--ease)}
-@media(max-width:1000px){.pnow{margin-left:auto;order:1;font-size:.72rem}
-  .pnow__ln{width:18px}}
+@media(max-width:1000px){.pnow{margin-left:auto;order:0;font-size:.72rem}
+  .pnow__ln{width:18px}.nav{width:100%;order:1}}
 body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .top{transition:none}
 .prog{background:var(--pink,var(--red));transition:background-color .4s var(--ease)}
@@ -1029,6 +1029,124 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
 .vfield h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,4.4vw,3.2rem);
   line-height:.96;letter-spacing:-.025em;color:var(--paper);margin-top:.4rem}
 .vfield p{font-size:.92rem;color:rgba(242,238,230,.8)}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE ROOM OPENS
+   A front door that states what this is, three phases you scroll *through*
+   rather than past, a marker you can drag along the rule, and a page that
+   turns Rojo Valentino as you reach the end of it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── the front door ──────────────────────────────────────────────────────── */
+.door{min-height:calc(100vh - var(--topH));display:grid;align-content:center;
+  justify-items:center;text-align:center;gap:clamp(1rem,2.4vw,1.8rem);
+  padding-block:clamp(3rem,10vh,7rem);position:relative;overflow:hidden}
+.door__grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(74,69,79,.09) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(74,69,79,.09) 1px,transparent 1px);
+  background-size:38px 38px;
+  -webkit-mask-image:radial-gradient(58% 46% at 50% 46%,#000,transparent);
+  mask-image:radial-gradient(58% 46% at 50% 46%,#000,transparent)}
+.door > *{position:relative}
+.door__wm{width:min(340px,62vw);height:auto;position:relative}
+.door__wm > span{display:block}
+.door__wm > span:not(:first-child){position:absolute;inset:0}
+.door__wm svg{width:100%;height:auto}
+.door__wm > span{opacity:0;transition:opacity .5s var(--ease)}
+.door__wm > span.on{opacity:1}
+.door h1{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(2.3rem,8.4vw,7rem);line-height:.86;letter-spacing:-.04em;
+  max-width:12ch}
+.door .lede{font-family:var(--serif6);font-weight:600;
+  font-size:clamp(1.05rem,2.1vw,1.5rem);line-height:1.34;color:var(--g2);max-width:34ch}
+.door__ph{display:flex;align-items:center;gap:clamp(.6rem,2vw,1.4rem);flex-wrap:wrap;
+  justify-content:center;margin-top:clamp(.6rem,2vw,1.2rem)}
+.door__ph span{display:flex;align-items:center;gap:.45rem;font-size:.85rem;color:var(--graphite)}
+.door__ph i{width:clamp(18px,4vw,44px);height:0;display:block}
+.door__ph i:nth-of-type(1){border-top:1px dotted var(--g4)}
+.door__ph i:nth-of-type(2){border-top:1.2px dashed var(--hair-2)}
+.door__cue{font-size:.8rem;color:var(--graphite);display:flex;align-items:center;gap:.5rem;
+  margin-top:clamp(1rem,3vh,2.4rem)}
+.door__cue b{font-weight:400;display:block;width:1px;height:34px;background:var(--hair-2);
+  position:relative;overflow:hidden}
+.door__cue b::after{content:'';position:absolute;inset:0;background:var(--red);
+  transform:translateY(-100%)}
+@media(prefers-reduced-motion:no-preference){
+  .door__cue b::after{animation:drop 2.4s var(--ease) infinite}
+  @keyframes drop{0%{transform:translateY(-100%)}55%{transform:translateY(0)}
+    100%{transform:translateY(100%)}}}
+
+/* ── three states you scroll through ─────────────────────────────────────── */
+.acts{position:relative}
+html.js .acts{height:330vh}
+.acts__stage{display:grid;grid-template-rows:1fr auto;gap:1.5rem;
+  padding-block:clamp(2rem,5vh,3.4rem);background:var(--paper);
+  transition:background-color .18s linear,color .3s linear}
+html.js .acts__stage{position:sticky;top:var(--topH);height:calc(100vh - var(--topH));
+  overflow:hidden}
+.acts__tex{position:absolute;inset:0;pointer-events:none;opacity:0;
+  transition:opacity .5s var(--ease)}
+.acts__tex--grid{background-image:linear-gradient(rgba(74,69,79,.13) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(74,69,79,.13) 1px,transparent 1px);background-size:34px 34px}
+.acts__tex--hatch{background-image:repeating-linear-gradient(45deg,rgba(242,238,230,.11) 0 1px,transparent 1px 13px)}
+.acts__in{display:grid;align-content:center;position:relative}
+.acts__s{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:clamp(1.4rem,4vw,4rem);align-items:center}
+@media(max-width:880px){.acts__s{grid-template-columns:1fr;gap:1.2rem;align-content:center}}
+html.js .acts__s{opacity:0;transition:opacity .32s var(--ease),transform .5s var(--ease);
+  transform:translateY(14px);pointer-events:none}
+html.js .acts__s.on{opacity:1;transform:none;pointer-events:auto}
+.acts__n{font-family:var(--serif);font-weight:900;font-size:clamp(3.4rem,11vw,9rem);
+  line-height:.7;letter-spacing:-.06em;margin-left:-.06em}
+.acts__nm{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,6vw,5rem);
+  line-height:.9;letter-spacing:-.03em;margin-top:.4rem}
+.acts__ln{font-family:var(--serif6);font-weight:600;font-size:clamp(1.05rem,2vw,1.5rem);
+  margin-top:.5rem;opacity:.85}
+.acts__lg{width:min(300px,74%);margin-top:clamp(1rem,2.5vw,1.8rem)}
+.acts__lg svg{width:100%;height:auto}
+.acts__s[data-phase=stitched] .p-st{stroke:rgba(242,238,230,.88)}
+.acts__s[data-phase=stitched] .p-sk,.acts__s[data-phase=stitched] .p-skc{stroke:rgba(242,238,230,.6)}
+.acts__s[data-phase=born] .p-bo,.acts__s[data-phase=born] .p-ink{fill:var(--paper)}
+.acts__body{font-size:clamp(.98rem,1.4vw,1.1rem);line-height:1.6;max-width:44ch}
+.acts__f{display:flex;align-items:center;gap:.7rem;margin-top:1.4rem;padding-top:.9rem;
+  border-top:1px solid currentColor;font-size:.85rem;opacity:.78}
+.acts__f .wk{margin-left:auto;font-family:var(--mono);font-size:.78rem}
+.acts__rail{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.acts__rail span{display:flex;align-items:center;gap:.45rem;font-size:.8rem;opacity:.45;
+  transition:opacity .4s var(--ease)}
+.acts__rail span.on{opacity:1}
+.acts__rail i{flex:1 1 auto;height:0;border-top:1px solid currentColor;opacity:.32}
+@media(prefers-reduced-motion:reduce){
+  html.js .acts{height:auto}
+  html.js .acts__stage{position:static;height:auto}
+  html.js .acts__s{opacity:1;transform:none;position:relative;grid-area:auto;
+    margin-bottom:3rem;pointer-events:auto}}
+
+/* ── the marker you can drag along the rule ──────────────────────────────── */
+.nav{position:relative}
+.notch{position:absolute;bottom:-1px;left:0;width:0;height:0;
+  border-left:7px solid transparent;border-right:7px solid transparent;
+  border-bottom:8px solid var(--red);cursor:grab;touch-action:none;
+  transform:translateX(-7px);transition:transform .42s var(--ease);z-index:2}
+.notch::before{content:'';position:absolute;left:-13px;right:-13px;top:-14px;bottom:-8px}
+.notch.dragging{cursor:grabbing;transition:none}
+.notch.dragging::after{content:'';position:absolute;left:50%;bottom:9px;width:1px;height:13px;
+  background:var(--red);transform:translateX(-50%)}
+.nav button[aria-selected=true]::after{display:none}
+.nav.armed button{color:var(--graphite)}
+.nav.armed button.near{color:var(--ink)}
+
+/* ── the page turns red at the end ───────────────────────────────────────── */
+.top{background:var(--top-bg,rgba(242,238,230,.93))}
+.top.turned .nav button,.top.turned .pnow,.top.turned .pr,.top.turned .pnow b{color:var(--paper)}
+.top.turned .nav button[aria-selected=true]{color:var(--paper)}
+.top.turned .p-ink{fill:var(--paper)}
+.top.turned .p-bo{fill:var(--paper)}
+.top.turned .notch{border-bottom-color:var(--paper)}
+.top.turned .prog{background:var(--paper)}
+.top.turned::after{opacity:.5}
+.top,.top .nav button,.top .pnow{transition:background-color .35s linear,color .35s linear}
 
 
 /* ── smaller screens ──────────────────────────────────────────────────────
@@ -1123,6 +1241,13 @@ body{--pline:dotted;--pcol:rgba(92,87,98,.6);--pink:var(--graphite);--pw:1px}
   .field--ink *,.field--red *,.hero *,.act *{color:#000!important}
   .outline,.field--ink .outline{-webkit-text-stroke:0;color:#000!important}
   .act__tex,.bleed{width:auto;margin-left:0}
+  .acts,html.js .acts{height:auto!important}
+  .acts__stage,html.js .acts__stage{position:static!important;height:auto!important;
+    background:#fff!important;color:#000!important;overflow:visible}
+  .acts__s,html.js .acts__s{opacity:1!important;transform:none!important;
+    position:relative;grid-area:auto;margin-bottom:2rem}
+  .acts__tex,.acts__rail,.door__cue,.door__grid,.notch{display:none!important}
+  .door{min-height:0;page-break-after:always}
   .hero__in{min-height:0}
   .ink{background:#fff;color:#000}
   .ink .d2,.ink .d3,.chip .n{color:#000}
@@ -1330,7 +1455,9 @@ def top():
  <p class="pnow" id="pnow" aria-live="polite"><span class="pnow__ln"></span>
   {mk('next')}<b>Sketched</b></p>
  <nav class="nav" role="tablist" aria-label="Sections">{tabs}
-  <button class="pr" id="printBtn" type="button">Print</button></nav>
+  <button class="pr" id="printBtn" type="button">Print</button>
+  <span class="notch" id="notch" role="slider" tabindex="0" aria-label="Section marker"
+   aria-valuemin="1" aria-valuemax="{len(DOCS)}" aria-valuenow="1"></span></nav>
 </div></header>"""
 
 def ribbon():
@@ -2019,11 +2146,32 @@ PHASE_WORK = {
               "and a documented handover with the full production archive.", "4–8 weeks"),
 }
 
+def door():
+    """What this is, before whose it is. The mark matures on arrival — sketched,
+    stitched, born — which is the studio's whole argument in three seconds."""
+    ph = "".join(
+        f'<span>{mk(st)}{REGISTERS[k]["name"]}</span>' + ('<i></i>' if k != "born" else "")
+        for k, st in (("sketched", "next"), ("stitched", "now"), ("born", "done")))
+    return f"""<div class="w door">
+ <div class="door__grid" aria-hidden="true"></div>
+ <div class="door__wm" id="doorwm" aria-label="BORN Studio">
+  <span data-i="0">{SVG['state_sketch']}</span>
+  <span data-i="1">{SVG['state_stitch']}</span>
+  <span data-i="2" class="on">{SVG['wm_solo']}</span>
+ </div>
+ <p class="m m--r">{PROJECT['studio_long']}</p>
+ <h1>The Project Room</h1>
+ <p class="lede">One link that holds the whole development. Every decision, every sample and
+  every measurement, with the date it happened and the reason behind it.</p>
+ <p class="door__ph">{ph}</p>
+ <p class="door__cue"><b></b>Scroll to open {PROJECT['client']}</p>
+</div>"""
+
 def process():
     """Paper, then ink, then Rojo Valentino. The colour of the ground is the
     argument: an idea on paper, tested in the dark, born in colour."""
-    acts = ""
-    for key in ("sketched", "stitched", "born"):
+    slides, rail = "", ""
+    for i, key in enumerate(("sketched", "stitched", "born")):
         r = REGISTERS[key]
         ph = next(p for p in PHASES if p["key"] == key)
         work, span = PHASE_WORK[key]
@@ -2032,24 +2180,31 @@ def process():
         where = "Complete" if done else "Where the capsule is now" if live else "Ahead"
         logo = {"sketched": SVG["state_sketch"], "stitched": SVG["state_stitch"],
                 "born": SVG["state_born"]}[key]
-        field = {"sketched": "", "stitched": " field--ink", "born": " field--red"}[key]
-        acts += f"""<div class="act act--{key}{field} bleed ph-{key}" data-phase-region="{key}">
- <div class="act__tex" aria-hidden="true"></div>
- <div class="w act__in">
-  <div><p class="act__n">{r['n']}</p><h3 class="act__nm">{r['name']}</h3>
-   <p class="act__ln">{r['line']}</p>
-   <div class="act__lg">{logo}</div></div>
-  <div><p class="p" style="font-size:1.04rem">{work}</p>
-   <p class="act__f">{mk(state)}<span>{where}</span><span class="wk">{span}</span></p></div>
- </div>
+        slides += f"""<div class="acts__s{' on' if i == 0 else ''}" data-i="{i}" data-phase="{key}">
+ <div><p class="acts__n">{r['n']}</p><h3 class="acts__nm">{r['name']}</h3>
+  <p class="acts__ln">{r['line']}</p><div class="acts__lg">{logo}</div></div>
+ <div><p class="acts__body">{work}</p>
+  <p class="acts__f">{mk(state)}<span>{where}</span><span class="wk">{span}</span></p></div>
 </div>"""
+        on = ' class="on"' if i == 0 else ''
+        rail += (f'<span data-i="{i}"{on}>{mk(state)}{r["name"]}</span>'
+                 + ("<i></i>" if i < 2 else ""))
+    acts = f"""<section class="acts bleed" id="acts">
+ <div class="acts__stage" id="actstage">
+  <div class="acts__tex acts__tex--grid" data-tex="0" aria-hidden="true"></div>
+  <div class="acts__tex acts__tex--hatch" data-tex="1" aria-hidden="true"></div>
+  <div class="w acts__in">{slides}</div>
+  <div class="w acts__rail" id="actrail">{rail}</div>
+ </div>
+</section>"""
     return f"""<div class="w proc">
  <div class="proc__h">
   <div>{GRAIN}<p class="m m--r">The process</p>
    <h2 class="d2">Every garment<br>lives three states.</h2></div>
   <p class="p">The mark changes with the phase &mdash; outline while it is being drawn,
    topstitch while it is being tested, solid and in colour once it goes out into the
-   world. So does the ground you are reading it on.</p>
+   world. So does the ground you are reading it on. <b>Keep scrolling and you will watch
+   it happen.</b></p>
  </div>
 </div>{acts}"""
 
@@ -2066,6 +2221,7 @@ def range_panel():
         for c, nm, h, _ in COLORWAYS)
     spreads = "".join(spread(st, n) for n, st in enumerate(STYLES, 1))
     return f"""<section class="panel active" id="p-range" role="tabpanel" aria-labelledby="t-range">
+{door()}
  <div class="cover bleed field--ink"><div class="cover__in">
   <div class="cover__t">
    <p class="m m--r">{PROJECT['studio_long']}</p>
@@ -2110,6 +2266,7 @@ def range_panel():
 # ══════════════════════════════════════════════════════════════════════ JS ═══
 JS = r"""<script>
 (function(){
+  document.documentElement.classList.add('js');
   var $=function(q,c){return (c||document).querySelector(q);},
       $$=function(q,c){return [].slice.call((c||document).querySelectorAll(q));};
 
@@ -2125,7 +2282,7 @@ JS = r"""<script>
     });
     if(!found)return;
     history.replaceState(null,'','#'+key);
-    setTimeout(readPhase,40);
+    setTimeout(function(){readPhase();settle();},40);
     if(!keep)window.scrollTo(0,0);
   }
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.doc);});});
@@ -2336,6 +2493,117 @@ JS = r"""<script>
     pk.forEach(function(c){c.addEventListener('click',function(){set(c.dataset.s);});});
     set(pk[0].dataset.s);
   });
+
+  // ── the mark matures when the room opens ─────────────────────────────────
+  var dwm=$('#doorwm');
+  if(dwm&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var ds=$$('span',dwm); ds.forEach(function(d){d.classList.remove('on');});
+    ds[0].classList.add('on');
+    [1,2].forEach(function(i){setTimeout(function(){
+      ds[i-1].classList.remove('on');ds[i].classList.add('on');},520+i*620);});
+  }
+
+  // ── three states you scroll through ──────────────────────────────────────
+  var PAPER=[242,238,230],INK=[27,23,32],RED=[196,18,46];
+  function lerp(a,b,t){return [0,1,2].map(function(i){
+    return Math.round(a[i]+(b[i]-a[i])*t);});}
+  function rgb(c){return 'rgb('+c[0]+','+c[1]+','+c[2]+')';}
+  var acts=$('#acts'),stage=$('#actstage'),
+      slides=acts?$$('.acts__s',acts):[],rails=$$('#actrail span'),
+      texA=acts?$('[data-tex="0"]',acts):null,texB=acts?$('[data-tex="1"]',acts):null,
+      reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function paintActs(){
+    if(!acts||!stage||reduce)return;
+    var r=acts.getBoundingClientRect(),span=r.height-innerHeight;
+    if(span<=0)return;
+    var p=Math.min(1,Math.max(0,-r.top/span));
+    // each ground holds while its state is on screen and crosses quickly between,
+    // so nothing is ever read against a half-mixed colour
+    var bg;
+    if(p<.20)bg=PAPER;
+    else if(p<.30)bg=lerp(PAPER,INK,(p-.20)/.10);
+    else if(p<.62)bg=INK;
+    else if(p<.72)bg=lerp(INK,RED,(p-.62)/.10);
+    else bg=RED;
+    stage.style.backgroundColor=rgb(bg);
+    stage.style.color=p>.25?'rgb(242,238,230)':'rgb(27,23,32)';
+    if(texA)texA.style.opacity=String(Math.max(0,1-p/.18));
+    if(texB)texB.style.opacity=String(p>.32&&p<.62?1:0);
+    var idx=p<.26?0:(p<.66?1:2);
+    slides.forEach(function(sl,i){sl.classList.toggle('on',i===idx);});
+    rails.forEach(function(sp,i){sp.classList.toggle('on',i===idx);});
+  }
+
+  // ── the page turns Rojo Valentino as the closer arrives ──────────────────
+  var topbar=$('.top');
+  function paintTurn(){
+    var cl=$('.panel.active .closer'),t=0;
+    if(cl){
+      var r=cl.getBoundingClientRect();
+      t=Math.min(1,Math.max(0,(innerHeight*.78-r.top)/(innerHeight*.46)));
+    }
+    topbar.style.setProperty('--top-bg',t>0?rgb(lerp([247,244,238],RED,t)):'');
+    topbar.classList.toggle('turned',t>.55);
+  }
+
+  // ── the marker slides, and you can drag it ───────────────────────────────
+  var nav=$('.nav'),notch=$('#notch'),ndrag=false;
+  function centreOf(btn){
+    var nr=nav.getBoundingClientRect(),br=btn.getBoundingClientRect();
+    return br.left-nr.left+br.width/2;
+  }
+  function place(x){notch.style.transform='translateX('+(x-7)+'px)';}
+  function settle(){
+    if(!notch||!nav)return;
+    var a=tabs.filter(function(t){return t.getAttribute('aria-selected')==='true';})[0];
+    if(a){place(centreOf(a));notch.setAttribute('aria-valuenow',String(tabs.indexOf(a)+1));}
+  }
+  function nearest(x){
+    var best=tabs[0],bd=1e9;
+    tabs.forEach(function(t){var d=Math.abs(centreOf(t)-x);if(d<bd){bd=d;best=t;}});
+    return best;
+  }
+  if(notch&&nav){
+    notch.addEventListener('pointerdown',function(e){
+      e.preventDefault();ndrag=true;notch.classList.add('dragging');
+      nav.classList.add('armed');notch.setPointerCapture(e.pointerId);
+    });
+    notch.addEventListener('pointermove',function(e){
+      if(!ndrag)return;
+      var nr=nav.getBoundingClientRect(),
+          x=Math.min(nr.width,Math.max(0,e.clientX-nr.left));
+      place(x);
+      var n=nearest(x);
+      tabs.forEach(function(t){t.classList.toggle('near',t===n);});
+    });
+    ['pointerup','pointercancel'].forEach(function(ev){
+      notch.addEventListener(ev,function(e){
+        if(!ndrag)return;ndrag=false;
+        notch.classList.remove('dragging');nav.classList.remove('armed');
+        var nr=nav.getBoundingClientRect(),
+            x=Math.min(nr.width,Math.max(0,e.clientX-nr.left));
+        tabs.forEach(function(t){t.classList.remove('near');});
+        show(nearest(x).dataset.doc);settle();
+      });
+    });
+    notch.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(!d)return;e.preventDefault();
+      var a=tabs.filter(function(t){return t.getAttribute('aria-selected')==='true';})[0],
+          i=(tabs.indexOf(a)+d+tabs.length)%tabs.length;
+      show(tabs[i].dataset.doc);settle();
+    });
+    addEventListener('resize',settle);
+    setTimeout(settle,90);
+  }
+
+  var raf=false;
+  function frame(){paintActs();paintTurn();raf=false;}
+  addEventListener('scroll',function(){
+    if(raf)return;raf=true;requestAnimationFrame(frame);
+  },{passive:true});
+  addEventListener('resize',function(){requestAnimationFrame(frame);},{passive:true});
+  setTimeout(frame,120);
 
   $('#printBtn').addEventListener('click',function(){window.print();});
 })();
