@@ -197,13 +197,35 @@ html.js:not(.reduce) .rv:not(.in){opacity:0;transform:translateY(24px)}
 .dstack{display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem}
 .dgrid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-top:1.5rem}
 .dfig{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-.dfig__p{background:var(--paper);display:flex;align-items:center;justify-content:center;padding:1.1rem}
+.dfig__p{background:var(--paper);display:flex;align-items:center;justify-content:center;padding:1.1rem;position:relative}
+.dfig__zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;position:relative}
+.dfig--pf .dfig__zoom{max-width:360px;margin:0 auto}
 .dfig__p img{display:block;width:100%;height:auto;border-radius:7px}
-.dfig--pf .dfig__p img{max-width:360px;margin:0 auto}
+.dfig__zoom::after{content:"\2922  Expand";position:absolute;right:12px;bottom:12px;font-family:var(--mono);font-size:.58rem;
+ letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:rgba(27,23,32,.72);padding:.4rem .6rem;border-radius:6px;
+ opacity:0;transition:opacity .2s;pointer-events:none}
+.dfig__zoom:hover::after,.dfig__zoom:focus-visible::after{opacity:1}
 .dfig__m{padding:1rem 1.15rem 1.1rem;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:.5rem}
 .dfig__m b{font-family:var(--sans7);font-size:.98rem}
 .dfig__m .cap{color:var(--g3);font-size:.86rem;line-height:1.45}
-.dfig__m .dl{align-self:flex-start;margin-top:.3rem}
+.dfig__m .dls{margin-top:.3rem}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:200;background:rgba(18,15,20,.95);display:none;overflow:auto;padding:0}
+.lb.open{display:flex;align-items:safe center;justify-content:safe center}
+.lb__img{max-width:95vw;max-height:92vh;width:auto;height:auto;display:block;border-radius:6px;
+ box-shadow:0 40px 100px rgba(0,0,0,.6);cursor:zoom-in;margin:auto;background:var(--paper)}
+.lb__img.zoom{max-width:none;max-height:none;cursor:zoom-out}
+.lb__cap{position:fixed;left:0;right:0;bottom:18px;text-align:center;color:var(--paper);font-family:var(--mono);
+ font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.lb__cap b{color:#fff;font-weight:400}.lb__cap i{color:var(--red);font-style:normal}
+.lb__btn{position:fixed;z-index:210;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
+ background:rgba(255,255,255,.07);color:var(--paper);font-size:1.4rem;line-height:1;cursor:pointer;display:flex;
+ align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.lb__btn:hover{background:rgba(196,18,46,.9);border-color:transparent}
+.lb__close{top:22px;right:26px}
+.lb__prev{left:24px;top:50%;transform:translateY(-50%)}
+.lb__next{right:24px;top:50%;transform:translateY(-50%)}
+@media(max-width:720px){.lb__prev{left:12px}.lb__next{right:12px}.lb__btn{width:44px;height:44px}}
 /* exploration frame */
 .expl-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:var(--ink);color:var(--paper);border-radius:14px 14px 0 0;padding:.75rem 1.1rem;margin-top:1.4rem}
 .expl-bar b{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:400}
@@ -588,11 +610,14 @@ apps = f"""
 </section>"""
 
 # ------------------------------------------------------------------ DELIVERABLES
-def dfig(src, title, cap, portrait=False):
+def dfig(src, title, cap, portrait=False, pdf=None):
     cls=" dfig--pf" if portrait else ""
-    return (f'<figure class="dfig{cls}"><div class="dfig__p"><img loading="lazy" src="{src}" alt="{title}"></div>'
+    dls=f'<a class="dl" href="{src}" download>Download PNG</a>'
+    if pdf: dls+=f'<a class="dl dl--ghost" href="{pdf}" download>PDF</a>'
+    return (f'<figure class="dfig{cls}"><div class="dfig__p"><button class="dfig__zoom" type="button" aria-label="Expand">'
+      f'<img loading="lazy" src="{src}" alt="{title}"></button></div>'
       f'<figcaption class="dfig__m"><b>{title}</b><span class="cap">{cap}</span>'
-      f'<a class="dl" href="{src}" download>Download PNG</a></figcaption></figure>')
+      f'<div class="dls">{dls}</div></figcaption></figure>')
 CO="assets/collateral"
 tape_wide="".join([
   dfig(f"{CO}/tape_1_front.png","Front &middot; from idea to life","The full ruler with the four states &mdash; Sketched, Stitched, Inked, BORN &mdash; the wordmark and the thank-you line."),
@@ -606,6 +631,12 @@ firstcards="".join([
   dfig(f"{CO}/A_woven_label.png","Woven label","Printed on fabric like a garment care label, closed with a serged red merrow edge.",portrait=True),
   dfig(f"{CO}/B_measuring_tape.png","Measuring tape","The first study of the tape-as-card idea &mdash; the route we went on to develop.",portrait=True),
   dfig(f"{CO}/C_stitched_card.png","Stitched card","A card bound with running-stitch &mdash; tactile, hand-finished, textile-first.",portrait=True),
+])
+invoices="".join([
+  dfig(f"{CO}/invoice_2_spec.png","01 &middot; Spec","The invoice as a tech pack &mdash; title-block grid, a full-height measuring gauge and a red balance-due cell. Studio back-office language.",portrait=True,pdf=f"{CO}/invoice_2_spec.pdf"),
+  dfig(f"{CO}/invoice_3_editorial.png","02 &middot; Editorial","A Didone masthead with the balance set as a magazine-cover hero. Typographic confidence, quiet luxury.",portrait=True,pdf=f"{CO}/invoice_3_editorial.pdf"),
+  dfig(f"{CO}/invoice_4_tape.png","03 &middot; Tape","The bill measured out along a tailor&rsquo;s tape &mdash; each line pinned to its mark, the total landing on the red 60.",portrait=True,pdf=f"{CO}/invoice_4_tape.pdf"),
+  dfig(f"{CO}/invoice_1.png","Branded &middot; v1","The first clean commercial layout &mdash; phase-tagged line items and a red balance due.",portrait=True,pdf=f"{CO}/invoice_1.pdf"),
 ])
 deliv = f"""
 <section class="panel" id="p-deliv" role="tabpanel" aria-labelledby="t-deliv">
@@ -622,6 +653,11 @@ deliv = f"""
   <p class="dsub">Thank-you cards &middot; first studies on fabric</p>
   <p class="prose">The opening round of textile thank-you cards &mdash; where the idea of a card <b>stitched and printed on cloth</b> began, like a label sewn into a garment.</p>
   <div class="dgrid">{firstcards}</div>
+ </div>
+ <div class="sec">
+  <p class="dsub">Invoice &middot; three directions</p>
+  <p class="prose">The billing document as brand. Three points of view on the same identity &mdash; a technical <b>spec sheet</b>, an <b>editorial</b> statement, and the bill <b>measured out along a tape</b>. Each ships as a print-ready A4 PDF. <span class="muted">Tap any piece to expand and read the detail.</span></p>
+  <div class="dgrid">{invoices}</div>
  </div>
 </section>"""
 
@@ -771,9 +807,36 @@ JS = "<script>(function(){var V="+json.dumps(VMAP)+";" + r"""
  // ---- scroll progress ----
  var bar=document.getElementById('bar');
  addEventListener('scroll',function(){var d=document.documentElement,s=d.scrollHeight-d.clientHeight;bar.style.width=(s>0?(d.scrollTop/s*100):0)+'%';},{passive:true});
+ // ---- lightbox: expand deliverable images (view + zoom) ----
+ var lb=document.getElementById('lb');
+ if(lb){
+   var lbImg=lb.querySelector('.lb__img'),lbCap=document.getElementById('lbCap');
+   var figs=[].slice.call(document.querySelectorAll('.dfig'));
+   var shots=figs.map(function(f){var im=f.querySelector('img'),b=f.querySelector('.dfig__m b'),c=f.querySelector('.dfig__m .cap');
+     return {src:im?im.getAttribute('src'):'',t:b?b.textContent:'',c:c?c.textContent:''};});
+   var idx=0;
+   function lbShow(i){idx=(i+shots.length)%shots.length;var s=shots[idx];
+     lbImg.classList.remove('zoom');lb.scrollTo(0,0);lbImg.src=s.src;
+     lbCap.innerHTML='<b>'+s.t+'</b>'+(s.c?'   <i>/</i>   '+s.c:'');}
+   function lbOpen(i){lbShow(i);lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+   function lbClose(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');document.body.style.overflow='';lbImg.classList.remove('zoom');}
+   figs.forEach(function(f,i){var btn=f.querySelector('.dfig__zoom');if(btn)btn.addEventListener('click',function(){lbOpen(i);});});
+   lbImg.addEventListener('click',function(e){e.stopPropagation();lbImg.classList.toggle('zoom');lb.scrollTo(0,0);});
+   lb.addEventListener('click',function(e){if(e.target===lb)lbClose();});
+   lb.querySelector('.lb__close').addEventListener('click',lbClose);
+   lb.querySelector('.lb__prev').addEventListener('click',function(e){e.stopPropagation();lbShow(idx-1);});
+   lb.querySelector('.lb__next').addEventListener('click',function(e){e.stopPropagation();lbShow(idx+1);});
+   addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;
+     if(e.key==='Escape')lbClose();else if(e.key==='ArrowLeft')lbShow(idx-1);else if(e.key==='ArrowRight')lbShow(idx+1);});
+ }
 })();</script>"""
 
-OVERLAYS = '<div class="sweepline" aria-hidden="true"></div><div class="rdot" aria-hidden="true"></div>'
+LIGHTBOX = ('<div class="lb" id="lb" aria-hidden="true" role="dialog" aria-label="Expanded view">'
+  '<button class="lb__btn lb__close" type="button" aria-label="Close">&times;</button>'
+  '<button class="lb__btn lb__prev" type="button" aria-label="Previous">&#8249;</button>'
+  '<button class="lb__btn lb__next" type="button" aria-label="Next">&#8250;</button>'
+  '<img class="lb__img" alt="Expanded deliverable"><div class="lb__cap" id="lbCap"></div></div>')
+OVERLAYS = '<div class="sweepline" aria-hidden="true"></div><div class="rdot" aria-hidden="true"></div>'+LIGHTBOX
 PRELOAD = ('<div id="preload" aria-hidden="true"><div class="pl-mark">'
   '<div class="pl-s" data-i="0">'+SVG['state_sketch']+'</div>'
   '<div class="pl-s" data-i="1">'+SVG['state_stitch']+'</div>'
