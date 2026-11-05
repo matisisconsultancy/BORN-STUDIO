@@ -9,7 +9,7 @@ Se apoya en [02](02_inteligencia_competitiva.md), [03](03_publicos_oportunidades
 - **Un único llamado principal: *Book a 1:1 consultation*.**
 - Tienda en `shop.bornapparelstudio.com`.
 - Lead magnet alojado en Shopify.
-- Los precios son los de las propuestas vigentes; el de la consulta está pendiente (D9).
+- Precios y plazos tomados **literalmente** de los documentos de la Etapa 1 (Services Deck y One-Pager, Production Proposal, Brand Rules), hechos sobre los documentos reales de María (ver §0).
 
 ---
 
@@ -84,7 +84,7 @@ bornapparelstudio.com
   4. **Prueba:** cifras oficiales + 2–3 casos + reseña de Upwork verificable.
   5. **Los tres filtros:** viabilidad, costo, usabilidad.
   6. **Maria:** retrato, dos líneas ("learned on production floors in Portugal, Spain, Los Angeles and Austria") → `/about`.
-  7. **Escalera de inversión resumida** (desde $X) → `/pricing`.
+  7. **Escalera de inversión resumida** con los precios estándar ($200 · $750 · $1,500 · $2,500 · $3,000/mo) → `/pricing`.
   8. **Cierre a sangre en rojo:** *From idea to life* + *Book a consultation*.
 - **SEO:** title *Apparel Development & Production Studio for Emerging Brands | Born Apparel Studio*; `Organization` + `ProfessionalService`.
 - **Fuente:** Services Deck, Production Proposal, Brand Book. **Falta:** cifras oficiales, retrato, permisos de casos.
@@ -94,7 +94,7 @@ bornapparelstudio.com
 - **Mensaje:** *Every stage ends with an outcome.*
 - **Secciones:** introducción (*the brand's side of the table*) → **mapa interactivo de las tres fases** con, por cada fase: pasos, entregables, plazos, decisiones del cliente y servicio asociado → los tres filtros → **qué no hacemos** (no cortamos ni cosemos, no compramos material, no invertimos) y por qué te protege → "Where we step in" (los 8 riesgos) → llamado.
 - **SEO:** *apparel product development process*, *how clothing production works*. Datos estructurados `HowTo` si encaja.
-- **Fuente:** Production Proposal (5 etapas, 8 riesgos), Brand Book (fases y plazos). **Decisión:** unificar los plazos (brandbook: 2–6 meses; propuesta: 3–5 meses), ver V5.
+- **Fuente:** Production Proposal (5 etapas, 8 riesgos), Brand Rules (fases y plazos). **Plazos oficiales (§0):** Sketched 1–3 semanas · Stitched 2–6 meses · BORN 4–8 semanas; cada ronda de muestra, 3 semanas de confección + 1 de envío.
 
 ### Services `/services`
 - **Objetivo:** que cada visitante se ubique en 10 segundos.
@@ -105,7 +105,7 @@ bornapparelstudio.com
 - **Para quién:** B (idea o referencias).
 - **Mensaje:** diseño al servicio de la fabricación: *designed to be made*.
 - **Secciones:** problema → qué incluye (sketches, revisiones, tech pack con BOM, POM, graduación, costuras, etiquetado) → **ejemplo de tech pack** (imagen real con permiso o el template de Born) → plazos → precio por estilo → siguiente paso (Factory pairing) → FAQ → llamado.
-- **Fuente:** Design Proposal AS FOUND ($200 + $250 por estilo). **Decisión:** precio público por estilo; los tech packs de $150–$250 de la tienda actual se retiran o se unifican.
+- **Fuente:** Design Proposal AS FOUND ($200 de diseño + $250 de tech pack, por estilo). **Ojo:** estos precios **no están en la tabla de precios estándar** de las Services Rules, que solo fija Factory Pairing, Production Partnership y la consultoría. Hasta que María los confirme como estándar, la página dice *"priced per style, quoted after your consultation"*. Los tech packs de $150–$250 de la tienda actual se retiran o se unifican.
 
 ### Factory pairing `/services/factory-pairing` (Stitched)
 - **Para quién:** C (equipo con experiencia) y A.
@@ -115,14 +115,15 @@ bornapparelstudio.com
 
 ### Production partnership `/services/production-partnership` (flagship)
 - **Para quién:** A.
-- **Mensaje:** *Your outsourced production department, up to production readiness.*
+- **Mensaje:** *Your outsourced production department.* (texto fijo de María)
+- **Plazo:** *Most Production Partnerships run three to five months* (Production Proposal, FAQ).
 - **Secciones:** "You already built the brand" (antes → después) → las 5 etapas con su resultado → qué incluye (9 bloques) → **dónde termina** (PPS aprobado, graduación validada, tech pack final, hasta 3 rondas por estilo) → dos modelos: por proyecto ($2,500–$8,400) y por colección ($3,000/mes, 3 meses mínimo) → después del bulk → qué no incluye → FAQ → llamado.
 - **Fuente:** Production Proposal pp. 2–17 (texto aprobado, en la voz de la marca).
 
 ### 1:1 consultation `/services/consultation`
 - **Para quién:** todos; la puerta de entrada (también para el comprador por precio, D).
 - **Secciones:** para qué sirve (una decisión concreta) → formato (60 min, notas) → sesión suelta o paquete de 5 → **acreditable** en un proyecto posterior [decisión] → reservar.
-- **Decisión pendiente (D9):** precio ($120 / $200 / gratis) y herramienta (Calendly o Cal.com).
+- **Precio (§0):** single session (60 min) **$200** · advisory package (5 sessions) **$850**. Pendiente: si se acredita en un proyecto posterior (no figura en los documentos) y la herramienta de cobro y reserva (Cal.com gratis cobra con Stripe/PayPal; Calendly exige el plan Standard).
 
 ### Pricing `/pricing`
 - **Objetivo:** transparencia como diferencial (solo 3 de 8 competidores publican precios).
@@ -190,10 +191,28 @@ Los precios y cifras se escriben **una sola vez** y se reutilizan en todas las p
 
 ---
 
-## 7. Para revisar contigo antes de diseñar
+## 7. Decisiones cerradas (5 nov)
 
-1. ¿Te encaja la navegación (6 elementos + botón)?
-2. ¿*Pricing* como página propia, o integrada en *Services*? Recomiendo propia: es un diferencial y una búsqueda frecuente.
-3. ¿Mantener *Work* aunque al principio haya pocos casos con nombre?
-4. Los plazos oficiales del proceso (2–6 meses o 3–5 meses).
-5. El precio de la consulta.
+- Navegación de 6 elementos + botón: **sí**.
+- *Pricing* como página propia: **sí**.
+- *Work* aunque al principio haya pocos casos con nombre: **sí**.
+- Plazos y precio de la consulta: según los documentos de la Etapa 1 (§0).
+
+## 0. Plazos y precios oficiales (fuente: documentos de la Etapa 1)
+
+| Dato | Valor | Fuente |
+|---|---|---|
+| Sketched · The Briefing | 1–3 semanas | BORN_Brand_Rules.md (fases del journey) |
+| Stitched · The Development | 2–6 meses | BORN_Brand_Rules.md |
+| BORN · Production Oversight | 4–8 semanas | BORN_Brand_Rules.md |
+| Production Partnership, duración típica | *"Most Production Partnerships run three to five months"* | Production Proposal, FAQ |
+| Ronda de muestra | 3 semanas de confección + 1 de envío | Development Roadmap Rules |
+| Rondas incluidas | hasta 3 por estilo | Services Rules · Production Proposal |
+| 1:1 Production Consultancy | $200 por sesión (60 min) · $850 por 5 sesiones | Services Rules §4 (precios estándar) |
+| Factory Match / Sourcing & Comparison | $750 / $1,500 | ídem |
+| Project Based Production Partnership | $2,500 · $4,500 · $6,500 · $8,400 (de 1 a 4 estilos) | ídem |
+| Collection Production Partnership | $3,000/mo · 5–6 estilos · mínimo 3 meses · pago mensual por adelantado | ídem |
+| Formato de precio | `$1,500`, `$3,000/mo`; sin decimales, sin "USD", sin "from" | Services Rules §4 |
+| Cifras de prueba | 10+ años · 15+ founders · 6 relaciones de fábrica · 1:1 | Services Rules §2 (María puede actualizarlas) |
+
+**Coherencia:** las tres fases describen el viaje completo; los "3–5 meses" corresponden al tramo de la Production Partnership, dentro de Stitched. No se contradicen: la web usa ambas cifras, cada una en su sitio.
