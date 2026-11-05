@@ -136,6 +136,28 @@ Home
 | **D11** | Contenido de terceros en la web actual (Spec to Sample) | despublicar ya · reescribir | **Despublicar ya**, sin esperar al rediseño (01b §0) | María | Riesgo legal y reputacional |
 | D12 | ¿Hay comisiones o acuerdos con fábricas? | sí · no | Confirmarlo antes de usar el argumento de independencia (02 §8.4) | María | Narrativa |
 
+### 4.1 Actualización 5 nov 2026: correo "WEB DESIGN – delivery dates"
+
+**Decidido por escrito (María, 5 nov):**
+- **La web se construye en código, no en Shopify** (propuesta de Matisis del 2 nov). Esto cambia el alcance S1 ("sobre la infraestructura de Shopify existente"): es un cambio aceptado por la clienta y queda resuelto D7. Matisis comprometió que *"el código, el dominio y el alojamiento son tuyos"* y que la tienda de Shopify puede seguir conectada.
+- **Calendario comprometido:** 20 nov, web completa para la 1.ª revisión · 26 nov, comentarios · 1 dic, 2.ª y última revisión · 3 dic, últimos detalles · **4 dic, publicación**. Si el material de María llega tarde, todo se desplaza los mismos días.
+- **Las plantillas se siguen vendiendo** (resuelve D2 en parte: se quedan, falta decidir *dónde*).
+
+**Información nueva que cambia el alcance:**
+- María **lanzará su marca personal y una línea propia de activewear**, y pregunta con qué plataforma se gestionarían la tienda y esas ventas. [I] Una marca de activewear B2C dentro de la web de un estudio B2B mezcla públicos y contradice "BORN is not a factory / product brand for clients". [R] Tratarla como **marca y tienda separadas**, fuera del alcance de esta web; enlazada como mucho desde About.
+- **Autogestión:** quiere editar el contenido ella misma. Una web en código necesita un **CMS** (headless o basado en git) con campos acotados. Es un requisito nuevo que hay que dimensionar.
+
+**Recomendación de plataforma (preliminar; detalle en 09):**
+
+| Pieza | Propuesta | Por qué |
+|---|---|---|
+| Web del estudio | Sitio en código (estático) en `bornapparelstudio.com` | Rendimiento, diseño de marca, formularios a medida |
+| Edición por María | CMS con campos acotados: textos, casos, reseñas, FAQ, precios, journal, imágenes | Autonomía sin poder romper el diseño |
+| Tienda de plantillas | **Shopify se queda** como motor de venta en un subdominio (p. ej. `shop.bornapparelstudio.com`), con la misma identidad | Conserva checkout, clientes, descargas ya compradas y URLs; cero migración de comercio antes del 4 dic |
+| Línea activewear y marca personal | Tienda y dominio propios (Shopify u otra) **en un proyecto aparte** | Público distinto (consumidor final); no cabe en el calendario ni en el alcance |
+
+**Nuevo riesgo de calendario:** quedan 15 días hasta la primera entrega completa. D1, D4, D5, D6 y D11 tienen que cerrarse **esta semana**; si no, la web se construirá con hipótesis. Redirecciones 301 (01b §2) y analítica (01b §7) pasan a ser tareas de la semana del 30 nov.
+
 ## 5. Próximos pasos
 
 0. **Inmediato:** avisar a María del contenido ajeno en `/pages/faq`, `/pages/supply-chain` y `/pages/design-services` (D11).
