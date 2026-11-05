@@ -377,3 +377,37 @@ flowchart LR
 - UptimeRobot: https://uptimerobot.com/pricing/ · Sentry: https://sentry.io/pricing/
 
 **No confirmado:** el plan y las apps actuales de Born; si el formulario de contacto nativo admite adjuntos; la app y el plan necesarios para el segundo idioma; la aplicación de Shopify Tax a una tienda con sede en MX que vende en EE. UU.; si Shopify Payments MX liquida en USD; el uso comercial en los planes gratuitos de Sanity, Tina, Netlify y Cloudflare (no hay restricción visible, pero tampoco permiso explícito); el precio de Starter (cerrado a tiendas nuevas).
+
+---
+
+## 14. Adenda (5 nov): opción E · web en código + edición asistida por Claude Code + Shopify como enlace
+
+**Propuesta del equipo:** una web estática hecha a medida en un repositorio de GitHub, publicada en un hosting propio. María pide los cambios sencillos en una sesión de Claude Code; Matisis conserva el control de lo técnico (SEO, estructura, diseño). La tienda de Shopify queda como enlace externo.
+
+**Veredicto: viable y proporcionada.** Cumple al pie de la letra lo prometido el 2 nov (código, dominio y alojamiento a su nombre, tienda conectada). Elimina el CMS (la "interfaz de edición" es Claude Code sobre archivos de contenido) y da libertad total de diseño. Frente a A′, cambia la edición en el admin de Shopify por **edición conversacional con revisión**.
+
+| Pieza | Decisión | Por qué / fuente |
+|---|---|---|
+| Código | Repositorio en GitHub **a nombre de María**, con Matisis como administradora | Propiedad del cliente; control técnico compartido |
+| Hosting | **Cloudflare Pages** (gratis, *assets* ilimitados) | [C] Vercel Hobby prohíbe el uso comercial y GitHub Pages no admite webs de negocio. Netlify Free cuesta 15 créditos por deploy sobre 300/mes (≈20 publicaciones al mes) y **pausa el sitio** al agotarlos: incompatible con ediciones frecuentes |
+| DNS | Apex a Cloudflare: **mover los nameservers** a Cloudflare y replicar exactamente los registros MX/SPF de Google Workspace | [C] requisito de Cloudflare para dominio raíz. Riesgo controlable con una checklist |
+| Tienda | Shopify sigue igual en **`shop.bornapparelstudio.com`** (CNAME a `shops.myshopify.com`); retoque del tema Dawn desde el editor (logo, colores, tipografías), sin desarrollo | [C] subdominio en Shopify |
+| URLs antiguas | Archivo de redirecciones en Cloudflare: `/products/*` → `shop.…/products/*`; páginas → nuevas rutas | [NC] verificar la sintaxis de `_redirects` en Pages |
+| Contenido editable | Textos, precios, casos, FAQ e imágenes en **archivos de contenido** (Markdown/JSON) separados del diseño | Así María, a través de Claude, toca contenido sin tocar componentes |
+| Reglas para Claude | `CLAUDE.md` en el repo: qué puede cambiar María, qué no, voz de marca y checklist antes de publicar | Continuidad entre sesiones (cada sesión empieza de cero) |
+| Seguridad del cambio | Compilación y comprobaciones automáticas antes de publicar; deploys de vista previa por rama; **volver a una versión anterior** desde el panel de Cloudflare | [NC] confirmar el rollback en Pages |
+| Formularios | Brief: servicio de formularios (Basin, gratis: 50 envíos/mes y 100 MB) o campo de enlace | [C] |
+| Reserva | Cal.com gratis (con cobro por Stripe/PayPal) o Calendly | [C] |
+| Lead magnet + secuencia | Herramienta de email externa (MailerLite gratis, automatizaciones limitadas; o plan de pago) | [C] coste posible |
+| Analítica | GA4 + Search Console + Cloudflare Web Analytics (gratis) | [C] |
+
+**Condiciones para que funcione:**
+1. María necesita **cuenta de GitHub** y un **plan de Claude con acceso a Claude Code** (coste recurrente a confirmar con el precio vigente; lo paga ella o se incluye en un acuerdo).
+2. **No existe una "sesión abierta" permanente:** cada cambio es una sesión nueva sobre el repo. La continuidad la dan `CLAUDE.md` y la estructura de archivos.
+3. Flujo de publicación acordado: **(a)** los cambios de contenido de María se publican directo si la compilación pasa, o **(b)** cada cambio pasa por una vista previa y lo aprueba Matisis. Recomendación: (a) para textos, precios e imágenes; (b) para todo lo demás.
+4. **Mantenimiento técnico** (SEO, dependencias, cambios de estructura): pasados los 6 meses ya no está incluido, así que hace falta acuerdo de soporte.
+5. **Tienda con estilo mínimo**: sin ese retoque, el salto de la web a la tienda muestra la identidad antigua.
+
+**Lo que se pierde frente a A′:** un solo panel (la tienda sigue en Shopify), las URLs de producto en el dominio principal (pasan al subdominio, con redirecciones) y la edición "en pantalla" sin intermediario. **Lo que se gana:** libertad total de diseño y rendimiento, promesa del 2 nov cumplida, sin Liquid y sin tocar Shopify más allá de su configuración.
+
+**Recomendación actualizada:** E pasa a ser la **opción recomendada** si María acepta las condiciones 1–3. A′ queda como alternativa si prefiere editarlo todo en el admin de Shopify sin depender de Claude.
