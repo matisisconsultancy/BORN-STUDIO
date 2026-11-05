@@ -147,7 +147,9 @@ Home
 - María **lanzará su marca personal y una línea propia de activewear**, y pregunta con qué plataforma se gestionarían la tienda y esas ventas. [I] Una marca de activewear B2C dentro de la web de un estudio B2B mezcla públicos y contradice "BORN is not a factory / product brand for clients". [R] Tratarla como **marca y tienda separadas**, fuera del alcance de esta web; enlazada como mucho desde About.
 - **Autogestión:** quiere editar el contenido ella misma. Una web en código necesita un **CMS** (headless o basado en git) con campos acotados. Es un requisito nuevo que hay que dimensionar.
 
-**Recomendación de plataforma (preliminar; detalle en 09):**
+> **Sustituida por [09](09_viabilidad_tecnica_y_arquitectura.md):** tras verificar la documentación oficial, la recomendación pasa a ser un **tema de Shopify a medida construido en código (A′)**, con edición en el admin y sin subdominio. Se conserva la tabla siguiente como registro.
+
+**Recomendación de plataforma (preliminar, 5 nov, sustituida):**
 
 | Pieza | Propuesta | Por qué |
 |---|---|---|

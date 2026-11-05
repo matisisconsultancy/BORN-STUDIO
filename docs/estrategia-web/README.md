@@ -10,6 +10,8 @@ Matisis Consultancy · 5 noviembre 2026 · Documento de trabajo, pendiente de va
 | [02](02_inteligencia_competitiva.md) | Competitive Intelligence & Market Benchmark | Mapa competitivo, 8 fichas, indirectos, matriz de 12 criterios, patrones, huecos, referencias UX |
 | [03](03_publicos_oportunidades_y_decisiones.md) | Públicos, oportunidades, hipótesis y decisiones | Segmentos por situación del proyecto, journey preliminar, 13 oportunidades, hipótesis de sitemap y narrativa, decisiones D1–D12 |
 
+| [09](09_viabilidad_tecnica_y_arquitectura.md) | Viabilidad técnica, alcance e integración con Shopify | Infraestructura actual, alcance, capacidades de Claude Code, comparativa de A′/B/C/D, edición autónoma, APIs, hosting, costes con fuentes oficiales, migración, matriz de viabilidad y **recomendación: tema Shopify a medida en código** |
+
 Las fases 3 a 8 (storytelling definitivo, sitemap, wireframes, CRO, SEO/GEO, técnica y migración, roadmap) **no se han iniciado**: dependen de las decisiones de §4.
 
 ---
