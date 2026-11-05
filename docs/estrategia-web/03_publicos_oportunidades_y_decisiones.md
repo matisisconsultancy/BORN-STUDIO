@@ -84,6 +84,9 @@ Cada oportunidad: **Hallazgo → Evidencia → Implicación → Recomendación �
 | O8 | Los temas del calendario editorial coinciden con búsquedas reales de founders (tech pack, elegir fábrica, muestras, costo y margen) | S8 | Base para clusters SEO/GEO con autoridad | Guías editoriales (no tienda) por tema del calendario | Media |
 | O9 | El Client Brief existe como plantilla | S12 | Cualificación sin inventar nada | Formulario de brief en dos pasos tras la consulta | Media |
 | O10 | Project Room: experiencia post-venta poco común | S13; 02 | Diferencial de servicio difícil de copiar | Demostración pública con datos ficticios declarados (o reales con permiso) | Baja (fase posterior) |
+| O11 | Ningún estudio vende el emparejamiento con fábrica como producto con precio y entregable | 02 §6 G1 | Hueco de mercado y producto puente desde Upwork | Factory Match / Sourcing con un informe comparativo de ejemplo | Alta |
+| O12 | "Production department" ya lo usan Human B, AJG y Blue | 02 §5 P4 | La frase sola no diferencia | Respaldarla con un final definido (PPS / production ready, 3 rondas por estilo, 6 países, 1:1 con María) | Alta |
+| O13 | No hay ningún estudio con base en México y sitio sólido en inglés; el nearshoring es un tema vivo | 02 §6 G6, P10 | Territorio geográfico libre | Argumento de misma zona horaria, bilingüe y México/LatAm (sin prometer aranceles) | Media [H] |
 
 ---
 
@@ -130,8 +133,12 @@ Home
 | D9 | Conversión principal | consulta de pago $200 · llamada gratuita de 15–30 min · brief primero | Consulta de pago como CTA, con el brief como paso previo opcional (hipótesis a testear, ver 02) | María | CRO |
 | D10 | Project Room en la web | portal real · demo pública · no | Fase posterior; demo como prueba | María | Alcance |
 
+| **D11** | Contenido de terceros en la web actual (Spec to Sample) | despublicar ya · reescribir | **Despublicar ya**, sin esperar al rediseño (01b §0) | María | Riesgo legal y reputacional |
+| D12 | ¿Hay comisiones o acuerdos con fábricas? | sí · no | Confirmarlo antes de usar el argumento de independencia (02 §8.4) | María | Narrativa |
+
 ## 5. Próximos pasos
 
+0. **Inmediato:** avisar a María del contenido ajeno en `/pages/faq`, `/pages/supply-chain` y `/pages/design-services` (D11).
 1. **Sesión de validación con María (60–90 min)** para cerrar D1–D6 y D9. Sin D1 y D5 no se debe avanzar al storytelling definitivo.
 2. **Confirmar por escrito** la aceptación de la propuesta S1 y el ajuste de su lead magnet (streetwear → nicho real).
 3. **Accesos**: administración de Shopify (colaborador), Search Console / GA si existen y el dominio/DNS, para completar la auditoría técnica y el inventario de URLs.

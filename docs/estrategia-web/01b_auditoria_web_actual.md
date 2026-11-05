@@ -45,7 +45,38 @@ Tres páginas indexadas contienen texto de **Spec to Sample**, una agencia austr
 - **Políticas:** privacy, terms, refund, contact-information (`shipping-policy` → 404)
 - Varios *handles* de producto no coinciden con su título (p. ej. `ladies-plus-size-chart-and-grade` es la plantilla BOM): hay que revisarlos uno a uno al mapear los 301
 
-Lista completa de URLs: ver informe técnico en el historial de trabajo; se trasladará a la matriz de redirecciones del entregable 09.
+<details><summary>Inventario completo (sitemap + URLs vivas fuera del sitemap)</summary>
+
+```
+/
+/pages/contact  /pages/faq  /pages/our-portfolio  /pages/design-services  /pages/supply-chain
+/pages/our-team  /pages/production-consultancy  /pages/sample-control  /pages/production-management
+/pages/factory-sourcing  /pages/tech-packs  /pages/sketches-mock-ups  /pages/data-sharing-opt-out
+/pages/our-portfolio-1 (ya redirige a /pages/our-portfolio)
+/collections/frontpage  /collections/tools-templates  /collections/streetwear-mock-ups-library
+/collections/custom-services  /collections/all
+/blogs/news
+/products/croqui-fashion-drawing-template-ladies-standard-curvy   /products/cost-sheet-template
+/products/size-chart-expansion-ladies-plus   /products/ladies-plus-size-chart-and-grade
+/products/techpacktemplatebonus   /products/selling-mock-ups
+/products/measurement-sample-control-sheet-template-xlsx   /products/bornstudio_po_template-xlsx
+/products/t-shirt   /products/activewear-bottoms-sketches-bundle   /products/hoodies-sketches-bundle
+/products/hats-sketches-bundle   /products/fleece-pants-sketches-bundle   /products/woven-pants-sketches-bundle
+/products/woven-shirts-sketches-bundle   /products/shorts-sketches-bundle   /products/vests-sketches-bundle
+/products/knit-tops-sweaters-measurement-guidelines   /products/woven-shirts-measurement-guidelines
+/products/bottoms-pants-shorts-etc-measurement-guidelines   /products/jackets-sportcoats-measurement-guidelines
+/products/vests-how-to-measure-guide   /products/outerwear-how-to-measure-guide
+/products/underwear-how-to-measure-guide   /products/socks-how-to-measure-guide
+/products/robes-how-to-measure-guide
+/products/custom-basic-tech-pack   /products/custom-standard-tech-pack
+/products/custom-streetwear-tech-pack-advanced   /products/custom-sketches-mock-ups
+/products/1-1-fashion-production-consultancy-call
+/policies/privacy-policy  /policies/terms-of-service  /policies/refund-policy  /policies/contact-information
+/agents.md
+```
+</details>
+
+Se trasladará a la matriz de redirecciones del entregable 09.
 
 ## 3. Contenido y mensaje
 
